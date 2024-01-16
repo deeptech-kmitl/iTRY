@@ -1,6 +1,5 @@
 "use client"
 
-import Carousel from "react-material-ui-carousel";
 
 export default function MyCarousel() {
 
@@ -17,11 +16,7 @@ export default function MyCarousel() {
 
   return (
     <>
-      <Carousel className="border">
-        {
-          items.map((item, i) => <Item key={i} name={item.name} description={item.description} />)
-        }
-      </Carousel>
+
     </>
   )
 }

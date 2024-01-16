@@ -1,11 +1,10 @@
 "use client"
 import Image from "next/image";
 import UserLayout from "./user/layout";
-import Carousel from 'react-spring-3d-carousel';
-import { useEffect, useRef, useState } from "react";
-import { config } from "react-spring";
+import { useEffect, useState } from "react";
 import Carroussel from "./components/Carousel/myCarousel";
 import Card from "./components/Carousel/CardCarousel";
+import CardRoutes from "./components/CardRoute";
 
 export default function Home() {
 
@@ -60,6 +59,12 @@ export default function Home() {
           />
         </div>
       </UserLayout>
+      <div className="px-24 py-16">
+        <div className="text-center pb-16">
+          <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
+        </div>
+        <CardRoutes />
+      </div>
     </>
   )
 }

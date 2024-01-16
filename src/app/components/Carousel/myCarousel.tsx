@@ -1,31 +1,33 @@
-"use client"
+import Carousel from "react-spring-3d-carousel";
+import { useState, useEffect } from "react";
+import { config } from "react-spring";
 
+export default function Carroussel(props: any) {
+  const table = props.cards.map((element: any, index: any) => {
+    return { ...element, onClick: () => setGoToSlide(index) };
+  });
 
-export default function MyCarousel() {
+  const [offsetRadius, setOffsetRadius] = useState(5);
+  const [showArrows, setShowArrows] = useState(false);
+  const [goToSlide, setGoToSlide] = useState(null);
+  const [cards] = useState(table);
 
-  const items = [
-    {
-      name: "Name #1",
-      description: "Probably the most random thing you have ever seen!"
-    },
-    {
-      name: "Name #2",
-      description: "Hello World!"
-    }
-  ]
+  useEffect(() => {
+    setOffsetRadius(props.offset);
+    setShowArrows(props.showArrows);
+  }, [props.offset, props.showArrows]);
 
   return (
-    <>
-
-    </>
-  )
-}
-
-function Item({ name, description }: { name: string, description: string }) {
-  return (
-    <div className="text-center">
-      <h2>{name}</h2>
-      <p>{description}</p>
+    <div
+      style={{ width: props.width, height: props.height, margin: props.margin }}
+    >
+      <Carousel
+        slides={cards}
+        goToSlide={goToSlide || 0 || props.goToSlide}
+        offsetRadius={offsetRadius}
+        showNavigation={showArrows}
+        animationConfig={config.gentle}
+      />
     </div>
-  )
+  );
 }

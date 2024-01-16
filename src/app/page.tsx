@@ -2,48 +2,63 @@
 import Image from "next/image";
 import UserLayout from "./user/layout";
 import Carousel from 'react-spring-3d-carousel';
+import { useEffect, useRef, useState } from "react";
+import { config } from "react-spring";
+import Carroussel from "./components/Carousel/myCarousel";
+import Card from "./components/Carousel/CardCarousel";
 
 export default function Home() {
 
-  const slides = [
+  const cards = [
     {
       key: 0,
-      content: <Image src="https://picsum.photos/800/800/?random" alt="1" width={500} height={500} />
+      content: <Image alt="1" src="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" width={500} height={500} />
     },
     {
       key: 1,
-      content: <Image src="https://picsum.photos/800/800/?random" alt="2" width={500} height={500} />
+      content: <Card imagen="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" />
     },
     {
       key: 2,
-      content: <Image src="https://picsum.photos/600/800/?random" alt="3" width={500} height={500} />
+      content: <Card imagen="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" />
     },
     {
       key: 3,
-      content: <Image src="https://picsum.photos/800/500/?random" alt="4" width={500} height={500} />
+      content: <Card imagen="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" />
     },
     {
       key: 4,
-      content: <Image src="https://picsum.photos/800/800/?random" alt="5" width={500} height={500} />
+      content: <Card imagen="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" />
     },
-    {
-      key: 5,
-      content: <Image src="https://picsum.photos/500/800/?random" alt="6" width={500} height={500} />
-    },
-    {
-      key: 6,
-      content: <Image src="https://picsum.photos/800/600/?random" alt="7" width={500} height={500} />
-    },
-    {
-      key: 7,
-      content: <Image src="https://picsum.photos/800/800/?random" alt="8" width={500} height={500} />
-    }
   ];
+
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    //Implementing the setInterval method
+    const interval = setInterval(() => {
+      setCount(count + 1);
+    }, 1000);
+
+    //Clearing the interval
+    return () => clearInterval(interval);
+  }, [count]);
 
   return (
     <>
       <UserLayout customClassName="pt-4">
-        <Carousel slides={slides} showNavigation />
+        <div>test</div>
+        <div style={{ height: 500 }}>
+          <Carroussel
+            cards={cards}
+            height="500px"
+            width="30%"
+            margin="0 auto"
+            offset={1}
+            showArrows={false}
+            goToSlide={count}
+          />
+        </div>
       </UserLayout>
     </>
   )

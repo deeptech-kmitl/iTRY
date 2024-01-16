@@ -1,5 +1,6 @@
 import MyCarousel from "./components/Carousel/myCarousel";
 import UserLayout from "./user/layout";
+import CardRoutes from "./components/CardRoute";
 
 export default function Home() {
   return (
@@ -10,6 +11,9 @@ export default function Home() {
       <UserLayout customClassName="pt-4">
         <h1>main content on homepage</h1>
       </UserLayout>
+      <div>
+        <CardRoutes/>
+      </div>
     </>
   )
 }

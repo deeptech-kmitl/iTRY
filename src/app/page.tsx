@@ -11,24 +11,28 @@ export default function Home() {
   const cards = [
     {
       key: 0,
-      content: <Image alt="1" src="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" width={500} height={500} />
+      content: <Card imagen="/open_house.png" />
     },
     {
       key: 1,
-      content: <Card imagen="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" />
+      content: <Card imagen="/itcamp19.png" />
     },
     {
       key: 2,
-      content: <Card imagen="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" />
+      content: <Card imagen="/unitecamp.png" />
     },
     {
       key: 3,
-      content: <Card imagen="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" />
+      content: <Card imagen="/open_house.png" />
     },
     {
       key: 4,
-      content: <Card imagen="/d0d300f5-30f5-4792-9375-f014e1ba199f.jpg" />
+      content: <Card imagen="/itcamp19.png" />
     },
+    {
+      key: 5,
+      content: <Card imagen="/unitecamp.png" />
+    }
   ];
 
   const [count, setCount] = useState(0);
@@ -37,7 +41,7 @@ export default function Home() {
     //Implementing the setInterval method
     const interval = setInterval(() => {
       setCount(count + 1);
-    }, 1000);
+    }, 5000);
 
     //Clearing the interval
     return () => clearInterval(interval);
@@ -46,12 +50,11 @@ export default function Home() {
   return (
     <>
       <UserLayout customClassName="pt-4">
-        <div>test</div>
-        <div style={{ height: 500 }}>
+        <div className="h-96 md:h-500">
           <Carroussel
             cards={cards}
-            height="500px"
-            width="30%"
+            height="100%"
+            width="100%"
             margin="0 auto"
             offset={1}
             showArrows={false}

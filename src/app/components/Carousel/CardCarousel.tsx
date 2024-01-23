@@ -1,7 +1,6 @@
 import Styles from "./Card.module.css";
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import ITryButton from "../Button";
 import Image from "next/image";
 
 function Card({ imagen }: any) {
@@ -21,16 +20,6 @@ function Card({ imagen }: any) {
       onMouseLeave={() => setShown(false)}
     >
       <Image src={imagen} alt="" width={500} height={500} />
-      <h2>Title</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-        nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-        volutpat.
-      </p>
-      <div className={Styles.btnn}>
-        <ITryButton>Demo</ITryButton>
-        <ITryButton>Code</ITryButton>
-      </div>
     </animated.div>
   );
 }

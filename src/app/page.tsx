@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Carroussel from "./components/Carousel/myCarousel";
 import Card from "./components/Carousel/CardCarousel";
 import CardRoutes from "./components/CardRoute";
+import DetailActive from "./user/DetailActivity";
 
 export default function Home() {
 
@@ -49,7 +50,10 @@ export default function Home() {
 
   return (
     <>
-      <UserLayout customClassName="pt-4">
+    <UserLayout customClassName="pt-4">
+    <DetailActive/>
+    </UserLayout>
+      {/* <UserLayout customClassName="pt-4">
         <div className="h-96 md:h-500">
           <Carroussel
             cards={cards}
@@ -67,7 +71,7 @@ export default function Home() {
           <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
         </div>
         <CardRoutes />
-      </div>
+      </div> */}
     </>
   )
 }

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Carroussel from "./components/Carousel/myCarousel";
 import Card from "./components/Carousel/CardCarousel";
 import CardRoutes from "./components/CardRoute";
-import DetailActive from "./user/DetailActivity";
+import DetailActive from "./components/DetailActivity";
 
 export default function Home() {
 
@@ -49,8 +49,8 @@ export default function Home() {
   }, [count]);
 
   return (
-    <>
-    <UserLayout customClassName="pt-4">
+    <div className="font-prompt">
+    <UserLayout customClassName="pt-4 ">
     <DetailActive/>
     </UserLayout>
       {/* <UserLayout customClassName="pt-4">
@@ -72,6 +72,6 @@ export default function Home() {
         </div>
         <CardRoutes />
       </div> */}
-    </>
+    </div>
   )
 }

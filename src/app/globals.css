@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+
 @tailwind base;
 
 @layer base {
@@ -54,3 +56,4 @@ input {
 .bg-linear-blue {
   background: linear-gradient(40deg, #40F8FF, #00BAC1, #2B79A4);
 }
+

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Carroussel from "./components/Carousel/myCarousel";
 import Card from "./components/Carousel/CardCarousel";
 import CardRoutes from "./components/CardRoute";
+import DetailActive from "./components/DetailActivity";
 
 export default function Home() {
 
@@ -50,6 +51,7 @@ export default function Home() {
   return (
     <>
       <UserLayout customClassName="pt-4">
+        {/* <DetailActive/> */}
         <div className="h-96 md:h-500">
           <Carroussel
             cards={cards}
@@ -60,14 +62,15 @@ export default function Home() {
             showArrows={false}
             goToSlide={count}
           />
+        </div> 
+        <div className="py-16">
+          <div className="text-center pb-16">
+            <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
+          </div>
+          <CardRoutes />
         </div>
       </UserLayout>
-      <div className="px-24 py-16">
-        <div className="text-center pb-16">
-          <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
-        </div>
-        <CardRoutes />
-      </div>
+
     </>
   )
 }

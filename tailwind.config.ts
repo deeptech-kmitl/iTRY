@@ -15,7 +15,10 @@ const config: Config = {
       },
       colors: {
         neonBlue: "#40F8FF"
-      }
+      },
+      fontFamily: {
+        'prompt': ['Prompt', 'sans-serif']
+      },
     },
   },
   plugins: [require("daisyui")],

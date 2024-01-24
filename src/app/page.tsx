@@ -49,11 +49,9 @@ export default function Home() {
   }, [count]);
 
   return (
-    <div className="font-prompt">
-    <UserLayout customClassName="pt-4 ">
-    <DetailActive/>
-    </UserLayout>
-      {/* <UserLayout customClassName="pt-4">
+    <>
+      <UserLayout customClassName="pt-4">
+        {/* <DetailActive/> */}
         <div className="h-96 md:h-500">
           <Carroussel
             cards={cards}
@@ -64,14 +62,15 @@ export default function Home() {
             showArrows={false}
             goToSlide={count}
           />
+        </div> 
+        <div className="py-16">
+          <div className="text-center pb-16">
+            <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
+          </div>
+          <CardRoutes />
         </div>
       </UserLayout>
-      <div className="px-24 py-16">
-        <div className="text-center pb-16">
-          <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
-        </div>
-        <CardRoutes />
-      </div> */}
-    </div>
+
+    </>
   )
 }

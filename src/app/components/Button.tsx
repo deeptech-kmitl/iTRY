@@ -10,7 +10,7 @@ export default function ITryButton({
   onClick,
   customClassName
 }: ITryButtonProps) {
-  let className = "btn text-white "
+  let className = "btn text-white bg-linear-blue "
 
   const getTypeButton = () => {
     if (type === "outline") return "btn-outline "

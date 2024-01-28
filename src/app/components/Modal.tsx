@@ -8,14 +8,18 @@ export default function ITryModal({
   showCloseButton = true,
   customClassName,
   content,
-  actionButton
+  actionButton,
+  alertHeader
 }: ITryModalProps) {
   return (
     <>
-      <dialog className={`modal`} open={isOpen}>
+      <dialog className="modal bg-black bg-opacity-60" open={isOpen}>
         <div className={`p-16 modal-box rounded-none shadow-none bg-modal ${customClassName}`}>
-          <h3 className="font-bold text-2xl pb-8">{title}</h3>
-          {content}
+          {alertHeader}
+          <h3 className="font-bold text-2xl pt-8">{title}</h3>
+          <div className="mt-8">
+            {content}
+          </div>
           <div className="modal-action">
             <form method="dialog" className="flex gap-4">
               {actionButton}

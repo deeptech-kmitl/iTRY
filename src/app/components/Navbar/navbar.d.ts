@@ -8,7 +8,3 @@ export interface NotificationRow {
   description: string;
   date: string;
 }
-
-export interface UserData {
-  username: string;
-}

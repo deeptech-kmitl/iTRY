@@ -10,8 +10,15 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons/faFacebookF";
 import useUserController from "./useUserController";
 import { signOut } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 export default function ITryUserName() {
+
+  const seachParams = useSearchParams();
+
+  // Get search parameters from the URL
+  const signInParam = seachParams.get("signIn") === "true";
+  const callbackUrl = seachParams.get("callbackUrl") || undefined;
 
   const dropDownData = [
     {
@@ -25,7 +32,7 @@ export default function ITryUserName() {
     }
   ]
 
-  const [openSignInModal, setOpenSignInModal] = useState<boolean>(false);
+  const [openSignInModal, setOpenSignInModal] = useState<boolean>(signInParam);
   const {
     errors,
     handleSubmit,
@@ -33,17 +40,22 @@ export default function ITryUserName() {
     handleGoogleLogin,
     onSubmit,
     register
-  } = useSignInController();
+  } = useSignInController({ callbackUrl });
 
   const { isLogin, userData } = useUserController();
 
+  const alertHeader = signInParam && (
+    <div className="alert alert-error">
+      <span>คุณจำเป็นต้องเข้าสู่ระบบ</span>
+    </div>
+  )
 
   const contentModal = (
     <div className="flex flex-col gap-4">
       <form onSubmit={handleSubmit(onSubmit)}>
         <ITryInput register={register('email')} type="text" label="Email" showError={!!errors.email} errorMessage={errors.email?.message} />
         <ITryInput register={register('password')} type="password" label="Password" showError={!!errors.password} errorMessage={errors.password?.message} />
-        <ITryButton type="submit" fullWidth customClassName="mt-4 text-white bg-linear-blue">SIGN IN</ITryButton>
+        <ITryButton type="submit" fullWidth customClassName="mt-4">SIGN IN</ITryButton>
       </form>
 
       <p className="text-center text-xs">Or Signn In With</p>
@@ -65,15 +77,15 @@ export default function ITryUserName() {
   return (
     <>
       {isLogin ? (
-        <ITryDropDown data={dropDownData} position="bottom-left" dropdownSize="small" customClassNameMain="bg-white bg-opacity-20">
-          {userData.username}
+        <ITryDropDown data={dropDownData} position="bottom-left" dropdownSize="small" customClassNameMain="bg-white hover:bg-white bg-opacity-20 hover:bg-opacity-30">
+          {userData.name}
         </ITryDropDown>
       ) : (
         <ITryButton onClick={() => setOpenSignInModal(true)}>
           เข้าสู่ระบบ
         </ITryButton>
       )}
-      <ITryModal isOpen={openSignInModal} onClose={() => setOpenSignInModal(false)} title="SIGN IN" content={contentModal} />
+      <ITryModal isOpen={openSignInModal} onClose={() => setOpenSignInModal(false)} title="SIGN IN" content={contentModal} alertHeader={alertHeader} />
     </>
   )
 }

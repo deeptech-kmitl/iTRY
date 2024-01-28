@@ -11,7 +11,6 @@ import Map from "./components/GoogleMap";
 import DetailActive from "./components/DetailActivity";
 
 export default function Home() {
-
   const cards = [
     {
       key: 0,
@@ -65,7 +64,7 @@ export default function Home() {
             showArrows={false}
             goToSlide={count}
           />
-        </div> 
+        </div>
         <div className="py-16">
           <div className="text-center pb-16">
             <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>

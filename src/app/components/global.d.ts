@@ -43,6 +43,7 @@ export type ITryModalProps = {
   customClassName?: string;
   actionButton?: ReactNode;
   content?: ReactNode;
+  alertHeader?: ReactNode;
 }
 
 export type ITryInputProps = {

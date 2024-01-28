@@ -11,7 +11,7 @@ const handler = NextAuth({
       profile(profile: GoogleProfile) {
         return {
           ...profile,
-          role: "admin",
+          role: "user",
           id: "1"
         }
       }

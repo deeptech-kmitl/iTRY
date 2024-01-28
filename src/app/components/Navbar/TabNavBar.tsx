@@ -1,22 +1,61 @@
+import Link from "next/link";
+import useUserController from "./useUserController";
+import { usePathname } from "next/navigation";
+
+interface MenuTabNavProps {
+  title: string;
+  path: string;
+  show: boolean;
+}
+
 export default function TabNavBar() {
+
+  const { userData, isLogin } = useUserController();
+
+  const menuTabNav: MenuTabNavProps[] = [
+    {
+      title: "Home",
+      path: "/",
+      show: true
+    },
+    {
+      title: "Staff",
+      path: "/staff",
+      show: true,
+    },
+    {
+      title: "Admin",
+      path: "/admin/activity",
+      show: userData.role === "admin" && isLogin
+    },
+  ]
+
+  const activeTabMenuClassName = () => {
+    return "text-primary-color"
+  }
+
+  const pathname = usePathname()
+
+  const getActiveTabMenu = (currentPath: string) => {
+    if (!pathname.startsWith(currentPath) || (currentPath === "/" && currentPath !== pathname)) return ""
+
+    return activeTabMenuClassName()
+  }
+
+
   return (
     <>
-      <ul className="flex-grow flex justify-center" >
-        <a
-          className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
-          href="#"
-          data-te-nav-link-ref
-        >
-          Home
-        </a>
-        <a
-          className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-          href="#"
-          data-te-nav-link-ref
-        >
-          Staff
-        </a>
-      </ul>
+      <ul className="flex-grow flex justify-center border gap-12 px-12 py-4 rounded-full border-color-primary" >
+        {menuTabNav.map((menu, index) => {
+          return <>
+            {menu.show && (
+              <Link key={index} href={menu.path}>
+                <p className={getActiveTabMenu(menu.path)}>{menu.title}</p>
+              </Link >
+            )}
+          </>
+        })}
+      </ul >
     </>
   )
 }

@@ -23,7 +23,9 @@
   --background-start-rgb: 0, 0, 0;
   --background-end-rgb: 0, 0, 0;
   --background-body: #050922;
+  --primary-color: #40F8FF;
   --input-border-color: #40F8FF;
+  --background-side-navbar: rgb(1, 156, 161);
   --background-modal: #242532;
   --background-button: #5DC2D8;
   --background-button-hover: #00d0ff;
@@ -60,4 +62,16 @@ input {
 
 .bg-button:hover {
   background: var(--background-button-hover)
+}
+
+.bg-side-navbar {
+  background: var(--background-side-navbar)
+}
+
+.border-color-primary {
+  border-color: var(--input-border-color) !important;
+}
+
+.text-primary-color {
+  color: var(--primary-color)
 }

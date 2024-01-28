@@ -17,19 +17,16 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-    --background-body: #050922;
-    --input-border-color: #40F8FF;
-    --background-modal: #242532;
-  }
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+  --background-body: #050922;
+  --input-border-color: #40F8FF;
+  --background-modal: #242532;
+  --background-button: #5DC2D8;
+  --background-button-hover: #00d0ff;
 }
 
 body {
@@ -57,3 +54,10 @@ input {
   background: linear-gradient(40deg, #40F8FF, #00BAC1, #2B79A4);
 }
 
+.bg-button {
+  background: var(--background-button)
+}
+
+.bg-button:hover {
+  background: var(--background-button-hover)
+}

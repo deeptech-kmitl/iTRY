@@ -1,18 +1,31 @@
 import NextAuth from "next-auth/next";
-import GoogleProvider from "next-auth/providers/google"
-import FacebookProvider from "next-auth/providers/facebook"
+import GoogleProvider, { GoogleProfile } from "next-auth/providers/google"
+import FacebookProvider, { FacebookProfile } from "next-auth/providers/facebook"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { UserData } from "@/app/components/Navbar/navbar.d";
-
 const handler = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      profile(profile: GoogleProfile) {
+        return {
+          ...profile,
+          role: "admin",
+          id: "1"
+        }
+      }
     }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID ?? "",
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET ?? "",
+      profile(profile: FacebookProfile) {
+        return {
+          ...profile,
+          role: "admin",
+          id: "1"
+        }
+      }
     }),
     CredentialsProvider({
       name: "credentials",
@@ -34,15 +47,23 @@ const handler = NextAuth({
           console.log("ERROR")
           throw new Error("Invalid credentials")
         }
-        const user = { id: '1', name: 'J Smith', email: 'test@example.com' };
+        const user = { id: '1', name: 'J Smith', email: 'test@example.com', role: "admin" };
         return user
       }
     })
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.role = user.role
+      return token
+    },
+    async session({ session, token }) {
+      if (session?.user) session.user.role = token.role
+      return session
+    }
+  },
   pages: {
-    signIn: "auth/signin",
-    // error: "/auth/error",
-    // signOut: "/auth/signOut"
+    signIn: "/?signIn=true"
   }
 })
 

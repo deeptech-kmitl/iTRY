@@ -3,7 +3,15 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signIn } from 'next-auth/react';
 
-export default function useSignInController() {
+
+
+export default function useSignInController(
+  {
+    callbackUrl
+  }: {
+    callbackUrl: string | undefined
+  }
+) {
 
   const schema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email is required'),
@@ -18,16 +26,16 @@ export default function useSignInController() {
     signIn('credentials', {
       email: data.email,
       password: data.password,
-      redirect: false
+      callbackUrl: callbackUrl
     })
   };
 
   const handleFacebookLogin = () => {
-    signIn('facebook')
+    signIn('facebook', { callbackUrl: callbackUrl })
   };
 
   const handleGoogleLogin = () => {
-    signIn("google")
+    signIn("google", { callbackUrl: callbackUrl })
   };
 
   return {

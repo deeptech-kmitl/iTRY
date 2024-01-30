@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import Timeline from './DetailActivity/Timeline'
-import FAQ from './DetailActivity/FAQ'
+import Timeline from '../components/DetailActivity/Timeline'
+import FAQ from '../components/DetailActivity/FAQ'
 export default function DetailActive() {
     return (
         <div>

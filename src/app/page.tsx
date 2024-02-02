@@ -91,7 +91,7 @@ export default function Home() {
   return (
     <>
       <UserLayout customClassName="pt-4">
-        <div className="h-96 md:h-500">
+        <div className="h-96 md:h-64">
           <Carroussel
             cards={cards}
             height="100%"
@@ -100,20 +100,28 @@ export default function Home() {
             offset={1}
             showArrows={false}
             goToSlide={count}
+            className="w-full h-full"
           />
         </div>
         <div className="py-16">
-          <div className="text-2xl flex">กิจกรรมที่กำลังเปิดรับสมัคร<img width="35" height="35" src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png" alt="more-than" /></div>
-          <div className="bg-BlueO border-2 border-neonBlue rounded-xl my-5 flex grid gap-x-8 gap-y-4 grid-cols-4">
-            {activity.map((item, key) =>
-              <div key={key} className="flex p-5 justify-center">
-                <img src={item.image} alt={item.title} width="80" height="80" className="rounded-image border-2 border-neonBlue" />
-                <div className="text-center pt-5 px-2">
-                  <p>{item.title}</p>
-                  <p className="text-slate-400">{item.status}</p>
-                </div>
-              </div>)}
+        <div className="flex-grow flex flex-col">
+          <div className="text-lg md:text-2xl flex flex-col md:flex-row items-center md:items-start">
+            <p className="mr-2">กิจกรรมที่กำลังเปิดรับสมัคร</p>
+            <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png" alt="more-than" />
           </div>
+          <div className="bg-BlueO border-2 border-neonBlue rounded-xl my-5 flex flex-col md:flex-row md:flex-wrap justify-center gap-4 max-w-full">
+            {activity.slice(0, 6).map((item, key) => (
+              <div key={key} className="flex flex-col items-center p-3 md:p-5">
+                <img src={item.image} alt={item.title} width="120" height="120" className="rounded-image border-2 border-neonBlue" />
+                <div className="text-center pt-3">
+                  <p className="text-base md:text-lg">{item.title}</p>
+                  <p className="text-sm md:text-base text-slate-400">{item.status}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          </div>
+
           <div className="text-center py-16">
             <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
           </div>

@@ -5,9 +5,14 @@ import { useState } from 'react'
 
 export default function FollowButton() {
     const [follow, setFollow] = useState(false)
+    const followActivity = () => {
+        setFollow(!follow)
+    }
     return (
         <>
-            <ITryButton fullWidth size='small' customClassName='bg-linear-gray'>ติดตาม</ITryButton>
+            <ITryButton fullWidth size='small' customClassName={follow === true ? 'text-white bg-gradient-to-r from-gray-200 via-gray-400 to-gray-600' : ''} onClick={followActivity}>{follow === true ? 'ติดตามแล้ว': 'ติดตาม'}</ITryButton>
         </>
     )
 }
+
+// text-white bg-gradient-to-l from-gray-900 to-gray-600 bg-gradient-to-r

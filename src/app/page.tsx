@@ -91,7 +91,7 @@ export default function Home() {
   return (
     <>
       <UserLayout customClassName="pt-4">
-        <div className="h-96 md:h-500">
+        <div className="hidden md:block h-96">
           <Carroussel
             cards={cards}
             height="100%"
@@ -100,31 +100,41 @@ export default function Home() {
             offset={1}
             showArrows={false}
             goToSlide={count}
+            className="w-full h-full"
           />
         </div>
         <div className="py-16">
-          <div className="text-2xl flex">กิจกรรมที่กำลังเปิดรับสมัคร<img width="35" height="35" src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png" alt="more-than" /></div>
-          <div className="bg-BlueO border-2 border-neonBlue rounded-xl my-5 flex grid gap-x-8 gap-y-4 grid-cols-4">
-            {activity.map((item, key) =>
-              <div key={key} className="flex p-5 justify-center">
-                <img src={item.image} alt={item.title} width="80" height="80" className="rounded-image border-2 border-neonBlue" />
-                <div className="text-center pt-5 px-2">
-                  <p>{item.title}</p>
-                  <p className="text-slate-400">{item.status}</p>
+          <div className="grid grid-cols-1 gap-4">
+            <div className="text-lg md:text-2xl flex items-center">
+              <p className="mr-2">กิจกรรมที่กำลังเปิดรับสมัคร</p>
+              <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png" alt="more-than" />
+            </div>
+            <div className="bg-BlueO border-2 border-neonBlue rounded-xl my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {activity.slice(0, 6).map((item, key) => (
+                <div key={key} className="flex flex-col items-center p-3 md:p-5 max-w-xs">
+                  <img src={item.image} alt={item.title} width="120" height="120" className="object-cover w-full h-full rounded-image border-2 border-neonBlue" />
+                  <div className="text-center pt-3">
+                    <p className="text-sm md:text-ls">{item.title}</p>
+                    <p className="text-xs md:text-base text-slate-400">{item.status}</p>
+                  </div>
                 </div>
-              </div>)}
+              ))}
+            </div>
           </div>
-          <div className="text-center py-16">
-            <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
+
+
+
+          <div className="text-center py-12 md:py-16">
+            <h1 className="text-xl md:text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
           </div>
           <CardRoutes />
         </div>
-        <div className="pt-6 pb-16 px-10">
+        <div className="">
           <Map />
         </div>
-        <div className="py-16">
+        <div className="py-12 md:py-16">
           <div className="text-center pb-16">
-            <h1 className="text-2xl">ขอบคุณผู้สนับสนุน</h1>
+            <h1 className="text-xl md:text-2xl">ขอบคุณผู้สนับสนุน</h1>
           </div>
           <CardSponsor />
         </div>

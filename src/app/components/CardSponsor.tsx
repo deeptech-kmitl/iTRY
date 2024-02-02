@@ -24,17 +24,17 @@ export default function CardSponsor() {
     ]
 
     return (
-        <div className={`grid grid-cols-5 place-items-center`}>
-            {
-                dummyRouteOption.map((sponsor, key) => 
-                    <div key={key} className="flex justify-center w-[180px] h-[180px] overflow-hidden">
-                        <figure className="w-full h-full">
-                            <Image className="" src={sponsor.sponsorImage} alt={sponsor.sponsorImage} 
-                            width="180" height="180" layout="responsive" objectFit='cover' />
-                        </figure>
-                    </div>
-                )
-            }
-        </div>
+        <div className={`grid grid-cols-3 md:grid-cols-5  place-items-center gap-4`}>
+    {
+        dummyRouteOption.map((sponsor, key) => 
+            <div key={key} className="flex justify-center w-full md:w-full h-full overflow-hidden">
+                <figure className="w-full h-full">
+                    <Image className="" src={sponsor.sponsorImage} alt={sponsor.sponsorImage} 
+                    width="180" height="180" layout="responsive" objectFit='cover' />
+                </figure>
+            </div>
+        )
+    }
+</div>
     )
 }

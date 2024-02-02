@@ -15,7 +15,8 @@ const config: Config = {
       },
       colors: {
         neonBlue: "#40F8FF",
-        navyBlue: "#242532"
+        navyBlue: "#242532",
+        lightBlue: "#5DC2D8"
       },
       fontFamily: {
         'prompt': ['Prompt', 'sans-serif']

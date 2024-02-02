@@ -11,13 +11,6 @@ export default function footer() {
                         <a className="link link-hover">King Mongkut's Institute of Technology Ladkrabang</a>
                     </nav>
                 </div>
-
-                <nav ></nav>
-                <nav ></nav>
-                <nav ></nav>
-                <nav ></nav>
-                <nav ></nav>
-                <nav ></nav>
                 
                 <nav className="flex pt-6">
                     <nav className="mr-2"> 

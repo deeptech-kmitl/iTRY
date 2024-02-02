@@ -104,12 +104,12 @@ export default function Home() {
           />
         </div>
         <div className="py-16">
-          <div className="flex-grow flex flex-col">
-            <div className="text-lg md:text-2xl flex  md:flex-row items-center md:items-start">
+          <div className="grid grid-cols-1 gap-4">
+            <div className="text-lg md:text-2xl flex items-center">
               <p className="mr-2">กิจกรรมที่กำลังเปิดรับสมัคร</p>
               <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png" alt="more-than" />
             </div>
-            <div className="bg-BlueO border-2 border-neonBlue rounded-xl my-5 flex flex-wrap justify-center gap-4 max-w-full">
+            <div className="bg-BlueO border-2 border-neonBlue rounded-xl my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {activity.slice(0, 6).map((item, key) => (
                 <div key={key} className="flex flex-col items-center p-3 md:p-5 max-w-xs">
                   <img src={item.image} alt={item.title} width="120" height="120" className="object-cover w-full h-full rounded-image border-2 border-neonBlue" />
@@ -123,17 +123,18 @@ export default function Home() {
           </div>
 
 
-          <div className="text-center py-16">
-            <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
+
+          <div className="text-center py-12 md:py-16">
+            <h1 className="text-xl md:text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
           </div>
           <CardRoutes />
         </div>
-        <div className="pt-6 pb-16 px-10">
+        <div className="">
           <Map />
         </div>
-        <div className="py-16">
+        <div className="py-12 md:py-16">
           <div className="text-center pb-16">
-            <h1 className="text-2xl">ขอบคุณผู้สนับสนุน</h1>
+            <h1 className="text-xl md:text-2xl">ขอบคุณผู้สนับสนุน</h1>
           </div>
           <CardSponsor />
         </div>

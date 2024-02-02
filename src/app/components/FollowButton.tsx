@@ -14,5 +14,3 @@ export default function FollowButton() {
         </>
     )
 }
-
-// text-white bg-gradient-to-l from-gray-900 to-gray-600 bg-gradient-to-r

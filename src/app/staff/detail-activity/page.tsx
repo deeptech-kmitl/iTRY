@@ -3,6 +3,7 @@ import Timeline from '../../components/DetailActivity/Timeline'
 import FAQ from '../../components/DetailActivity/FAQ'
 import CardPosition from '../../components/CardPosition'
 import FollowButton from '../../components/FollowButton'
+import ITryButton from '../../components/Button'
 
 export default function DetailActive() {
     return (
@@ -49,6 +50,9 @@ export default function DetailActive() {
                     <br></br>
                     <p>เงื่อนไขกิจกรรม :</p>
                     <p> • B.A.D COIN จะอัปเดตภายใน 24 ชั่วโมง หลังจากร่วมกิจกรรมเสร็จสิ้น</p>
+                    <div className='pt-10 relative'>
+                        <ITryButton size='small' customClassName='absolute top-0 right-0 text-black bg-gradient-to-l from-orange-500 to-yellow-300'>สมัครกิจกรรม</ITryButton>
+                    </div>
                 </div>
 
                 {/* Social Media */}

@@ -9,7 +9,6 @@ import CardRoutes from "./components/CardRoute";
 import CardSponsor from "./components/CardSponsor"
 import Map from "./components/GoogleMap";
 
-
 export default function Home() {
   const cards = [
     {

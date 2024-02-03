@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useState, useEffect } from 'react';
 
-export default function CardRoutes() {
+export default function CardRoutes() { // TODO:ใส่ parameter ว่าเป็นหน้าไหน (Home/Admin) เพื่อเลือก layout
     const [isModalOpen, setModalOpen] = useState(false)
     const [selectedTitle, setSelectedTitle] = useState("")
     const [selectedDetail, setSelectedDetail] = useState("")

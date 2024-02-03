@@ -11,6 +11,7 @@ export default function ITryButton({
   customClassName
 }: ITryButtonProps) {
 
+
   const getTypeButton = () => {
     if (type === "outline") return "btn-outline "
   }

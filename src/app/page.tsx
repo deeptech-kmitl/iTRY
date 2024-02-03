@@ -127,7 +127,7 @@ export default function Home() {
           <div className="text-center py-12 md:py-16">
             <h1 className="text-xl md:text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
           </div>
-          <CardRoutes />
+          <CardRoutes role='user' />
         </div>
         <div className="pt-6">
           <Map />

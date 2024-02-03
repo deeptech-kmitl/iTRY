@@ -4,13 +4,16 @@ import FAQ from '../../components/DetailActivity/FAQ'
 import CardPosition from '../../components/CardPosition'
 import FollowButton from '../../components/FollowButton'
 import ITryButton from '../../components/Button'
+import ShareSocial from '../../components/ShareSocial'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 export default function DetailActive() {
     return (
         <div>
             <div className="grid grid-cols-1 text-2xl text-center font-bold">
                 <p className="py-5">IT Ladkrabang Open House 2023</p>
-                <div className="bg-white h-0.5"></div>
+                <div className="bg-white h-[1px]"></div>
                 <p className="py-5 text-neonBlue">กำลังเปิดรับสมัคร</p>
             </div>
 
@@ -21,20 +24,20 @@ export default function DetailActive() {
                 </div>
                 <div className='pl-24'>
                     <p className='font-bold'>ช่องทางการติดต่อสอบถาม</p>
-                    <div className='flex py-8'>
-                        <img width="30" height="20" src="https://img.icons8.com/ios/50/FFFFFF/phone--v1.png" alt="phone--v1" />
-                        <p className='px-8 text-base justify-center'>
+                    <div className='flex py-8 items-center'>
+                        <FontAwesomeIcon icon={faPhone} className='h-8' />
+                        <p className='px-8 text-base'>
                             080-172-5376 <br></br>
                             02-723-4900 ต่อ 4938-4945<br></br>
                         </p>
                     </div>
-                    <div className='flex py-4'>
-                        <img width="24" height="24" src="https://img.icons8.com/ios/50/FFFFFF/secured-letter--v1.png" alt="secured-letter--v1" />
-                        <p className='px-8 text-base justify-center items-center text-center'>openhouse@it.kmitl.ac.th</p>
+                    <div className='flex py-4 items-center'>
+                        <FontAwesomeIcon icon={faEnvelope} className='h-8' />
+                        <p className='px-8 text-base'>openhouse@it.kmitl.ac.th</p>
                     </div>
-                    <div className='flex pt-7'>
-                        <div className="w-[80%]"><FollowButton/></div>
-                        <div className='px-3'><img width="36" height="36" src="https://img.icons8.com/external-kiranshastry-gradient-kiranshastry/64/external-share-interface-kiranshastry-gradient-kiranshastry-1.png" alt="external-share-interface-kiranshastry-gradient-kiranshastry-1" /></div>
+                    <div className='relative flex pt-7'>
+                        <div className="w-[75%]"><FollowButton/></div>
+                        <div className='px-3'><ShareSocial /></div>
                     </div>
                 </div>
             </div>
@@ -57,9 +60,13 @@ export default function DetailActive() {
 
                 {/* Social Media */}
                 <p className='text-xl font-bold pt-16 pb-6'>Social Media</p>
-                <div className='flex'>
-                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/instagram-new.png" alt="instagram-new" />
-                    <img width="48" height="48" src="https://img.icons8.com/color/48/facebook-circled--v1.png" alt="facebook-circled--v1" />
+                <div className='flex gap-3'>
+                    <button className='btn bg-transparent border-none p-0'>
+                        <Image width="48" height="48" src="/instagram-icon2.png" alt='instagram'/>
+                    </button>
+                    <button className='btn bg-transparent border-none p-0'>
+                        <Image width="48" height="48" src="/facebook-icon.png" alt='facebook' />
+                    </button>
                 </div>
                 
                 {/* กำหนดการกิจกรรม */}

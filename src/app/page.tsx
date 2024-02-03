@@ -8,7 +8,6 @@ import Card from "./components/Carousel/CardCarousel";
 import CardRoutes from "./components/CardRoute";
 import CardSponsor from "./components/CardSponsor"
 import Map from "./components/GoogleMap";
-import DetailActive from "./components/DetailActivity";
 
 export default function Home() {
   const cards = [
@@ -53,7 +52,6 @@ export default function Home() {
   return (
     <>
       <UserLayout customClassName="pt-4">
-        {/* <DetailActive/> */}
         <div className="h-96 md:h-500">
           <Carroussel
             cards={cards}

@@ -11,7 +11,7 @@ export default function UserLayout({
   return (
     <div className="font-prompt">
       <ITryNavBar />
-      <div className={`px-4 py-12 md:px-36 md:py-24 ${customClassName}`}>
+      <div className={`px-4 py-0 md:px-36 md:py-24 ${customClassName}`}>
         {children}
       </div>
       <ITreFooter/>

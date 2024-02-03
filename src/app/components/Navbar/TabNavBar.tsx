@@ -45,7 +45,7 @@ export default function TabNavBar() {
 
   return (
     <>
-      <ul className="flex-grow flex justify-center border gap-12 px-12 py-4 rounded-full border-color-primary" >
+      <ul className="flex-grow flex justify-center border gap-6 md:gap-12 md:px-12 px-6 md:py-4 py-3 mr-6 nd:mr-0 rounded-full border-color-primary" >
         {menuTabNav.map((menu, index) => {
           return <>
             {menu.show && (

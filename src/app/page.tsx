@@ -90,8 +90,8 @@ export default function Home() {
 
   return (
     <>
-      <UserLayout customClassName="pt-4">
-        <div className="hidden md:block h-96">
+      <UserLayout customClassName="md:pt-4">
+        <div className="relative md:h-96 h-64 overflow-hidden">
           <Carroussel
             cards={cards}
             height="100%"
@@ -100,16 +100,17 @@ export default function Home() {
             offset={1}
             showArrows={false}
             goToSlide={count}
-            className="w-full h-full"
+            className="w-full h-full object-cover"
           />
         </div>
-        <div className="py-16">
+
+        <div className="md:py-16">
           <div className="grid grid-cols-1 gap-4">
             <div className="text-lg md:text-2xl flex items-center">
               <p className="mr-2">กิจกรรมที่กำลังเปิดรับสมัคร</p>
               <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png" alt="more-than" />
             </div>
-            <div className="bg-BlueO border-2 border-neonBlue rounded-xl my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="bg-BlueO md:border-2 md:border-neonBlue rounded-xl my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 md:gap-4">
               {activity.slice(0, 6).map((item, key) => (
                 <div key={key} className="flex flex-col items-center p-3 md:p-5 max-w-xs">
                   <img src={item.image} alt={item.title} width="120" height="120" className="object-cover w-full h-full rounded-image border-2 border-neonBlue" />
@@ -129,7 +130,7 @@ export default function Home() {
           </div>
           <CardRoutes />
         </div>
-        <div className="">
+        <div className="pt-6">
           <Map />
         </div>
         <div className="py-12 md:py-16">

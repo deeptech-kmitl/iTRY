@@ -32,7 +32,7 @@ export default function ITryNavBar() {
       <div className="navbar-center">
         <TabNavBar />
       </div>
-      <div className="navbar-end gap-4">
+      <div className="navbar-end gap-4 px-10 md:px-0">
         <ITryUserName />
         <ITryNotification {...notificationData} />
       </div>

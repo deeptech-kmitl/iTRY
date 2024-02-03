@@ -75,3 +75,9 @@ input {
 .text-primary-color {
   color: var(--primary-color)
 }
+
+.rounded-image {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}

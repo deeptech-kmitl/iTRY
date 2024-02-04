@@ -105,7 +105,7 @@ export default function Home() {
 
         <div className="md:py-16">
           <div className="grid grid-cols-1 gap-4">
-            <div className="text-lg md:text-2xl flex items-center">
+            <div className="text-base md:text-2xl flex items-center">
               <p className="mr-2">กิจกรรมที่กำลังเปิดรับสมัคร</p>
               <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png" alt="more-than" />
             </div>
@@ -125,7 +125,7 @@ export default function Home() {
 
 
           <div className="text-center py-12 md:py-16">
-            <h1 className="text-xl md:text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
+            <h1 className="text-base md:text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
           </div>
           <CardRoutes role='user' />
         </div>
@@ -134,7 +134,7 @@ export default function Home() {
         </div>
         <div className="py-12 md:py-16">
           <div className="text-center pb-16">
-            <h1 className="text-xl md:text-2xl">ขอบคุณผู้สนับสนุน</h1>
+            <h1 className="text-base md:text-2xl">ขอบคุณผู้สนับสนุน</h1>
           </div>
           <CardSponsor />
         </div>

@@ -95,7 +95,7 @@ export default function CardRoutes({ role }: { role: string }) {
                                 </figure>
                             </div>
                             <div className="py-2">
-                                <h5 className="card-title justify-center text-sm text-center">{route.optionTitle}</h5>
+                                <h5 className="card-title justify-center text-[12px] md:text-sm text-center">{route.optionTitle}</h5>
                             </div>
                         </div>
 

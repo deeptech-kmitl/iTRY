@@ -27,7 +27,7 @@ export default function FAQ() {
             dummyFAQ.map((faq, key) => <div>
                 <div className="collapse collapse-arrow bg-base-200 border rounded-md border-neonBlue">
                     <input type="radio" name="my-accordion-2" />
-                    <div className="collapse-title text-xl font-medium">
+                    <div className="collapse-title text-sm md:text-xl font-medium">
                         {faq.questions}
                     </div>
                     <div className="collapse-content">

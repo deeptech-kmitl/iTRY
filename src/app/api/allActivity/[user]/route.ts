@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import type { NextApiRequest, NextApiResponse } from "next";
 import AWS, { DynamoDB } from "aws-sdk";
+import { table } from "console";
 
 const dynamodb = new DynamoDB.DocumentClient({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -7,13 +9,17 @@ const dynamodb = new DynamoDB.DocumentClient({
   region: process.env.REGION,
 });
 
-export async function GET() {
-  const params: AWS.DynamoDB.DocumentClient.ScanInput = {
-    TableName: "StaffActivities",
+export async function GET(res: NextApiRequest, { params }: any) {
+  const obj = params;
+  const tableName =
+    obj.user == "staff" ? "StaffActivities" : "CamperActivities";
+  console.log("user", obj.user);
+  const paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
+    TableName: tableName,
   };
 
   try {
-    const data = await dynamodb.scan(params).promise();
+    const data = await dynamodb.scan(paramsDB).promise();
     console.log("data", data);
     return NextResponse.json(data);
   } catch (error) {

@@ -65,6 +65,8 @@ export async function POST(request: any) {
         activityId: myuuid,
         activityName: formData.get("activityName"),
         imageUrl: responseS3, // url image in S3
+        openDate: formData.get("openDate"),
+        closeDate: formData.get("closeDate"),
         activityDetails: formData.get("activityDetails"),
         visibility: formData.get("visibility"),
         jobPositions: position,

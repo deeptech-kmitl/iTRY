@@ -1,5 +1,5 @@
 import Image from "next/image";
-export default function footer() {
+export default function ITryFooter() {
     return (
         <>
             <footer className="footer p-2 md:p-10 bg-[#08152D] ">

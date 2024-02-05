@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 
 export type ITryButtonProps = {
   children?: React.ReactNode
@@ -47,16 +48,20 @@ export type ITryModalProps = {
 }
 
 export type ITryInputProps = {
-  showError: boolean;
+  showError?: boolean;
   errorMessage?: string;
-} & (NormalProps | CheckBoxProps | RadioProps | FileProps | DateProps | SearchProps)
+  required?: boolean;
+  label?: string;
+  customLabelClassName?: string;
+} & (NormalProps | CheckBoxProps | RadioProps | FileProps | DateProps | SearchProps | RichTextProps)
 
 type NormalProps = {
-  type: "text" | "number" | "password",
-  label?: string;
-  placeholder?: string
+  type: "text" | "number" | "password";
+  placeholder?: string;
+  size?: "tiny" | "small" | "medium" | "large";
+  customInputClassName?: string;
   register: UseFormRegister<any>;
-  size?: "tiny" | "small" | "medium" | "large"
+
 }
 
 type CheckBoxProps = {
@@ -65,8 +70,17 @@ type CheckBoxProps = {
 
 type RadioProps = {
   type: "radio"
-  label?: string;
-  placeholder?: string
+  radioData: RadioData[];
+  defaultIndex: number;
+  customInputClassName?: string;
+  name: string;
+  register: UseFormRegister<any>;
+
+}
+
+interface RadioData {
+  name: string;
+  value: string;
 }
 
 type FileProps = {
@@ -75,8 +89,23 @@ type FileProps = {
 
 type DateProps = {
   type: "date"
+  customInputClassName?: string;
+  register: UseFormRegister<any>;
+
 }
 
 type SearchProps = {
   type: "search"
 }
+
+interface RichTextProps extends RichTextComponentProps {
+  type: "richText";
+}
+
+type RichTextComponentProps = {
+  setValue: UseFormSetValue<any>;
+  value: string | undefined;
+  fieldName: string;
+}
+
+export type InputField = "text" | "date"

@@ -6,6 +6,7 @@ interface MenuTabNavProps {
   title: string;
   path: string;
   show: boolean;
+  activeTabName: string[];
 }
 
 export default function TabNavBar() {
@@ -16,17 +17,20 @@ export default function TabNavBar() {
     {
       title: "Home",
       path: "/",
-      show: true
+      show: true,
+      activeTabName: ["/"]
     },
     {
       title: "Staff",
       path: "/staff",
       show: true,
+      activeTabName: ["/staff"]
     },
     {
       title: "Admin",
       path: "/admin/activity",
-      show: userData.role === "admin" && isLogin
+      show: userData.role === "admin" && isLogin,
+      activeTabName: ["/admin"]
     },
   ]
 
@@ -36,10 +40,10 @@ export default function TabNavBar() {
 
   const pathname = usePathname()
 
-  const getActiveTabMenu = (currentPath: string) => {
-    if (!pathname.startsWith(currentPath) || (currentPath === "/" && currentPath !== pathname)) return ""
-
-    return activeTabMenuClassName()
+  const getActiveTabMenu = (activeTabName: string[]) => {
+    if (activeTabName.includes(pathname) || (activeTabName.includes("/admin") && pathname.startsWith("/admin"))) {
+      return activeTabMenuClassName()
+    }
   }
 
 
@@ -50,7 +54,7 @@ export default function TabNavBar() {
           return <>
             {menu.show && (
               <Link key={index} href={menu.path}>
-                <p className={getActiveTabMenu(menu.path)}>{menu.title}</p>
+                <p className={getActiveTabMenu(menu.activeTabName)}>{menu.title}</p>
               </Link >
             )}
           </>

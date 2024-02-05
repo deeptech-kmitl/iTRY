@@ -6,6 +6,7 @@ export default withAuth(
   function middleWare(request: NextRequestWithAuth) {
     const currentPath = request.nextUrl.pathname
     const role = request.nextauth?.token?.role
+    console.log(currentPath.startsWith("/admin") && role !== "admin")
     if (currentPath.startsWith("/admin") && role !== "admin") {
       return NextResponse.rewrite(
         new URL("/denied", request.url)
@@ -20,4 +21,4 @@ export default withAuth(
     }
   },
 )
-export const config = { matcher: ["/admin"] }
+export const config = { matcher: ["/admin", '/admin/activity', "/admin/activity/:type/add"] }

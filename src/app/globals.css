@@ -81,3 +81,11 @@ input {
   width: 100px;
   height: 100px;
 }
+
+input[type="radio"]:checked {
+  background: var(--input-border-color) !important;
+}
+
+.ql-container {
+  min-height: 300px;
+}

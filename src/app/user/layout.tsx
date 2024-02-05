@@ -1,5 +1,5 @@
+import ITryFooter from "../components/Footer/footer"
 import ITryNavBar from "../components/Navbar/NavBar"
-import ITreFooter from "../components/Footer/footer"
 
 export default function UserLayout({
   children,
@@ -14,7 +14,7 @@ export default function UserLayout({
       <div className={`px-4 py-0 md:px-36 md:py-24 ${customClassName}`}>
         {children}
       </div>
-      <ITreFooter/>
+      <ITryFooter />
     </div>
   )
 }

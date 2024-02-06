@@ -8,7 +8,6 @@ export default function useAddActivity() {
     registerDateStart: yup.string().required('Password is required'),
     registerDateEnd: yup.string().required('Password is required'),
     viewBy: yup.string().required('Password is required'),
-    activityDetail: yup.string(),
     // timeline: yup.string().required('Password is required'),
     // facebookLink: yup.string().required('Password is required'),
     // igLink: yup.string().required('Password is required'),

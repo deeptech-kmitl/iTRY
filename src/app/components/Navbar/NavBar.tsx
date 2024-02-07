@@ -6,7 +6,7 @@ import ITryUserName from './UserName';
 import { NotificationProps } from './navbar.d';
 import HomeIcon from './HomeIcon';
 import TabNavBar from './TabNavBar';
-import useUserController from './useUserController';
+import { usePathname } from 'next/navigation';
 
 export default function ITryNavBar() {
   const [notificationData, setNotificationData] = useState<NotificationProps>({
@@ -19,20 +19,17 @@ export default function ITryNavBar() {
       }
     ]
   })
-  const { userData } = useUserController();
-  console.log("userData", userData)
+
 
   return (
     <div className="navbar">
       <div className="navbar-start">
-        {userData.role !== "admin" && (
-          <HomeIcon />
-        )}
+        <HomeIcon />
       </div>
-      <div className="navbar-center">
+      <div className="navbar-center sm:block hidden">
         <TabNavBar />
       </div>
-      <div className="navbar-end md:gap-4 px-10 md:px-0">
+      <div className="navbar-end md:gap-4 md:px-10 px-0">
         <ITryUserName />
         <ITryNotification {...notificationData} />
       </div>

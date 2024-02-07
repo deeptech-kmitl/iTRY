@@ -78,7 +78,8 @@ export default function ITryUserName() {
     <>
       {isLogin ? (
         <ITryDropDown data={dropDownData} position="bottom-left" dropdownSize="small" customClassNameMain="bg-white hover:bg-white bg-opacity-20 hover:bg-opacity-30">
-          {userData.name}
+          <span className="md:hidden block">{userData.name?.split(" ")[0]}</span>
+          <span className="md:block hidden">{userData.name}</span>
         </ITryDropDown>
       ) : (
         <ITryButton onClick={() => setOpenSignInModal(true)}>

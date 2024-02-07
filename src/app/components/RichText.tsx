@@ -5,7 +5,6 @@ import { RichTextComponentProps } from './global';
 
 export default function ITryRichText({ value, setValue, fieldName }: RichTextComponentProps) {
 
-  console.log("value: ", value )
   const toolBarOptions = [
     ['bold', 'italic', 'underline', 'strike'],
     ['blockquote', 'code-block'],

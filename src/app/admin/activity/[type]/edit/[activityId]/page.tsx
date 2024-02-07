@@ -2,13 +2,13 @@
 import ManageActivityPage from "@/app/components/ManageActivityPage/ManageActivityPage"
 import { TypeActivityParams } from "@/app/components/ManageActivityPage/activity"
 
-interface AddActivityPageProps {
+interface EditActivityPageProps {
   params: TypeActivityParams
 }
 
-export default function AddtActivityPage({ params }: AddActivityPageProps) {
+export default function EdittActivityPage({ params }: EditActivityPageProps) {
 
   return (
-    <ManageActivityPage typeAction="add" typeActivity={params.type} />
+    <ManageActivityPage typeAction="edit" typeActivity={params.type} />
   )
 }

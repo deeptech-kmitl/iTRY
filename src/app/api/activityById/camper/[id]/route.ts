@@ -1,12 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
-
-const dynamodb = new DynamoDB.DocumentClient({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.REGION,
-});
+import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 
 export async function GET(res: NextApiRequest, { params }: any) {
   const { id } = params;
@@ -18,7 +13,7 @@ export async function GET(res: NextApiRequest, { params }: any) {
     },
   };
   try {
-    const result = await dynamodb.get(paramsDynamo).promise();
+    const result = await iTryDynamoDB.get(paramsDynamo).promise();
     console.log("result", result);
     return NextResponse.json(result);
   } catch (error) {

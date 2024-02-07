@@ -8,7 +8,9 @@ export default function ITryButton({
   size = "default",
   disabled = false,
   onClick,
-  customClassName
+  customClassName,
+  customWidthClassName,
+  customPositionClassName
 }: ITryButtonProps) {
 
 
@@ -37,7 +39,9 @@ export default function ITryButton({
     className += getFullWidthButton() || ""
     className += getSizeButton() || ""
     className += getDisabled() || ""
-    className += customClassName
+    className += customClassName || ""
+    className += customWidthClassName || ""
+    className += customPositionClassName || ""
     return className
   }
 

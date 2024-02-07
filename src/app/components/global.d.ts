@@ -1,3 +1,4 @@
+import { File } from "buffer";
 import { ReactNode } from "react";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 
@@ -8,6 +9,8 @@ export type ITryButtonProps = {
   size?: "large" | "default" | "small" | "tiny",
   disabled?: boolean,
   customClassName?: string,
+  customWidthClassName?: string,
+  customPositionClassName?: string,
   onClick?: () => void;
 }
 
@@ -47,21 +50,24 @@ export type ITryModalProps = {
   alertHeader?: ReactNode;
 }
 
-export type ITryInputProps = {
+export type WrappedInputProps = {
   showError?: boolean;
   errorMessage?: string;
   required?: boolean;
   label?: string;
   customLabelClassName?: string;
-} & (NormalProps | CheckBoxProps | RadioProps | FileProps | DateProps | SearchProps | RichTextProps)
+  customErrorClassName?: string;
+}
+
+export type ITryInputProps = WrappedInputProps & (NormalProps | CheckBoxProps | RadioProps | FileProps | DateProps | SearchProps | RichTextProps | ImageInputProps)
+
 
 type NormalProps = {
-  type: "text" | "number" | "password";
+  type: "text" | "number" | "password" | "phone";
   placeholder?: string;
   size?: "tiny" | "small" | "medium" | "large";
   customInputClassName?: string;
   register: UseFormRegister<any>;
-
 }
 
 type CheckBoxProps = {
@@ -106,6 +112,14 @@ type RichTextComponentProps = {
   setValue: UseFormSetValue<any>;
   value: string | undefined;
   fieldName: string;
+}
+
+type ImageInputProps = {
+  type: "image";
+  file: Blob | string;
+  register: UseFormRegister<any>;
+  formKeyFile: formKeyFile;
+  setValue: UseFormSetValue<any>;
 }
 
 export type InputField = "text" | "date"

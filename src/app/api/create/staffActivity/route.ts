@@ -2,18 +2,10 @@ import { NextResponse } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
 import { position, faq, schedule } from "../staffActivity/mockupData";
-
-const dynamodb = new DynamoDB.DocumentClient({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.REGION,
-});
-
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.REGION,
-});
+import ITryS3 from "../../utils/s3DB";
+import ITryDynamo from "../../utils/dynamoDB";
+import iTryS3 from "../../utils/s3DB";
+import iTryDynamoDB from "../../utils/dynamoDB";
 
 async function uploadFileToS3(file: Buffer, fileName: string) {
   try {
@@ -30,7 +22,7 @@ async function uploadFileToS3(file: Buffer, fileName: string) {
     };
 
     // Upload the image to S3
-    const uploadResult = await s3
+    const uploadResult = await iTryS3
       .upload(params as AWS.S3.PutObjectRequest)
       .promise();
 
@@ -78,7 +70,7 @@ export async function POST(request: any) {
       },
     };
     // Insert data into DynamoDB
-    const insertDynamo = await dynamodb.put(paramsDynamo).promise();
+    const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error });

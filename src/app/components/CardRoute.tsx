@@ -2,7 +2,9 @@
 
 import Image from 'next/image'
 import { useState, useEffect } from 'react';
-import ITryButton from '../components/Button'
+import ITryButton from './Button'
+import ITryInput from './Input'
+import useAddRoute from '../utils/AddRoutePage/useAddRoute';
 
 export default function CardRoutes({ role }: { role: string }) {
 
@@ -25,7 +27,8 @@ export default function CardRoutes({ role }: { role: string }) {
     // -------------------- for admin side --------------------
     const [isEditModal, setEditModal] = useState(false)
     const [editTitle, setEditTitle] = useState("")
-    const [textDetail, setTextDetail] = useState("")
+
+    const { setValue, getValues, handleSubmit, errors, onSubmit } = useAddRoute()
 
     const openEditModal = (editTitle: string) => {
         setEditModal(true)
@@ -33,9 +36,6 @@ export default function CardRoutes({ role }: { role: string }) {
     }
     const closeEditModal = () => {
         setEditModal(false)
-    }
-    const handleTextDetail = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setTextDetail(event.target.value)
     }
     const confirmEdit = () => { // ปุ่มยืนยันการแก้ไข -> save data
         setEditModal(false)
@@ -150,17 +150,7 @@ export default function CardRoutes({ role }: { role: string }) {
                         <div className='card'>
                             <h1 className='card-title'>การเดินทาง - {editTitle}</h1>
                             <div className='h-[1px] bg-neonBlue mt-5'></div>
-                            <textarea
-                                className='mt-5 p-5'
-                                id="yourTextarea"
-                                name="yourTextarea"
-                                value={textDetail}
-                                onChange={handleTextDetail}
-                                rows={5}
-                                cols={50}
-                                placeholder='รายละเอียดการเดินทาง'
-                                style={{ resize: 'none' }}
-                            />
+                            <ITryInput type="richText" showError={false} setValue={setValue} value={getValues("routeDetail")} fieldName="routeDetail" />
                             <div className='mt-5 grid place-items-end'>
                                 <ITryButton size='small' onClick={() => confirmEdit()}>ยืนยัน</ITryButton>
                             </div>

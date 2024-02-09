@@ -26,7 +26,7 @@ export default function ITryNavBar() {
       <div className="navbar-start">
         <HomeIcon />
       </div>
-      <div className="navbar-center sm:block hidden">
+      <div className="navbar-center">
         <TabNavBar />
       </div>
       <div className="navbar-end md:gap-4 md:px-10 px-0">

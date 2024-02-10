@@ -11,6 +11,7 @@ import { faFacebookF } from "@fortawesome/free-brands-svg-icons/faFacebookF";
 import useUserController from "./useUserController";
 import { signOut } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function ITryUserName() {
 
@@ -78,7 +79,10 @@ export default function ITryUserName() {
     <>
       {isLogin ? (
         <ITryDropDown data={dropDownData} position="bottom-left" dropdownSize="small" customClassNameMain="bg-white hover:bg-white bg-opacity-20 hover:bg-opacity-30">
-          {userData.name}
+          <span className="md:block hidden">{userData.name}</span>
+          <span className="md:hidden block">
+            <FontAwesomeIcon icon={faUser} />
+          </span>
         </ITryDropDown>
       ) : (
         <ITryButton onClick={() => setOpenSignInModal(true)}>

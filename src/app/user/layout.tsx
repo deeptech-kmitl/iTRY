@@ -1,3 +1,4 @@
+import ITryFooter from "../components/Footer/footer"
 import ITryNavBar from "../components/Navbar/NavBar"
 
 export default function UserLayout({
@@ -10,9 +11,10 @@ export default function UserLayout({
   return (
     <div className="font-prompt">
       <ITryNavBar />
-      <div className={`px-36 py-24 ${customClassName}`}>
+      <div className={`px-4 py-0 md:px-36 md:py-24 ${customClassName}`}>
         {children}
       </div>
+      <ITryFooter />
     </div>
   )
 }

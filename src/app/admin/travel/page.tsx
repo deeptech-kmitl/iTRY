@@ -1,7 +1,9 @@
+import CardRoutes from '../../components/CardRoute'
+
 export default function TravelPage() {
   return (
     <>
-      Travel Page
+      <CardRoutes role='admin' />
     </>
   )
 }

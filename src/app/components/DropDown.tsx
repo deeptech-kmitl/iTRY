@@ -45,7 +45,7 @@ export default function ITryDropDown(props: ITryDropDownProps) {
         <div role="button" tabIndex={0} className={`font-medium text-white ${getClassNameButton()} ${customClassNameMain}`}>
           {children}
         </div>
-        <ul tabIndex={0} className={`mt-3 z-[1] p-2 shadow menu dropdown-content rounded-box w-max bg-base-100 ${getDropDownSize()} ${customClassNameDropDownContent}`}>
+        <ul tabIndex={0} className={`mt-3 z-[100] p-2 shadow menu dropdown-content rounded-box w-max bg-base-100 ${getDropDownSize()} ${customClassNameDropDownContent}`}>
           {renderDataDropDown()}
         </ul>
       </div>

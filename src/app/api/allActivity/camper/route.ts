@@ -3,22 +3,26 @@ import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 const tableName = 'CamperActivities';
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
+import { ITryActivity } from '@/app/utils/ManageActivityPage/activity';
 
-export async function POST(req: NextRequest) {
+async function POST(req: ITryActivity) {
     try {
+        console.log("start upload")
+        console.log("req", req)
         const {
             activityName,
             imageUrl,
             visibility,
-            activityDetail,
+            activityDetails,
             schedule,
-            phoneNumber,
+            phone,
             email,
             applyLink,
-            instagram,
-            facebook,
+            igLink,
+            facebookLink,
             faq
-        } = await req.json();
+        } = req;
+
         const activityId = await uuidv4();
 
         const paramsDynamo = {
@@ -27,54 +31,57 @@ export async function POST(req: NextRequest) {
                 activityId: activityId,
                 activityName: activityName,
                 imageUrl: imageUrl,
-                activityDetail: activityDetail,
+                activityDetails: activityDetails,
                 visibility: visibility,
                 schedule: schedule,
-                phoneNumber: phoneNumber,
+                phone: phone,
                 email: email,
                 applyLink: applyLink,
-                instagram: instagram,
-                facebook: facebook,
+                igLink: igLink,
+                facebookLink: facebookLink,
                 faq: faq
             },
         };
+
+        console.log("paramsDynamo", paramsDynamo)
 
         const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
         console.log("insertDynamo", insertDynamo);
         return NextResponse.json("success")
     } catch (error) {
+        console.log("error", error)
         return NextResponse.json(error);
     }
 }
 
-export async function PUT(req: NextRequest) {
+export async function PUT(req: ITryActivity) {
     try {
         const {
-            activityId,
             activityName,
             imageUrl,
             visibility,
-            activityDetail,
+            activityDetails,
             schedule,
-            phoneNumber,
+            phone,
             email,
             applyLink,
-            instagram,
-            facebook,
-            faq
-        } = await req.json();
+            igLink,
+            facebookLink,
+            faq,
+            activityId
+        } = req;
         let updateExpreession = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetail = :newActivityDetail, visibility = :newVisibility, schedule = :newSchedule, phoneNumber = :newPhoneNumber, email= :newEmail, applyLink= :newApplyLink, instagram = :newInstagram, facebook = :newFacebook, faq = :newFaq'
         let expressionAttributeValue = {
             ':newImageUrl': imageUrl,
             ':newActivityName': activityName,
-            ':newActivityDetail': activityDetail,
+            ':newActivityDetail': activityDetails,
             ':newVisibility': visibility,
             ':newSchedule': schedule,
-            ':newPhoneNumber': phoneNumber,
+            ':newPhoneNumber': phone,
             ':newEmail': email,
             ':newApplyLink': applyLink,
-            ':newInstagram': instagram,
-            ':newFacebook': facebook,
+            ':newInstagram': igLink,
+            ':newFacebook': facebookLink,
             ':newFaq': faq
         }
 
@@ -95,9 +102,9 @@ export async function PUT(req: NextRequest) {
     }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(req: ITryActivity) {
     try {
-        const {activityId} =await req.json();
+        const {activityId} =await req;
         const paramsDynamo = {
             TableName: tableName,
             Key:{
@@ -111,3 +118,5 @@ export async function DELETE(req: NextRequest) {
         console.log(err)
     }
 } 
+
+export { POST as createCamperActivity }

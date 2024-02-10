@@ -10,7 +10,7 @@ import FAQInputContainer from "./FAQInputContainer"
 import ContactContainer from "./ContactContainer"
 import ManageActivityHeader from "@/app/components/ManageActivityPage/Header"
 import PositionContainer from "./PositionContainer"
-import { FAQActivity, JobPositionsActivity, PhoneActivity, ScheduleActivity, VisibilityActivity } from "@/app/utils/ManageActivityPage/activity"
+import { FAQActivity, JobPositionsActivity, PhoneActivity, ScheduleActivity } from "@/app/utils/ManageActivityPage/activity"
 
 interface ManageActivityPageProps {
   typeActivity: TypeActivity,
@@ -22,7 +22,7 @@ export default function ManageActivityPage({ typeActivity, typeAction }: ManageA
 
   const { register, setValue, watch, handleSubmit, errors, onSubmit } = useManageActivity({typeActivity, typeAction})
 
-  const radioData: VisibilityActivity[] = [
+  const radioData = [
     {
       name: "บุคคลภายนอก",
       value: "outsider"
@@ -41,7 +41,7 @@ export default function ManageActivityPage({ typeActivity, typeAction }: ManageA
     <>
       <p className="h1 font-bold text-2xl w-full border-b-2 border-color-primary py-4">สร้างกิจกรรมสำหรับ{typeActivity === "staff" ? "สต๊าฟ" : "ผู้เข้าร่วม"}</p>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-16">
-        <ManageActivityHeader register={register} errors={errors} watch={watch} formKeyFile="image" setValue={setValue} />
+        <ManageActivityHeader register={register} errors={errors} watch={watch} formKeyFile="imageUrl" setValue={setValue} />
         <ITryInput type="radio" register={register("visibility")} radioData={radioData} defaultIndex={0} showError={!!errors.visibility} name="visibility" label="การมองเห็น" required />
         <ITryInput type="richText" showError={false} label="รายละเอียกิจกรรม" setValue={setValue} value={watch("activityDetails")} fieldName="activityDetails" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">

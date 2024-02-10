@@ -1,29 +1,19 @@
-interface ActivityForm {
-  image: File | Blob;
+interface ITryActivity {
+  imageUrl: File | Blob | string;
+  activityId?: string;
   activityName: string;
   openDate: string;
   closeDate: string;
-  visibility: VisibilityActivity;
+  visibility: "outsider" | "insider" | "all";
   activityDetails: string;
   schedule: ScheduleActivity[];
-  facebookLink
-  igLink
-  registerLink
-  faq
+  facebookLink: string;
+  igLink: string;
+  applyLink: string;
+  faq: FAQActivity[];
   phone: PhoneActivity[];
   email: string;
   jobPositions: JobPositionsActivity[];
-}
-
-export type VisibilityActivity = {
-  name: "บุคคลภายนอก"
-  value: "outsider"
-} | {
-  name: "บุคคลภายใน"
-  value: "insider"
-} | {
-  name: "ทั้งหมด"
-  value: "all"
 }
 
 export interface ScheduleActivity {

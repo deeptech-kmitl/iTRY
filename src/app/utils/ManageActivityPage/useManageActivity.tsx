@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { createCamperActivity } from '@/app/api/allActivity/camper/route';
+import { ITryActivity } from './activity';
 
 interface UseManageActivityProps {
   typeAction: TypeAction
@@ -11,7 +13,7 @@ interface UseManageActivityProps {
 }
 
 
-type keySchema = "activityName" | "openDate" | "closeDate" | "visibility" | "activityDetails"
+type keySchema = "activityName" | "openDate" | "closeDate" | "visibility" | "activityDetails" | "schedule" | "facebookLink"
 
 export default function useManageActivity({ typeAction, typeActivity }: UseManageActivityProps) {
 
@@ -61,12 +63,21 @@ export default function useManageActivity({ typeAction, typeActivity }: UseManag
   const schema = typeActivity === "camper" ? camperSchema : staffSchema;
 
   const fetchActivityData = async () => {
-    const returnObject = {
+    const returnObject: ITryActivity = {
+      imageUrl: "",
       activityName: 'Default Activity Name',
       openDate: 'Default Start Date',
       closeDate: 'Default End Date',
-      visibility: 'Default View By',
+      visibility: "outsider",
       activityDetails: 'Default Activity Detail',
+      schedule: [],
+      facebookLink: "",
+      igLink: "",
+      applyLink: "",
+      faq: [],
+      phone: [],
+      email: "",
+      jobPositions: [],
     }
     return returnObject;
   }
@@ -79,10 +90,10 @@ export default function useManageActivity({ typeAction, typeActivity }: UseManag
 
   const onSubmit = async (data: any) => {
     const image = data.image;
-    const response: any = await uploadFileToS3(image)
-    console.log("respose", response)
-    const imageUrl = response.url
-    console.log(imageUrl)
+    const imageUrl: any = await uploadFileToS3(image)
+    const savedData = { ...data, imageUrl: imageUrl }
+    const result = await createCamperActivity(savedData)
+    console.log("result", result)
   }
 
   useEffect(() => {

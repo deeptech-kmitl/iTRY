@@ -2,11 +2,8 @@ import { NextResponse } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
 import { position, faq, schedule } from "../staffActivity/mockupData";
-import useS3 from "../../utils/s3DB";
-import useDynamoDB from "../../utils/dynamoDB";
-
-const iTryS3 = useS3();
-const iTryDynamoDB = useDynamoDB();
+import iTryS3 from "../../utils/s3DB";
+import iTryDynamoDB from "../../utils/dynamoDB";
 
 export async function uploadFileToS3(file: Buffer) {
   try {

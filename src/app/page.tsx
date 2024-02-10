@@ -112,7 +112,7 @@ export default function Home() {
   }, [count]);
 
   return (
-
+    <>
       <UserLayout customClassName="md:pt-4">
         <div className="relative md:h-96 h-64 overflow-hidden">
           <Carroussel
@@ -128,18 +128,16 @@ export default function Home() {
         </div>
 
         <div className="py-16">
-          <Coming/>
+          <Coming />
         </div>
 
         <div className="py-16">
           <div className="pb-5">
             <a className="text-2xl cursor-pointer">รายชื่อกิจกรรมทั้งหมด{' >'}</a>
           </div>
-          <CardAllActivity/>
+          <CardAllActivity />
         </div>
-        <div className="py-16">
-          <UserLayout className="text-center pb-16">
-            <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
+
 
 
         <div className="md:py-16">

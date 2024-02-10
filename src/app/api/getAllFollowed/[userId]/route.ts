@@ -1,10 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import next from "next";
-import useDynamoDB from "../../utils/dynamoDB";
-
-const iTryDynamoDB = useDynamoDB();
-
+import iTryDynamoDB from "../../utils/dynamoDB";
 export async function GET(res: NextResponse, { params }: any) {
 
     const {userId} = params;

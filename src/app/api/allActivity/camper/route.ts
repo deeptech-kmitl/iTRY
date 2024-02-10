@@ -1,11 +1,10 @@
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
-import iTryDynamoDB from "../../utils/dynamoDB";
 const tableName = 'CamperActivities';
+import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 
-
-export async function POST(req) {
+export async function POST(req: NextRequest) {
     try {
         const {
             activityName,
@@ -42,13 +41,13 @@ export async function POST(req) {
 
         const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
         console.log("insertDynamo", insertDynamo);
-        return NextResponse.json("success: " + insertDynamo.activityName)
+        return NextResponse.json("success")
     } catch (error) {
         return NextResponse.json(error);
     }
 }
 
-export async function PUT(req) {
+export async function PUT(req: NextRequest) {
     try {
         const {
             activityId,
@@ -64,10 +63,10 @@ export async function PUT(req) {
             facebook,
             faq
         } = await req.json();
-        let updateExpreession = 'set activityName = :newActivityName, activityDetail = :newActivityDetail, visibility = :newVisibility, schedule = :newSchedule, phoneNumber = :newPhoneNumber, email= :newEmail, applyLink= :newApplyLink, instagram = :newInstagram, facebook = :newFacebook, faq = :newFaq'
+        let updateExpreession = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetail = :newActivityDetail, visibility = :newVisibility, schedule = :newSchedule, phoneNumber = :newPhoneNumber, email= :newEmail, applyLink= :newApplyLink, instagram = :newInstagram, facebook = :newFacebook, faq = :newFaq'
         let expressionAttributeValue = {
+            ':newImageUrl': imageUrl,
             ':newActivityName': activityName,
-            // ':newImageUrl': imageUrl
             ':newActivityDetail': activityDetail,
             ':newVisibility': visibility,
             ':newSchedule': schedule,
@@ -77,11 +76,6 @@ export async function PUT(req) {
             ':newInstagram': instagram,
             ':newFacebook': facebook,
             ':newFaq': faq
-        }
-        //check ว่ามีรูปไหม
-        if(imageUrl){
-            expressionAttributeValue[':newImageUrl'] = imageUrl
-            updateExpreession += ', imageUrl = :newImageUrl'
         }
 
         const paramsDynamo = {
@@ -101,7 +95,7 @@ export async function PUT(req) {
     }
 }
 
-export async function DELETE(req) {
+export async function DELETE(req: NextRequest) {
     try {
         const {activityId} =await req.json();
         const paramsDynamo = {
@@ -114,6 +108,6 @@ export async function DELETE(req) {
         console.log("DeleteDynamo", deleteDynamo);
         return NextResponse.json("delete success: " + activityId)
     } catch (err) {
-        console.log(err.__type)
+        console.log(err)
     }
 } 

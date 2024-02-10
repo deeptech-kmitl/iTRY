@@ -1,8 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
-import useDynamoDB from "../utils/dynamoDB";
-
-const iTryDynamoDB = useDynamoDB();
+import iTryDynamoDB from "../utils/dynamoDB";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {

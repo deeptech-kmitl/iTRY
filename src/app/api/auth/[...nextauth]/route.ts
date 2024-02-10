@@ -2,8 +2,9 @@ import NextAuth from "next-auth/next";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google"
 import FacebookProvider, { FacebookProfile } from "next-auth/providers/facebook"
 import CredentialsProvider from "next-auth/providers/credentials"
+
 const handler = NextAuth({
-  secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",

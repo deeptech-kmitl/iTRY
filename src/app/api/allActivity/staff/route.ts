@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 const tableName = 'StaffActivities'
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
+import { ITryActivity } from '@/app/utils/ManageActivityPage/activity';
 
-export async function PUT(req: NextRequest) {
+async function PUT(req: ITryActivity) {
     
     try {
         const {
@@ -10,26 +11,30 @@ export async function PUT(req: NextRequest) {
             activityName,
             imageUrl,
             visibility,
-            activityDetail,
+            activityDetails,
             jobPositions,
             schedule,
-            phoneNumber,
+            phone,
             email,
+            igLink,
+            facebookLink,
             applyLink,
             faq
-        } = await req.json();
+        } = req;
         
-        let updateExpression = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetail = :newActivityDetail, jobPositions = :newJobPosition ,visibility = :newVisibility, schedule = :newSchedule, phoneNumber = :newPhoneNumber, email= :newEmail, applyLink= :newApplyLink, faq = :newFaq'
+        let updateExpression = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, jobPositions = :newJobPosition ,visibility = :newVisibility, schedule = :newSchedule, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq'
         let expressionAttributeValue = {
             ':newImageUrl': imageUrl,
             ':newActivityName': activityName,
-            ':newActivityDetail': activityDetail,
+            ':newActivityDetails': activityDetails,
             ":newJobPositions": jobPositions,
             ':newVisibility': visibility,
             ':newSchedule': schedule,
-            ':newPhoneNumber': phoneNumber,
+            ':newPhone': phone,
             ':newEmail': email,
             ':newApplyLink': applyLink,
+            ':newIgLink': igLink,
+            ':newFacebookLink': facebookLink,
             ':newFaq': faq
         }
 
@@ -64,4 +69,6 @@ export async function DELETE(req: NextRequest) {
     } catch (err) {
         console.log(err)
     }
-} 
+}
+
+export {PUT as updateStaffActivity}

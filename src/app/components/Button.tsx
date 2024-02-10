@@ -8,9 +8,11 @@ export default function ITryButton({
   size = "default",
   disabled = false,
   onClick,
-  customClassName
+  customClassName,
+  customWidthClassName,
+  customPositionClassName
 }: ITryButtonProps) {
-  let className = "btn text-white bg-linear-blue "
+
 
   const getTypeButton = () => {
     if (type === "outline") return "btn-outline "
@@ -31,11 +33,15 @@ export default function ITryButton({
   }
 
   const getClassName = () => {
+    let className = "btn "
+    className += customClassName ? "" : "text-white bg-linear-blue "
     className += getTypeButton() || ""
     className += getFullWidthButton() || ""
     className += getSizeButton() || ""
     className += getDisabled() || ""
-    className += customClassName
+    className += customClassName || ""
+    className += customWidthClassName || ""
+    className += customPositionClassName || ""
     return className
   }
 

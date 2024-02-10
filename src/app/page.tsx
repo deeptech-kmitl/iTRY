@@ -1,4 +1,5 @@
-"use client"
+"use client";
+import React from "react";
 import Image from "next/image";
 import UserLayout from "./user/layout";
 import { useEffect, useState } from "react";
@@ -6,47 +7,70 @@ import Carroussel from "./components/Carousel/myCarousel";
 import Card from "./components/Carousel/CardCarousel";
 
 import CardRoutes from "./components/CardRoute";
-import CardSponsor from "./components/CardSponsor"
+import CardSponsor from "./components/CardSponsor";
 import Map from "./components/GoogleMap";
+
+import { CardAllActivity } from "./components/CardActivity"
+import { Coming } from "./components/Coming";
 
 export default function Home() {
   const cards = [
     {
       key: 0,
       content: <Card imagen="/open_house.png" />,
+
+
       title: 'Open House',
       status: 'กำลังเปิดรับสมัคร',
+
     },
     {
       key: 1,
       content: <Card imagen="/itcamp19.png" />,
+
+
       title: 'Open House',
       status: 'กำลังเปิดรับสมัคร',
+
     },
     {
       key: 2,
       content: <Card imagen="/unitecamp.png" />,
+
+
       title: 'Open House',
       status: 'กำลังเปิดรับสมัคร',
+
     },
     {
       key: 3,
       content: <Card imagen="/open_house.png" />,
+
+
       title: 'Open House',
       status: 'กำลังเปิดรับสมัคร',
+
     },
     {
       key: 4,
       content: <Card imagen="/itcamp19.png" />,
+
+
       title: 'Open House',
       status: 'กำลังเปิดรับสมัคร',
+
     },
     {
       key: 5,
       content: <Card imagen="/unitecamp.png" />,
+
+    },
+    {
+
       title: 'Open House',
       status: 'กำลังเปิดรับสมัคร',
     }
+
   ];
 
   const activity = [{
@@ -88,7 +112,7 @@ export default function Home() {
   }, [count]);
 
   return (
-    <>
+
       <UserLayout customClassName="md:pt-4">
         <div className="relative md:h-96 h-64 overflow-hidden">
           <Carroussel
@@ -102,6 +126,21 @@ export default function Home() {
             className="w-full h-full object-cover"
           />
         </div>
+
+        <div className="py-16">
+          <Coming/>
+        </div>
+
+        <div className="py-16">
+          <div className="pb-5">
+            <a className="text-2xl cursor-pointer">รายชื่อกิจกรรมทั้งหมด{' >'}</a>
+          </div>
+          <CardAllActivity/>
+        </div>
+        <div className="py-16">
+          <UserLayout className="text-center pb-16">
+            <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
+
 
         <div className="md:py-16">
           <div className="grid grid-cols-1 gap-4">
@@ -126,6 +165,7 @@ export default function Home() {
 
           <div className="text-center py-12 md:py-16">
             <h1 className="text-base md:text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
+
           </div>
           <CardRoutes role='user' />
         </div>
@@ -139,7 +179,6 @@ export default function Home() {
           <CardSponsor />
         </div>
       </UserLayout>
-
     </>
-  )
+  );
 }

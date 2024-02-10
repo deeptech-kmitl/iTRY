@@ -1,10 +1,7 @@
 // RootLayout.tsx
 import { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import ITryApp from './app';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'iTRY',
@@ -18,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="font-prompt">
           <ITryApp>{children}</ITryApp>
       </body>
     </html>

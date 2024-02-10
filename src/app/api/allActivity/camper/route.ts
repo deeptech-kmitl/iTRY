@@ -15,6 +15,8 @@ async function POST(req: ITryActivity) {
             visibility,
             activityDetails,
             schedule,
+            openDate,
+            closeDate,
             phone,
             email,
             applyLink,
@@ -34,6 +36,8 @@ async function POST(req: ITryActivity) {
                 activityDetails: activityDetails,
                 visibility: visibility,
                 schedule: schedule,
+                openDate: openDate,
+                closeDate: closeDate,
                 phone: phone,
                 email: email,
                 applyLink: applyLink,
@@ -62,6 +66,8 @@ export async function PUT(req: ITryActivity) {
             visibility,
             activityDetails,
             schedule,
+            openDate,
+            closeDate,
             phone,
             email,
             applyLink,
@@ -70,18 +76,20 @@ export async function PUT(req: ITryActivity) {
             faq,
             activityId
         } = req;
-        let updateExpreession = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetail = :newActivityDetail, visibility = :newVisibility, schedule = :newSchedule, phoneNumber = :newPhoneNumber, email= :newEmail, applyLink= :newApplyLink, instagram = :newInstagram, facebook = :newFacebook, faq = :newFaq'
+        let updateExpreession = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, visibility = :newVisibility, schedule = :newSchedule, openDate = :newOpenDate, closeDate = :newCloseDate, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq'
         let expressionAttributeValue = {
             ':newImageUrl': imageUrl,
             ':newActivityName': activityName,
-            ':newActivityDetail': activityDetails,
+            ':newActivityDetails': activityDetails,
             ':newVisibility': visibility,
             ':newSchedule': schedule,
-            ':newPhoneNumber': phone,
+            ':newOpenDate': openDate,
+            ':newCloseDate': closeDate,
+            ':newPhone': phone,
             ':newEmail': email,
             ':newApplyLink': applyLink,
-            ':newInstagram': igLink,
-            ':newFacebook': facebookLink,
+            ':newIgLink': igLink,
+            ':newFacebookLink': facebookLink,
             ':newFaq': faq
         }
 
@@ -119,4 +127,4 @@ export async function DELETE(req: ITryActivity) {
     }
 } 
 
-export { POST as createCamperActivity }
+export { POST as createCamperActivity, PUT as updateCamperActivity, DELETE as deleteCamperActivity }

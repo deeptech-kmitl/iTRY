@@ -10,7 +10,8 @@ export default function ITryButton({
   onClick,
   customClassName,
   customWidthClassName,
-  customPositionClassName
+  customPositionClassName,
+  removeDefaultClassName = false
 }: ITryButtonProps) {
 
 
@@ -34,7 +35,7 @@ export default function ITryButton({
 
   const getClassName = () => {
     let className = "btn "
-    className += customClassName ? "" : "text-white bg-linear-blue "
+    className += removeDefaultClassName ? "" : "text-white bg-linear-blue "
     className += getTypeButton() || ""
     className += getFullWidthButton() || ""
     className += getSizeButton() || ""

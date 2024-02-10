@@ -10,17 +10,18 @@ import FAQInputContainer from "./FAQInputContainer"
 import ContactContainer from "./ContactContainer"
 import ManageActivityHeader from "@/app/components/ManageActivityPage/Header"
 import PositionContainer from "./PositionContainer"
-import { FAQActivity, JobPositionsActivity, PhoneActivity, ScheduleActivity } from "@/app/utils/ManageActivityPage/activity"
+import { FAQActivity, ITryActivity, JobPositionsActivity, PhoneActivity, ScheduleActivity } from "@/app/utils/ManageActivityPage/activity"
+import { useSearchParams } from "next/navigation"
 
 interface ManageActivityPageProps {
   typeActivity: TypeActivity,
-  typeAction: TypeAction
+  typeAction: TypeAction,
+  activity?: ITryActivity;
 }
 
 
-export default function ManageActivityPage({ typeActivity, typeAction }: ManageActivityPageProps) {
-
-  const { register, setValue, watch, handleSubmit, errors, onSubmit } = useManageActivity({typeActivity, typeAction})
+export default function ManageActivityPage({ typeActivity, typeAction, activity }: ManageActivityPageProps) {
+  const { register, setValue, watch, handleSubmit, errors, onSubmit } = useManageActivity({ typeActivity, typeAction, activity })
 
   const radioData = [
     {
@@ -58,7 +59,6 @@ export default function ManageActivityPage({ typeActivity, typeAction }: ManageA
           </div>
         </div>
         <ITryButton type="submit" customPositionClassName="mt-24" fullWidth>สร้างกิจกรรม</ITryButton>
-
       </form>
     </>
   )

@@ -4,18 +4,21 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { createCamperActivity } from '@/app/api/allActivity/camper/route';
+import { createCamperActivity, updateCamperActivity } from '@/app/api/allActivity/camper/route';
 import { ITryActivity } from './activity';
+import { updateStaffActivity } from '@/app/api/allActivity/staff/route';
+import { getCamperActivity } from '@/app/api/activityById/camper/[id]/route';
 
 interface UseManageActivityProps {
   typeAction: TypeAction
   typeActivity: TypeActivity
+  activity?: ITryActivity;
 }
 
 
 type keySchema = "activityName" | "openDate" | "closeDate" | "visibility" | "activityDetails" | "schedule" | "facebookLink"
 
-export default function useManageActivity({ typeAction, typeActivity }: UseManageActivityProps) {
+export default function useManageActivity({ typeAction, typeActivity, activity }: UseManageActivityProps) {
 
   const scheduleSchema = yup.object({
     date: yup.string().required('กรุณากรอกวันที่ไทม์ไลน์'),
@@ -38,7 +41,7 @@ export default function useManageActivity({ typeAction, typeActivity }: UseManag
   });
 
   const camperSchema = yup.object().shape({
-    image: yup.mixed().required("กรุณาใส่รูปภาพกิจกรรม"),
+    imageUrl: yup.mixed().required("กรุณาใส่รูปภาพกิจกรรม"),
     activityName: yup.string().required('กรุณากรอกชื่อกิจกรรม'),
     openDate: yup.string().required('กรุณาระบุวันที่เริ่มรับสมัครของกิจกรรม'),
     closeDate: yup.string().required('กรุณาระบุวันที่สิ้นสุดรับสมัครของกิจกรรม'),
@@ -62,26 +65,6 @@ export default function useManageActivity({ typeAction, typeActivity }: UseManag
 
   const schema = typeActivity === "camper" ? camperSchema : staffSchema;
 
-  const fetchActivityData = async () => {
-    const returnObject: ITryActivity = {
-      imageUrl: "",
-      activityName: 'Default Activity Name',
-      openDate: 'Default Start Date',
-      closeDate: 'Default End Date',
-      visibility: "outsider",
-      activityDetails: 'Default Activity Detail',
-      schedule: [],
-      facebookLink: "",
-      igLink: "",
-      applyLink: "",
-      faq: [],
-      phone: [],
-      email: "",
-      jobPositions: [],
-    }
-    return returnObject;
-  }
-
 
   const { register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
@@ -89,26 +72,41 @@ export default function useManageActivity({ typeAction, typeActivity }: UseManag
 
 
   const onSubmit = async (data: any) => {
-    const image = data.image;
-    const imageUrl: any = await uploadFileToS3(image)
-    const savedData = { ...data, imageUrl: imageUrl }
-    const result = await createCamperActivity(savedData)
-    console.log("result", result)
+    let savedData = { ...data }
+    if (typeof (data.imageUrl) !== "string") {
+      const imageUrl = data.imageUrl;
+      const realImageUrl: any = await uploadFileToS3(imageUrl)
+      savedData = { ...data, imageUrl: realImageUrl }
+    }
+    try {
+      if (typeAction === "add") {
+        await typeActivity === "camper" ? createCamperActivity(savedData) : createCamperActivity(savedData)
+      } else {
+        await typeActivity === "camper" ? updateCamperActivity(savedData) : updateStaffActivity(savedData)
+      }
+
+
+
+    } catch (e) {
+      console.log("e", e)
+    }
+
+
+
   }
 
   useEffect(() => {
     const setDefaultValues = async () => {
-      if (typeAction === "edit") {
-        const defaultValues = await fetchActivityData();
-        Object.keys(defaultValues).forEach((fieldName) => {
-          const key = fieldName as keySchema;
-          setValue(key, defaultValues[key]);
-        });
+      if (typeAction === "edit" && activity) {
+         Object.keys(activity).forEach((fieldName) => {
+            const key = fieldName as keySchema;
+            setValue(key, activity[key]);
+          });
       }
     };
 
     setDefaultValues();
-  }, [typeAction, setValue]);
+  }, []);
 
 
   return {
@@ -117,7 +115,7 @@ export default function useManageActivity({ typeAction, typeActivity }: UseManag
     watch,
     handleSubmit,
     errors,
-    onSubmit
+    onSubmit,
   }
 
 }

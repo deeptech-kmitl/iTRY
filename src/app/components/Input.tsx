@@ -3,7 +3,7 @@ import Image from "next/image";
 import ITryRichText from "./RichText";
 import { DateProps, ITryInputProps, NormalProps, InputField, RadioProps, RichTextProps, WrappedInputProps, ImageInputProps } from "./global";
 import { ChangeEvent } from "react";
-import WrapInputField from './WrapInputField';
+import WrapInputField from "./WrapInputField";
 
 export default function ITryInput(props: ITryInputProps) {
 

@@ -1,10 +1,8 @@
-import { NextResponse } from 'next/server';
-import iTryDynamoDB from "../../utils/dynamoDB";
+import { NextRequest, NextResponse } from 'next/server';
 const tableName = 'StaffActivities'
+import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 
-
-
-export async function PUT(req) {
+export async function PUT(req: NextRequest) {
     
     try {
         const {
@@ -21,8 +19,9 @@ export async function PUT(req) {
             faq
         } = await req.json();
         
-        let updateExpression = 'set activityName = :newActivityName, activityDetail = :newActivityDetail, jobPositions = :newJobPosition ,visibility = :newVisibility, schedule = :newSchedule, phoneNumber = :newPhoneNumber, email= :newEmail, applyLink= :newApplyLink, faq = :newFaq'
+        let updateExpression = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetail = :newActivityDetail, jobPositions = :newJobPosition ,visibility = :newVisibility, schedule = :newSchedule, phoneNumber = :newPhoneNumber, email= :newEmail, applyLink= :newApplyLink, faq = :newFaq'
         let expressionAttributeValue = {
+            ':newImageUrl': imageUrl,
             ':newActivityName': activityName,
             ':newActivityDetail': activityDetail,
             ":newJobPositions": jobPositions,
@@ -32,11 +31,6 @@ export async function PUT(req) {
             ':newEmail': email,
             ':newApplyLink': applyLink,
             ':newFaq': faq
-        }
-
-        if(imageUrl){
-            expressionAttributeValue[':newImageUrl'] = imageUrl
-            updateExpression += ', imageUrl = :newImageUrl'
         }
 
         const paramsDynamo = {
@@ -55,7 +49,7 @@ export async function PUT(req) {
     }
 }
 
-export async function DELETE(req) {
+export async function DELETE(req: NextRequest) {
     try {
         const {activityId} =await req.json();
         const paramsDynamo = {

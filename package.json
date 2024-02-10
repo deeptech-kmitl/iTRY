@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently \"next dev\" \"node src/cron/cron.js\"",
     "build": "next build",
-    "start": "next start",
+    "start": "next dev",
     "lint": "next lint"
   },
   "dependencies": {
@@ -16,9 +16,10 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@googlemaps/js-api-loader": "^1.16.2",
     "@hookform/resolvers": "^3.3.4",
-    "aws-sdk": "^2.1543.0",
-    "concurrently": "^8.2.2",
+    "@types/aws-sdk": "^2.7.0",
+    "aws-sdk": "^2.1555.0",
     "axios": "^1.6.7",
+    "concurrently": "^8.2.2",
     "cron": "^3.1.6",
     "next": "14.0.4",
     "next-auth": "^4.24.5",

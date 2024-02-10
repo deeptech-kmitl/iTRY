@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import UserLayout from "./user/layout";
 import { useEffect, useState } from "react";
@@ -64,6 +65,7 @@ export default function Home() {
       content: <Card imagen="/unitecamp.png" />,
 
     },
+    {
 
       title: 'Open House',
       status: 'กำลังเปิดรับสมัคร',
@@ -110,7 +112,7 @@ export default function Home() {
   }, [count]);
 
   return (
-    <>
+
       <UserLayout customClassName="md:pt-4">
         <div className="relative md:h-96 h-64 overflow-hidden">
           <Carroussel
@@ -136,7 +138,7 @@ export default function Home() {
           <CardAllActivity/>
         </div>
         <div className="py-16">
-          <div className="text-center pb-16">
+          <UserLayout className="text-center pb-16">
             <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
 
 

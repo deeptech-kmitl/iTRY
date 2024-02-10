@@ -14,13 +14,10 @@ const useS3 = () => {
         region: process.env.REGION,
       });
     }
-
     s3Ref.current = s3Client;
   }, []);
 
   return s3Ref.current as AWS.S3;
 };
 
-const iTryS3 = useS3()
-
-export default iTryS3
+export default useS3;

@@ -2,12 +2,13 @@ import { NextResponse } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
 import { position, faq, schedule } from "../staffActivity/mockupData";
-import ITryS3 from "../../utils/s3DB";
-import ITryDynamo from "../../utils/dynamoDB";
-import iTryS3 from "../../utils/s3DB";
-import iTryDynamoDB from "../../utils/dynamoDB";
+import useS3 from "../../utils/s3DB";
+import useDynamoDB from "../../utils/dynamoDB";
 
-async function uploadFileToS3(file: Buffer, fileName: string) {
+const iTryS3 = useS3();
+const iTryDynamoDB = useDynamoDB();
+
+export async function uploadFileToS3(file: Buffer) {
   try {
     // Extract the image data from the request body
     console.log("file-----", file);
@@ -46,7 +47,7 @@ export async function POST(request: any) {
     }
     // S3
     const buffer = Buffer.from(await file.arrayBuffer());
-    const responseS3 = await uploadFileToS3(buffer, file.name);
+    const responseS3 = await uploadFileToS3(buffer);
     console.log("yayy");
 
     //dynamodb
@@ -59,7 +60,7 @@ export async function POST(request: any) {
         imageUrl: responseS3, // url image in S3
         openDate: formData.get("openDate"),
         closeDate: formData.get("closeDate"),
-        activityDetails: formData.get("activityDetails"),
+        activityDetailss: formData.get("activityDetailss"),
         visibility: formData.get("visibility"),
         jobPositions: position,
         schedule: schedule,

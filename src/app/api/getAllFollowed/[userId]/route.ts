@@ -1,12 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import next from "next";
+import useDynamoDB from "../../utils/dynamoDB";
 
-const dynamodb = new DynamoDB.DocumentClient({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.REGION,
-});
+const iTryDynamoDB = useDynamoDB();
 
 export async function GET(res: NextResponse, { params }: any) {
 
@@ -20,7 +17,7 @@ export async function GET(res: NextResponse, { params }: any) {
   };
 
   try {
-    const data = await dynamodb.get(paramsDB).promise();
+    const data = await iTryDynamoDB.get(paramsDB).promise();
     console.log("data", data);
     if (!data.Item) {
       return NextResponse.json({ error: 'Item not found' });

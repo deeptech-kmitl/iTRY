@@ -22,6 +22,4 @@ const useDynamoDB = () => {
   return dynamoDBRef.current as DynamoDB.DocumentClient;
 };
 
-const iTryDynamoDB = useDynamoDB();
-
-export default iTryDynamoDB;
+export default useDynamoDB;

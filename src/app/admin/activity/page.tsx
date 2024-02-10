@@ -1,7 +1,15 @@
+import { useState } from 'react';
+import { CardActivityAdmin } from "@/app/components/CardActivity";
+
+
 export default function ActivityPage() {
+  
   return (
-    <>
-      Activity Page
-    </>
-  )
+    <div>
+      <div className="pb-5">
+        <h1 className="text-3xl text-extrabold text-center">กิจกรรมทั้งหมด</h1>
+      </div>
+      <CardActivityAdmin />
+    </div>
+  );
 }

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import UserLayout from "./user/layout";
 import { useEffect, useState } from "react";
@@ -6,36 +6,39 @@ import Carroussel from "./components/Carousel/myCarousel";
 import Card from "./components/Carousel/CardCarousel";
 
 import CardRoutes from "./components/CardRoute";
-import CardSponsor from "./components/CardSponsor"
+import CardSponsor from "./components/CardSponsor";
 import Map from "./components/GoogleMap";
 import DetailActive from "./components/DetailActivity";
+
+import { CardAllActivity } from "./components/CardActivity"
+import { Coming } from "./components/Coming";
 
 export default function Home() {
   const cards = [
     {
       key: 0,
-      content: <Card imagen="/open_house.png" />
+      content: <Card imagen="/open_house.png" />,
     },
     {
       key: 1,
-      content: <Card imagen="/itcamp19.png" />
+      content: <Card imagen="/itcamp19.png" />,
     },
     {
       key: 2,
-      content: <Card imagen="/unitecamp.png" />
+      content: <Card imagen="/unitecamp.png" />,
     },
     {
       key: 3,
-      content: <Card imagen="/open_house.png" />
+      content: <Card imagen="/open_house.png" />,
     },
     {
       key: 4,
-      content: <Card imagen="/itcamp19.png" />
+      content: <Card imagen="/itcamp19.png" />,
     },
     {
       key: 5,
-      content: <Card imagen="/unitecamp.png" />
-    }
+      content: <Card imagen="/unitecamp.png" />,
+    },
   ];
 
   const [count, setCount] = useState(0);
@@ -66,6 +69,16 @@ export default function Home() {
           />
         </div>
         <div className="py-16">
+          <Coming/>
+        </div>
+
+        <div className="py-16">
+          <div className="pb-5">
+            <a className="text-2xl cursor-pointer">รายชื่อกิจกรรมทั้งหมด{' >'}</a>
+          </div>
+          <CardAllActivity/>
+        </div>
+        <div className="py-16">
           <div className="text-center pb-16">
             <h1 className="text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
           </div>
@@ -81,7 +94,6 @@ export default function Home() {
           <CardSponsor />
         </div>
       </UserLayout>
-
     </>
-  )
+  );
 }

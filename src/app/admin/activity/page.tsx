@@ -1,5 +1,7 @@
+
+import React from 'react';
 import { useState } from 'react';
-import { CardActivityAdmin } from "@/app/components/CardActivity";
+import { CardActivityAdmin } from '../../components/CardActivity';
 
 
 export default function ActivityPage() {

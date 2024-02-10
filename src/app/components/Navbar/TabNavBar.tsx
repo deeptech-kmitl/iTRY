@@ -1,6 +1,7 @@
 import Link from "next/link";
 import useUserController from "./useUserController";
 import { usePathname } from "next/navigation";
+import { Fragment } from "react";
 
 interface MenuTabNavProps {
   title: string;
@@ -51,13 +52,13 @@ export default function TabNavBar() {
     <>
       <ul className="flex-grow flex justify-center md:border gap-3 md:gap-12 md:px-12 px-6 md:py-4 py-3 md:mr-0 rounded-full border-color-primary" >
         {menuTabNav.map((menu, index) => {
-          return <>
+          return <Fragment key={index}>
             {menu.show && (
-              <Link key={index} href={menu.path}>
+              <Link href={menu.path}>
                 <p className={getActiveTabMenu(menu.activeTabName)}>{menu.title}</p>
               </Link >
             )}
-          </>
+          </Fragment>
         })}
       </ul >
     </>

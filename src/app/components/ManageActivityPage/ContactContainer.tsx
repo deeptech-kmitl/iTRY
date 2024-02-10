@@ -4,29 +4,31 @@ import ContactInputTelephone from "./ContactInputTelephone";
 import ITryButton from "../Button";
 import WrapInputField from "../WrapInputField";
 import ITryInput from "../Input";
+import { PhoneActivity } from "@/app/utils/ManageActivityPage/activity";
 
 interface PhoneInputContainerProps extends WrappedInputProps {
-  phoneData: PhoneData[];
+  phoneData: PhoneActivity[];
   register: UseFormRegister<any>;
   setValue: UseFormSetValue<any>;
   errors: FieldErrors<any>;
 }
 
-export interface PhoneData {
-  phone: string;
-  index: number;
-}
 
 export default function ContactContainer(props: PhoneInputContainerProps) {
   const addPhone = () => {
-    const currentIndex = props?.phoneData?.length
-    const newPhone: PhoneData = {
+    const newPhone: PhoneActivity = {
       phone: "",
-      index: currentIndex
     }
 
-    const mergedPhone: PhoneData[] = [...props?.phoneData, newPhone]
+    const mergedPhone: PhoneActivity[] = [...props?.phoneData, newPhone]
     props.setValue("phone", mergedPhone)
+
+  }
+
+  const removePhone = (index: number) => {
+    let copyPhone = [...props?.phoneData];
+    copyPhone.splice(index, 1);
+    props.setValue("schedule", copyPhone);
 
   }
 
@@ -34,7 +36,7 @@ export default function ContactContainer(props: PhoneInputContainerProps) {
   const phoneElement = (
     <div className="flex flex-col gap-4">
       {props?.phoneData?.map((data, index) => (
-        <ContactInputTelephone key={index} {...data} {...props} />
+        <ContactInputTelephone key={index} index={index} {...data} {...props} removePhone={removePhone} />
       ))}
       <ITryButton onClick={addPhone} customWidthClassName="w-full md:w-fit " >เพิ่มเบอร์โทรศัพท์</ITryButton>
 

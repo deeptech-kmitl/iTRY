@@ -1,11 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
-
-const dynamodb = new DynamoDB.DocumentClient({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.REGION,
-});
+import iTryDynamoDB from "../utils/dynamoDB";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
@@ -30,7 +25,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     };
 
     //add activity into DynamoDB
-    const data = await dynamodb.update(paramsDynamo).promise();
+    const data = await iTryDynamoDB.update(paramsDynamo).promise();
     return NextResponse.json({ message: "Item updated successfully" });
   } catch (error) {
     console.error("Unable to update item:", error);

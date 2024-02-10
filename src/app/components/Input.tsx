@@ -1,9 +1,9 @@
 'use client'
 import Image from "next/image";
 import ITryRichText from "./RichText";
-import WrapInputField from "./WrapInputField";
 import { DateProps, ITryInputProps, NormalProps, InputField, RadioProps, RichTextProps, WrappedInputProps, ImageInputProps } from "./global";
 import { ChangeEvent } from "react";
+import WrapInputField from './WrapInputField';
 
 export default function ITryInput(props: ITryInputProps) {
 
@@ -41,7 +41,7 @@ export default function ITryInput(props: ITryInputProps) {
 
     const radioElement = (name: string, value: string, index: number) => {
       return (
-        <div className="flex gap-1 items-centerr">
+        <div className="flex gap-1 items-centerr" key={index}>
           <input
             type="radio" className={`radio ${customInputClassName}`}
             value={value}

@@ -1,15 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { DynamoDB } from 'aws-sdk';
+import iTryDynamoDB from '../utils/dynamoDB';
 
 const tableName = 'Route';
 
-const dynamodb = new DynamoDB.DocumentClient({
-    asscessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.REGION,
-});
-
-export async function PUT(req){
+export async function PUT(req: NextRequest){
     try{
         const {
             routeId,
@@ -30,7 +25,7 @@ export async function PUT(req){
             ReturnValues: "UPDATED_NEW"
         }
 
-        const updateDynamo = await dynamodb.update(paramsDynamo).promise();
+        const updateDynamo = await iTryDynamoDB.update(paramsDynamo).promise();
         return NextResponse.json("update success")
     }catch(error){
         console.log(error)

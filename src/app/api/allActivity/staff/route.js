@@ -1,13 +1,8 @@
 import { NextResponse } from 'next/server';
-import { DynamoDB } from 'aws-sdk';
-
+import iTryDynamoDB from "../../utils/dynamoDB";
 const tableName = 'StaffActivities'
 
-const dynamodb = new DynamoDB.DocumentClient({
-    asscessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.REGION,
-});
+
 
 export async function PUT(req) {
     
@@ -53,7 +48,7 @@ export async function PUT(req) {
             ExpressionAttributeValues: expressionAttributeValue,
             ReturnValues: "UPDATED_NEW"
         };
-        const updateDynamo = await dynamodb.update(paramsDynamo).promise();
+        const updateDynamo = await iTryDynamoDB.update(paramsDynamo).promise();
         return NextResponse.json("update success: " + activityName)
     }catch(err){
         console.log(err)
@@ -69,7 +64,7 @@ export async function DELETE(req) {
                 activityId: activityId
             }
         }
-        const deleteDynamo = await dynamodb.delete(paramsDynamo).promise();
+        const deleteDynamo = await iTryDynamoDB.delete(paramsDynamo).promise();
         console.log("DeleteDynamo", deleteDynamo);
         return NextResponse.json("delete success: " + activityId)
     } catch (err) {

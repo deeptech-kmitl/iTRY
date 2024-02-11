@@ -63,3 +63,19 @@ export async function POST(request: any) {
     return NextResponse.json({ error });
   }
 }
+
+export async function GET(request: any){
+  const paramsDynamo = {
+    TableName: "Banner",
+  };
+  try{
+    const getDynamo = await iTryDynamoDB.scan(paramsDynamo).promise();
+    return NextResponse.json({data: getDynamo.Items})
+  } catch (error) {
+    return NextResponse.json({error});
+  }
+}
+
+export async function DELETE(req: any){
+  
+}

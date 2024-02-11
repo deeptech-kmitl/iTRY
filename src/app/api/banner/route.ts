@@ -1,37 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
 import iTryS3 from "../utils/s3DB";
 import iTryDynamoDB from "../utils/dynamoDB";
-
-async function uploadFileToS3(file: Buffer, fileName: string) {
-  try {
-    // Extract the image data from the request body
-    console.log("file-----", file);
-    const imageData = file;
-
-    // Specify the S3 bucket and key for the new image
-    const params = {
-      Bucket: process.env.BUCKET_NAME,
-      Key: `${Date.now()}.png`, // Example: Use timestamp as part of the key
-      Body: imageData,
-      ContentType: "image/png",
-    };
-
-    // Upload the image to S3
-    const uploadResult = await iTryS3
-      .upload(params as AWS.S3.PutObjectRequest)
-      .promise();
-
-    // Respond with the S3 URL of the uploaded image
-    console.log("uploadResult", uploadResult.Location);
-    NextResponse.json({ url: uploadResult.Location });
-    return uploadResult.Location;
-  } catch (error) {
-    console.error("Error uploading image to S3:", error);
-    NextResponse.json({ error });
-  }
-}
+import { uploadFileToS3 } from "../create/staffActivity/route";
 
 export async function POST(request: any) {
   try {
@@ -43,8 +15,8 @@ export async function POST(request: any) {
     }
     // S3
     const buffer = Buffer.from(await file.arrayBuffer());
-    const fileName = await uploadFileToS3(buffer, file.name);
-    console.log("yayy");
+    const fileName = await uploadFileToS3(buffer);
+    console.log("filename");
 
     //dynamodb
     let myuuid = uuidv4();
@@ -52,30 +24,48 @@ export async function POST(request: any) {
       TableName: "Banner",
       Item: {
         bannerId: myuuid,
-        bannerUrl: fileName
+        bannerUrl: fileName,
       },
     };
     // Insert data into DynamoDB
     const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error });
+  }
+}
+
+export async function GET(request: any) {
+  const paramsDynamo = {
+    TableName: "Banner",
+  };
+  try {
+    const getDynamo = await iTryDynamoDB.scan(paramsDynamo).promise();
+    return NextResponse.json({ data: getDynamo.Items });
+  } catch (error) {
     console.log(error)
     return NextResponse.json({ error });
   }
 }
 
-export async function GET(request: any){
-  const paramsDynamo = {
-    TableName: "Banner",
-  };
-  try{
-    const getDynamo = await iTryDynamoDB.scan(paramsDynamo).promise();
-    return NextResponse.json({data: getDynamo.Items})
+export async function DELETE(req: NextRequest) {
+  try {
+    const url = new URL(req.url)
+    const params = url.searchParams.get('bannerId');
+    console.log(params);
+    const bannerId = params;
+    console.log(bannerId);
+    const paramsDynamo = {
+      TableName: "Banner",
+      Key: {
+        bannerId: bannerId,
+      },
+    };
+    const deleteDynamo = await iTryDynamoDB.delete(paramsDynamo).promise();
+    return NextResponse.json(`Delete " ${bannerId} " Success`)
   } catch (error) {
-    return NextResponse.json({error});
+    console.log(error)
+    return NextResponse.json({error})
   }
-}
-
-export async function DELETE(req: any){
-  
 }

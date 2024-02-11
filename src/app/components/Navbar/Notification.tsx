@@ -38,8 +38,8 @@ export default function ITryNotification({ countNotification, notifications }: N
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
           <button className="btn btn-ghost btn-circle">
             <div className="indicator">
-              <FontAwesomeIcon className="h-12" icon={faBell} />
-              <span className="badge badge-xs badge-primary indicator-item text-white">{countNotification}</span>
+              <FontAwesomeIcon className="h-6" icon={faBell} />
+              <span className="badge badge-xs badge-primary indicator-item text-white right-1/2	">{countNotification}</span>
             </div>
           </button>
         </div>

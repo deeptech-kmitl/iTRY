@@ -11,7 +11,16 @@ const dummyData = [
   },
 ];
 
-export const Coming = () => {
+interface CustomStyle {
+  '--value'?: string;
+  // Add other custom properties if needed
+}
+
+interface CustomSpanProps extends React.HTMLAttributes<HTMLSpanElement> {
+  style?: React.CSSProperties & CustomStyle;
+}
+
+export const Coming = ({ style }: CustomSpanProps) => {
   const [days, setDays] = useState(3);
   const [hours, setHours] = useState(12);
   const [minutes, setMinutes] = useState(25);
@@ -51,32 +60,33 @@ export const Coming = () => {
             <span className="text-3xl font-bold"> is Coming</span>
           </div>
           <div className="justify-center mb-16 grid grid-flow-col gap-5 text-center auto-cols-max">
-            <div className="flex flex-col px-8">
-              <span className="font-mono text-5xl">
-                <span >{days}</span>
+            <div className="flex flex-col px-8 items-center">
+              <span className="countdown font-mono text-5xl">
+                <span style={{ "--value": `${days}`, ...style }}>{days}</span>
               </span>
               days
             </div>
-            <div className="flex flex-col px-8">
-              <span className="font-mono text-5xl">
-                <span >{hours}</span>
+            <div className="flex flex-col px-8 items-center">
+              <span className="countdown font-mono text-5xl">
+                <span style={{ "--value": `${hours}`, ...style }}>{hours}</span>
               </span>
               hours
             </div>
-            <div className="flex flex-col px-8">
-              <span className="font-mono text-5xl">
-                <span >{minutes}</span>
+            <div className="flex flex-col px-8 items-center">
+              <span className="countdown font-mono text-5xl">
+                <span style={{ "--value": `${minutes}`, ...style }}>{minutes}</span>
               </span>
               minutes
             </div>
-            <div className="flex flex-col px-8">
-              <span className="font-mono text-5xl">
-                <span >{seconds}</span>
+            <div className="flex flex-col px-8 items-center">
+              <span className="countdown font-mono text-5xl">
+                <span style={{ "--value": `${seconds}`, ...style }}>{seconds}</span>
               </span>
-              second
+              seconds
             </div>
 
           </div>
+
           <div className="w-4/5 bg-slate-900 border-2 border-neonBlue cursor-pointer rounded-md mx-auto mb-5 ">
             <div
               key={key}

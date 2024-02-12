@@ -99,7 +99,7 @@ export default function Home() {
   },
   ]
 
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   useEffect(() => {
     //Implementing the setInterval method

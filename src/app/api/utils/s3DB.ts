@@ -1,26 +1,10 @@
-import { useEffect, useRef } from 'react';
+// useS3.ts
 import AWS from 'aws-sdk';
 
-let s3Client: AWS.S3 | null = null;
+const iTryS3 = new AWS.S3({
+  accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+  region: process.env.NEXT_PUBLIC_REGION,
+});
 
-const useS3 = () => {
-  const s3Ref = useRef<AWS.S3 | null>(null);
-
-  useEffect(() => {
-    if (!s3Client) {
-      s3Client = new AWS.S3({
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        region: process.env.REGION,
-      });
-    }
-
-    s3Ref.current = s3Client;
-  }, []);
-
-  return s3Ref.current as AWS.S3;
-};
-
-const iTryS3 = useS3()
-
-export default iTryS3
+export default iTryS3;

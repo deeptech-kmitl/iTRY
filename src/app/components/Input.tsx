@@ -1,9 +1,9 @@
 'use client'
 import Image from "next/image";
 import ITryRichText from "./RichText";
-import WrapInputField from "./WrapInputField";
 import { DateProps, ITryInputProps, NormalProps, InputField, RadioProps, RichTextProps, WrappedInputProps, ImageInputProps } from "./global";
 import { ChangeEvent } from "react";
+import WrapInputField from "./WrapInputField";
 
 export default function ITryInput(props: ITryInputProps) {
 
@@ -41,7 +41,7 @@ export default function ITryInput(props: ITryInputProps) {
 
     const radioElement = (name: string, value: string, index: number) => {
       return (
-        <div className="flex gap-1 items-centerr">
+        <div className="flex gap-1 items-centerr" key={index}>
           <input
             type="radio" className={`radio ${customInputClassName}`}
             value={value}
@@ -84,7 +84,7 @@ export default function ITryInput(props: ITryInputProps) {
       <div className={`relative w-full ${!file && "border-dashed aspect-video border-color-primary border-2"} flex justify-center items-center cursor-pointer`}>
         <input {...register} type="file" onChange={handleFileChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
         {file ? (
-          <Image id="selected-image" src={typeof (file) === "string" ? file : URL.createObjectURL(file)} className="w-full object-contain aspect-video object-center" alt="" width={300} height={300} />
+          <Image priority id="selected-image" src={typeof (file) === "string" ? file : URL.createObjectURL(file)} className="w-full object-cover aspect-video object-top" alt="" width={300} height={300} />
         ) : (
             <p className="text-white">เพิ่มรูปภาพ</p>
         )}

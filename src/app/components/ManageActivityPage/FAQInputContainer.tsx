@@ -4,32 +4,32 @@ import { WrappedInputProps } from "../global";
 import ITryButton from "../Button";
 import FAQInput from "./FAQInput";
 import WrapInputField from "../WrapInputField";
+import { FAQActivity } from "@/app/utils/ManageActivityPage/activity";
 
 interface FAQInputContainerProps extends WrappedInputProps {
-  faqData: FAQData[];
+  faqData: FAQActivity[];
   register: UseFormRegister<any>;
   setValue: UseFormSetValue<any>;
   errors: FieldErrors<any>;
 }
 
-export interface FAQData {
-  question: string;
-  answer: string;
-  index: number;
-}
-
 export default function FAQInputContainer(props: FAQInputContainerProps) {
 
   const addFAQ = () => {
-    const currentIndex = props?.faqData?.length
-    const newFAQ: FAQData = {
+    const newFAQ: FAQActivity = {
       question: "",
       answer: "",
-      index: currentIndex
     }
 
-    const mergedFAQ: FAQData[] = [...props?.faqData, newFAQ]
+    const mergedFAQ: FAQActivity[] = [...props?.faqData, newFAQ]
     props.setValue("faq", mergedFAQ)
+
+  }
+
+  const removeFAQ = (index: number) => {
+    let copyFAQ = [...props?.faqData];
+    copyFAQ.splice(index, 1);
+    props.setValue("faq", copyFAQ);
 
   }
 
@@ -37,7 +37,7 @@ export default function FAQInputContainer(props: FAQInputContainerProps) {
   const faqElement = (
     <div className="flex flex-col gap-4">
       {props?.faqData?.map((data, index) => (
-        <FAQInput key={index} {...data} register={props.register} errors={props.errors} />
+        <FAQInput key={index} {...data} register={props.register} errors={props.errors} index={index} removeFAQ={removeFAQ} />
       ))}
       <ITryButton onClick={addFAQ} customWidthClassName="w-full md:w-fit " >เพิ่ม FAQ</ITryButton>
     </div>

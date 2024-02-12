@@ -2,23 +2,24 @@ import NextAuth from "next-auth/next";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google"
 import FacebookProvider, { FacebookProfile } from "next-auth/providers/facebook"
 import CredentialsProvider from "next-auth/providers/credentials"
+
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET ?? "",
       profile(profile: GoogleProfile) {
         return {
           ...profile,
-          role: "user",
+          role: "admin",
           id: "1"
         }
       }
     }),
     FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID ?? "",
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET ?? "",
+      clientId: process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_ID ?? "",
+      clientSecret: process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_SECRET ?? "",
       profile(profile: FacebookProfile) {
         return {
           ...profile,

@@ -22,3 +22,5 @@ export async function GET(res: NextApiRequest, { params }: any) {
     return NextResponse.json({ error });
   }
 }
+
+export { GET as getStaffActivity }

@@ -69,3 +69,5 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({error})
   }
 }
+
+export { GET as getSponsor, POST as createSponsor, DELETE as deleteSposor}

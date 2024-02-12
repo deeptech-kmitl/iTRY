@@ -69,3 +69,5 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({error})
   }
 }
+
+export { GET as getBanner, POST as creatBanner, DELETE as deleteBanner}

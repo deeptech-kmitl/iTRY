@@ -59,12 +59,11 @@ export default function BannerPage() {
 
           </div>
         ))}
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-16">
-        <ITryInput type="image" register={register} file={watch("image")} formKeyFile="image" setValue={setValue} label="รูปภาพปกกิจกรรม" />
-        <ITryButton type="submit" customPositionClassName="mt-24" fullWidth>สร้าง Banner</ITryButton>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:px-8 px-0">
+        <ITryInput type="image" register={register} file={watch("image")} formKeyFile="image" setValue={setValue}/>
+        <ITryButton type="submit" customPositionClassName="mt-0" fullWidth>สร้าง Banner</ITryButton>
       </form>
-
+      </div>
     </>
   )
 }

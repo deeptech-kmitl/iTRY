@@ -1,9 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
-import AWS, { DynamoDB } from "aws-sdk";
+import { NextRequest, NextResponse } from "next/server";
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 
-export async function GET(res: NextApiRequest, { params }: any) {
+export async function GET(___: any, {params}: any) {
   const { id } = params;
   console.log("id", id);
   const paramsDynamo = {
@@ -14,10 +13,13 @@ export async function GET(res: NextApiRequest, { params }: any) {
   };
   try {
     const result = await iTryDynamoDB.get(paramsDynamo).promise();
-    console.log("result", result);
-    return NextResponse.json(result);
+    NextResponse.json({ activity: result.Item });
+    return result.Item
   } catch (error) {
     console.error("Error:", error);
+    return {error: error}
     return NextResponse.json({ error });
   }
 }
+
+export {GET as getCamperActivity}

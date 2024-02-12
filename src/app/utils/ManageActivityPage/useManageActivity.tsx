@@ -1,77 +1,69 @@
+import { uploadFileToS3 } from '@/app/api/create/staffActivity/route';
 import { TypeAction, TypeActivity } from '@/app/components/ManageActivityPage/activity';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { createCamperActivity, updateCamperActivity } from '@/app/api/allActivity/camper/route';
+import { ITryActivity } from './activity';
+import { updateStaffActivity } from '@/app/api/allActivity/staff/route';
+import { getCamperActivity } from '@/app/api/activityById/camper/[id]/route';
 
 interface UseManageActivityProps {
   typeAction: TypeAction
   typeActivity: TypeActivity
+  activity?: ITryActivity;
 }
 
 
-type keySchema = "activityName" | "registerDateStart" | "registerDateEnd" | "viewBy" | "activityDetail"
+type keySchema = "activityName" | "openDate" | "closeDate" | "visibility" | "activityDetails" | "schedule" | "facebookLink"
 
-export default function useManageActivity({ typeAction, typeActivity }: UseManageActivityProps) {
+export default function useManageActivity({ typeAction, typeActivity, activity }: UseManageActivityProps) {
 
-  const timelineSchema = yup.object({
+  const scheduleSchema = yup.object({
     date: yup.string().required('กรุณากรอกวันที่ไทม์ไลน์'),
     title: yup.string().required('กรุณากรอกหัวข้อไทม์ไลน์'),
-    description: yup.string().required('กรุณากรอกรายละเอียดไทม์ไลน์'),
-    index: yup.number(),
+    details: yup.string().required('กรุณากรอกรายละเอียดไทม์ไลน์'),
   });
 
   const faqSchema = yup.object({
     question: yup.string().required('กรุณากรอกคำถาม'),
     answer: yup.string().required('กรุณากรอกคำตอบ'),
-    index: yup.number(),
   });
 
   const phoneSchema = yup.object({
     phone: yup.string().matches(/^[0-9]+$/, 'กรุณากรอกรูปแบบโทรศัพท์ให้ถูกต้อง').required('กรุณากรอกเบอร์โทรศัพท์'),
   });
 
-  const positionSchema = yup.object({
+  const jobPositionsSchema = yup.object({
     name: yup.string().required('กรุณากรอกชื่อตำแหน่ง'),
     amount: yup.number().required('กรุณากรอกจำนวนที่รับสมัคร').typeError('กรุณากรอกจำนวนที่รับสมัคร'),
-    index: yup.number(),
   });
 
-  const campeSchema = yup.object().shape({
-    image: yup.mixed().required("กรุณาใส่รูปภาพกิจกรรม"),
+  const camperSchema = yup.object().shape({
+    imageUrl: yup.mixed().required("กรุณาใส่รูปภาพกิจกรรม"),
     activityName: yup.string().required('กรุณากรอกชื่อกิจกรรม'),
-    registerDateStart: yup.string().required('กรุณาระบุวันที่เริ่มรับสมัครของกิจกรรม'),
-    registerDateEnd: yup.string().required('กรุณาระบุวันที่สิ้นสุดรับสมัครของกิจกรรม'),
-    viewBy: yup.string().required('กรุณาเลือกการมงเห็น'),
-    activityDetail: yup.string(),
-    timeLine: yup.array().of(timelineSchema),
+    openDate: yup.string().required('กรุณาระบุวันที่เริ่มรับสมัครของกิจกรรม'),
+    closeDate: yup.string().required('กรุณาระบุวันที่สิ้นสุดรับสมัครของกิจกรรม'),
+    visibility: yup.string().required('กรุณาเลือกการมองเห็น'),
+    activityDetails: yup.string(),
+    schedule: yup.array().of(scheduleSchema),
     facebookLink: yup.string(),
     igLink: yup.string(),
-    registerLink: yup.string(),
+    applyLink: yup.string(),
     faq: yup.array().of(faqSchema),
     phone: yup.array().of(phoneSchema),
     email: yup.string().email("กรุณากรอกรูปแบบอีเมลให้ถูกต้อง"),
-    position: yup.array().of(positionSchema)
+    jobPositions: yup.array().of(jobPositionsSchema)
   });
 
-  const staffSchema = campeSchema.concat(
+  const staffSchema = camperSchema.concat(
     yup.object().shape({
-      position: yup.array().of(positionSchema),
+      position: yup.array().of(jobPositionsSchema),
     })
   );
 
-  const schema = typeActivity === "camper" ? campeSchema : staffSchema;
-
-  const fetchActivityData = async () => {
-    const returnObject = {
-      activityName: 'Default Activity Name',
-      registerDateStart: 'Default Start Date',
-      registerDateEnd: 'Default End Date',
-      viewBy: 'Default View By',
-      activityDetail: 'Default Activity Detail',
-    }
-    return returnObject;
-  }
+  const schema = typeActivity === "camper" ? camperSchema : staffSchema;
 
 
   const { register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
@@ -80,22 +72,41 @@ export default function useManageActivity({ typeAction, typeActivity }: UseManag
 
 
   const onSubmit = async (data: any) => {
-    console.log(data)
+    let savedData = { ...data }
+    if (typeof (data.imageUrl) !== "string") {
+      const imageUrl = data.imageUrl;
+      const realImageUrl: any = await uploadFileToS3(imageUrl)
+      savedData = { ...data, imageUrl: realImageUrl }
+    }
+    try {
+      if (typeAction === "add") {
+        await typeActivity === "camper" ? createCamperActivity(savedData) : createCamperActivity(savedData)
+      } else {
+        await typeActivity === "camper" ? updateCamperActivity(savedData) : updateStaffActivity(savedData)
+      }
+
+
+
+    } catch (e) {
+      console.log("e", e)
+    }
+
+
+
   }
 
   useEffect(() => {
     const setDefaultValues = async () => {
-      if (typeAction === "edit") {
-        const defaultValues = await fetchActivityData();
-        Object.keys(defaultValues).forEach((fieldName) => {
-          const key = fieldName as keySchema;
-          setValue(key, defaultValues[key]);
-        });
+      if (typeAction === "edit" && activity) {
+         Object.keys(activity).forEach((fieldName) => {
+            const key = fieldName as keySchema;
+            setValue(key, activity[key]);
+          });
       }
     };
 
     setDefaultValues();
-  }, [typeAction, setValue]);
+  }, []);
 
 
   return {
@@ -104,7 +115,7 @@ export default function useManageActivity({ typeAction, typeActivity }: UseManag
     watch,
     handleSubmit,
     errors,
-    onSubmit
+    onSubmit,
   }
 
 }

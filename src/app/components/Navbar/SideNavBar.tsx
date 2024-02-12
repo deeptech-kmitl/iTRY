@@ -49,8 +49,8 @@ export default function ITrySideNavBar() {
               </ITryButton>
             </div>
             {sideNavBarMenu.map((sideNavBarMenu, index) => (
-              <span className={`${isSideNavVisible ? 'opacity-1 h-full w-full' : 'opacity-0 pointer-events-none	'}`}>
-                <ITryMenuSideNav key={index} {...sideNavBarMenu} />
+              <span key={index} className={`${isSideNavVisible ? 'opacity-1 h-full w-full' : 'opacity-0 pointer-events-none	'}`}>
+                <ITryMenuSideNav {...sideNavBarMenu} />
               </span>
             ))}
           </ul>

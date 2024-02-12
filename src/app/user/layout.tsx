@@ -9,7 +9,7 @@ export default function UserLayout({
   customClassName?: string
 }) {
   return (
-    <div className="font-prompt">
+    <div>
       <ITryNavBar />
       <div className={`px-4 py-0 md:px-36 md:py-24 ${customClassName}`}>
         {children}

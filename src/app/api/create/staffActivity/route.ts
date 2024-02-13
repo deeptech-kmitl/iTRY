@@ -75,19 +75,3 @@ export async function POST(request: any) {
   }
 }
 
-export async function GET() {
-  try {
-    const result = await iTryDynamoDB.scan({
-      TableName: "Banner",
-    }).promise(); // เปลี่ยนจาก get เป็น scan เพื่อเรียกข้อมูลทั้งหมด
-    console.error("Error:", result.Items);
-    // NextResponse.json({ Banner: result.Items }); // เปลี่ยน key "activity" เป็น "activities" เนื่องจากมีการเรียกข้อมูลทั้งหมด
-    return result.Items; // คืนค่า result.Items ที่มีข้อมูลทั้งหมด
-  } catch (error) {
-    console.error("Error:", error);
-    return { error: error };
-  }
-}
-
-export { GET as getBanner }
-

@@ -36,16 +36,13 @@ export default function BannerPage() {
 
   const onSubmit = async (data: any) => {
     let savedData = { ...data }
-    if (typeof (data.imageUrl) !== "string") {
-      const imageUrl = data.imageUrl;
-      const realImageUrl: any = await uploadFileToS3(imageUrl)
-      console.log("realImageUrl"), realImageUrl
-      savedData = { ...data, imageUrl: realImageUrl }
-    }
-  } 
+    const image = data.image;
+    const imageUrl: any = await uploadFileToS3(image)
+    console.log("imageUrl"), imageUrl
+    savedData = { ...data, imageUrl: imageUrl }
 
-  console.log("watch(image)", watch("image"))
-
+    console.log("watch(image)", watch("image"))
+  }
   return (
     <>
       <h1 className="text-3xl text-extrabold text-center pb-16">Banner</h1>

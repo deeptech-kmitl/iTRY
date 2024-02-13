@@ -9,8 +9,7 @@ import Card from "./components/Carousel/CardCarousel";
 import CardRoutes from "./components/CardRoute";
 import CardSponsor from "./components/CardSponsor";
 import Map from "./components/GoogleMap";
-
-import { CardAllActivity } from "./components/CardActivity"
+import { CardActivity } from "./components/CardActivity";
 import { Coming } from "./components/Coming";
 
 export default function Home() {
@@ -19,85 +18,81 @@ export default function Home() {
       key: 0,
       content: <Card imagen="/open_house.png" />,
 
-
-      title: 'Open House',
-      status: 'กำลังเปิดรับสมัคร',
-
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
     },
     {
       key: 1,
       content: <Card imagen="/itcamp19.png" />,
 
-
-      title: 'Open House',
-      status: 'กำลังเปิดรับสมัคร',
-
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
     },
     {
       key: 2,
       content: <Card imagen="/unitecamp.png" />,
 
-
-      title: 'Open House',
-      status: 'กำลังเปิดรับสมัคร',
-
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
     },
     {
       key: 3,
       content: <Card imagen="/open_house.png" />,
 
-
-      title: 'Open House',
-      status: 'กำลังเปิดรับสมัคร',
-
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
     },
     {
       key: 4,
       content: <Card imagen="/itcamp19.png" />,
 
-
-      title: 'Open House',
-      status: 'กำลังเปิดรับสมัคร',
-
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
     },
     {
       key: 5,
       content: <Card imagen="/unitecamp.png" />,
-
     },
     {
-
-      title: 'Open House',
-      status: 'กำลังเปิดรับสมัคร',
-    }
-
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
+    },
   ];
 
-  const activity = [{
-    key: 0,
-    image: "/open_house.png",
-    title: 'Open House',
-    status: 'กำลังเปิดรับสมัคร',
-  },
-  {
-    key: 1,
-    image: "/itcamp19.png",
-    title: 'Open House',
-    status: 'กำลังเปิดรับสมัคร',
-  },
-  {
-    key: 2,
-    image: "/unitecamp.png",
-    title: 'Open House',
-    status: 'กำลังเปิดรับสมัคร',
-  },
-  {
-    key: 3,
-    image: "/open_house.png",
-    title: 'Open House',
-    status: 'กำลังเปิดรับสมัคร',
-  },
-  ]
+  const activity = [
+    {
+      key: 0,
+      image: "/open_house.png",
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
+      date: "11/12/2023 - 12/12/2023",
+    },
+    {
+      key: 1,
+      image: "/itcamp19.png",
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
+      date: "11/12/2023 - 12/12/2023",
+    },
+    {
+      key: 2,
+      image: "/unitecamp.png",
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
+      date: "11/12/2023 - 12/12/2023",
+    },
+    {
+      key: 3,
+      image: "/open_house.png",
+      title: "Open House",
+      status: "กำลังเปิดรับสมัคร",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
+      date: "11/12/2023 - 12/12/2023",
+    },
+  ];
 
   const [count, setCount] = useState(1);
 
@@ -133,39 +128,68 @@ export default function Home() {
 
         <div className="py-16">
           <div className="pb-5">
-            <a className="text-2xl cursor-pointer">รายชื่อกิจกรรมทั้งหมด{' >'}</a>
+          <div className="text-base md:text-2xl flex items-center">
+              <p className="mr-2">รายชื่อกิจกรรมทั้งหมด</p>
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png"
+                alt="more-than"
+              />
+            </div>
           </div>
-          <CardAllActivity />
+          {activity.map((activity, index) => (
+            <CardActivity
+              key={index}
+              image={activity.image}
+              name={activity.title}
+              description={activity.description}
+              date={activity.date}
+            />
+          ))}{" "}
         </div>
-
-
 
         <div className="md:py-16">
           <div className="grid grid-cols-1 gap-4">
             <div className="text-base md:text-2xl flex items-center">
               <p className="mr-2">กิจกรรมที่กำลังเปิดรับสมัคร</p>
-              <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png" alt="more-than" />
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png"
+                alt="more-than"
+              />
             </div>
             <div className="bg-BlueO md:border-2 md:border-neonBlue rounded-xl my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 md:gap-4">
               {activity.slice(0, 6).map((item, key) => (
-                <div key={key} className="flex flex-col items-center p-3 md:p-5 max-w-xs">
-                  <img src={item.image} alt={item.title} width="120" height="120" className="object-cover w-full h-full rounded-image border-2 border-neonBlue" />
+                <div
+                  key={key}
+                  className="flex flex-col items-center p-3 md:p-5 max-w-xs"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    width="120"
+                    height="120"
+                    className="object-cover w-full h-full rounded-image border-2 border-neonBlue"
+                  />
                   <div className="text-center pt-3">
                     <p className="text-sm md:text-ls">{item.title}</p>
-                    <p className="text-xs md:text-base text-slate-400">{item.status}</p>
+                    <p className="text-xs md:text-base text-slate-400">
+                      {item.status}
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-
-
           <div className="text-center py-12 md:py-16">
-            <h1 className="text-base md:text-2xl">การเดินทางมาคณะเทคโนโลยีสารสนเทศ</h1>
-
+            <h1 className="text-base md:text-2xl">
+              การเดินทางมาคณะเทคโนโลยีสารสนเทศ
+            </h1>
           </div>
-          <CardRoutes role='user' />
+          <CardRoutes role="user" />
         </div>
         <div className="pt-6">
           <Map />

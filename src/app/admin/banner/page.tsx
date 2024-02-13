@@ -6,7 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
+import { getBanner } from "@/app/api/create/staffActivity/route";
 export default function BannerPage() {
+
+  getBanner();
 
   const dummyBanner = [
     {

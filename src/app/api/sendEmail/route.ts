@@ -8,11 +8,6 @@ import { Console } from 'console';
 import { DynamoDB } from 'aws-sdk';
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 
-const dynamodb = new DynamoDB.DocumentClient({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.REGION,
-})
 export async function POST(request: any) {
 
     const paramsUsers = {
@@ -27,15 +22,15 @@ export async function POST(request: any) {
 
     try {
         console.log("_______ Begin ________")
-        const {title, subject, message} = await request.json()
+        const {title} = await request.json()
 
         // ------------- GET Users From DynamoDB -------------
-        const usersData = await dynamodb.scan(paramsUsers).promise()
+        const usersData = await iTryDynamoDB.scan(paramsUsers).promise()
         const usersEmail = (usersData.Items ?? []).map(item => item.email)
         console.log("USERS -> ", usersEmail)
 
         // ------------- GET Staff Activity From DynamoDB -------------
-        const staffActData = await dynamodb.scan(paramsStaffAct).promise()
+        const staffActData = await iTryDynamoDB.scan(paramsStaffAct).promise()
 
         // Tomorrow Date String
         const tomorrowDate = new Date()
@@ -58,11 +53,12 @@ export async function POST(request: any) {
             activityDetails: item.activityDetails,
             openDate: item.openDate,
             activityLink: 'http://localhost:3000/api/activityById/staff/' + item.activityId,
+            imageUrl: item.imageUrl,
         }))
         console.log("STAFF ACTIVITY -> ", staffActivities.map(activity => activity.activityName))
 
         // ------------- GET Camper Activity From DynamoDB -------------
-        const camperActData = await dynamodb.scan(paramsCamperAct).promise()
+        const camperActData = await iTryDynamoDB.scan(paramsCamperAct).promise()
         const camperActivities = (camperActData.Items ?? [])
         .filter(item => item.openDate == tomorrowDateString)
         .map(item => ({
@@ -70,6 +66,7 @@ export async function POST(request: any) {
             activityDetails: item.activityDetails,
             openDate: item.openDate,
             activityLink: 'http://localhost:3000/api/activityById/camper/' + item.activityId,
+            imageUrl: item.imageUrl,
         }))
         console.log("CAMPER ACTIVITY -> ", camperActivities.map(activity => activity.activityName))
 
@@ -100,12 +97,10 @@ export async function POST(request: any) {
                 to: usersEmail.join(','),
                 subject: title,
                 html: `
-                <h3>Welcome to iTRY activity !</h3>
-                <p>Title: ${subject}</p>
-                <p>Message: ${message}</p>
-                    <h4>${activity.activityName}</h4>
-                    <p>Details: ${activity.activityDetails}</p>
-                    <p>Link: <a href="${activity.activityLink}">${activity.activityLink}</a></p>
+                <h3>Welcome to ${activity.activityName} </h3>
+                ${activity.activityDetails}
+                ${activity.imageUrl ? `<img src="${activity.imageUrl}" alt="activity image">` : ''}
+                <p>Visit Activity 👉 <a href="${activity.activityLink}">${activity.activityLink}</a></p>
                 `
             }
 
@@ -119,14 +114,23 @@ export async function POST(request: any) {
             return followedActivities.some((activityId: string) => {
                 return (
                     (camperActData.Items ?? []).some(item => 
-                        item.schedule.some((scheduleItem: any) => 
-                            scheduleItem.date == tomorrowDateString && item.activityId == activityId
-                        )
+                        {
+                            if (item.schedule) {
+                                return item.schedule.some((scheduleItem: any) => 
+                                    scheduleItem.date == tomorrowDateString && item.activityId == activityId)
+                            }
+                            return false
+                        }
+                        
                     ) || 
                     (staffActData.Items ?? []).some(item => 
-                        item.schedule.some((scheduleItem: any) => 
-                            scheduleItem.date == tomorrowDateString && item.activityId == activityId
-                        )
+                        {
+                            if (item.schedule) {
+                                return item.schedule.some((scheduleItem: any) => 
+                                    scheduleItem.date == tomorrowDateString && item.activityId == activityId)
+                            }
+                            return false
+                        }
                     )
                 )
             })
@@ -142,11 +146,12 @@ export async function POST(request: any) {
         }
 
         for (const email of emailFollowedAct) {
-            const user = (usersData.Items ?? []).find((user: any) => user.email === email)
+            const user: any = (usersData.Items ?? []).find((user: any) => user.email === email)
             console.log("USER ___ ", user)
 
             const followedActivities = user?.followedActivityId || [];
             console.log("FOLLOW ACTIVITY ___ ", followedActivities)
+
 
             const acitivitySchedule = followedActivities.flatMap((activityId: any) => {
                 const activityDetails = (camperActData.Items ?? []).find(item => 
@@ -157,28 +162,30 @@ export async function POST(request: any) {
                 console.log("ACTIVITY DETAIL -- ", activityDetails)
                 
                 if (activityDetails && Array.isArray(activityDetails.schedule)) {
-                    return activityDetails.schedule.filter((scheduleItem: any) =>
-                        scheduleItem.date === tomorrowDateString
-                    );
+                    return activityDetails.schedule
+                    .filter((scheduleItem: any) =>scheduleItem.date === tomorrowDateString)
+                    .map((scheduleItem: any) => ({ ...scheduleItem, activityId }))
                 }
                 return [];
             })
             console.log("SCHEDULE -> ", acitivitySchedule)
 
+
             for (const scheduleItem of acitivitySchedule) {
+                const activityDetails = (camperActData.Items ?? []).find(item => 
+                    item.activityId === scheduleItem.activityId
+                ) || (staffActData.Items ?? []).find(item => 
+                    item.activityId === scheduleItem.activityId
+                )
+
                 const mailOption = {
                     from: 'itrydpd@gmail.com',
                     to: email,
-                    subject: title,
+                    subject: `🚨 ${(activityDetails ?? {}).activityName} scheduled for tomorrow !`,
                     html: `
-                    <h3>Hello Activity Follower !</h3>
-                    <p>Title: ${subject}</p>
-                    <p>Message: ${message}</p>
-                    <p>Activities scheduled for tomorrow:</p>
-                    <ul>
-                        <li>Date: ${scheduleItem.date}</li>
-                        <li>Detail: ${scheduleItem.details}</li>
-                    </ul>
+                    <h2>${scheduleItem.title}</h2>
+                    <h4>Details Activity</h4>
+                        ${scheduleItem.details}
                     `
                 }
                 await transporter.sendMail(mailOption);

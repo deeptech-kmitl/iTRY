@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import { set, useForm } from "react-hook-form";
 import * as yup from "yup"
-import { getBanner } from "@/app/api/create/banner/route";
+import { getBanner } from "@/app/api/banner/getBanner/route";
 import useBannerPage from "@/app/utils/BannerPage/useBannerPage";
 import BannerPage, { BannerData } from "@/app/components/BannerPage/BannerPage";
 export default async function ShowBannerPage() {

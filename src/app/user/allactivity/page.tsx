@@ -3,6 +3,7 @@
 import React from "react";
 import { useState } from "react";
 import { CardActivity } from "@/app/components/CardActivity";
+import { Paging } from "@/app/components/Paging";
 
 export default function AllActivity() {
   const [sortByDate, setSortByDate] = useState(false);
@@ -67,6 +68,9 @@ export default function AllActivity() {
           date={activity.date}
         />
       ))}{" "}
+
+      <Paging/>
+      
     </div>
   );
 }

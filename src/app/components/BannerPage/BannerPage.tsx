@@ -12,6 +12,7 @@ export interface BannerData {
     bannerId: string;
     bannerUrl: string;
 }
+
 export default function BannerPage({ data }: BannerPageProps) {
     const { register, setValue, watch, handleSubmit, onSubmit } = useBannerPage();
     if (data && 'status' in data && data.status === 'error') {
@@ -26,10 +27,9 @@ export default function BannerPage({ data }: BannerPageProps) {
                     {data.map((item, key) => (
                         <div key={item.bannerId}>
                             <div className="w-full h-full rounded overflow-hidden md:p-5 p-1 ">
-                                <Image className="w-full" src={item.bannerUrl} alt={item.bannerUrl} width={700} height={300} />
+                                <Image  className="w-full" src={item.bannerUrl} alt={item.bannerUrl} width={700} height={300} />
                                 <ITryButton customWidthClassName="w-full" >ลบ</ITryButton>
                             </div>
-
                         </div>
                     ))}
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:px-8 px-0">

@@ -4,9 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { createCamperActivity, updateCamperActivity } from '@/app/api/allActivity/camper/route';
+import { createCamperActivity, updateCamperActivity } from '@/app/api/crudActivity/camper/route';
 import { ITryActivity } from './activity';
-import { updateStaffActivity } from '@/app/api/allActivity/staff/route';
+import { updateStaffActivity } from '@/app/api/crudActivity/staff/route';
 import { getCamperActivity } from '@/app/api/activityById/camper/[id]/route';
 
 interface UseManageActivityProps {

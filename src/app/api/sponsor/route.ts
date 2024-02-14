@@ -29,10 +29,17 @@ export async function POST(request: any) {
     };
     // Insert data into DynamoDB
     const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
-    return NextResponse.json({ success: true });
+    return {
+      data: [],
+      status: "success"
+      }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error });
+    console.log(error)
+    // return NextResponse.json({ error });
+    return {
+      status:"error",
+      error: error
+      }
   }
 }
 
@@ -42,10 +49,17 @@ export async function GET(request: any) {
   };
   try {
     const getDynamo = await iTryDynamoDB.scan(paramsDynamo).promise();
-    return NextResponse.json({ data: getDynamo.Items });
+    return {
+      data: [getDynamo.Items],
+      status: "success"
+      }
   } catch (error) {
     console.log(error)
-    return NextResponse.json({ error });
+    // return NextResponse.json({ error });
+    return {
+      status:"error",
+      error: error
+      }
   }
 }
 
@@ -63,10 +77,17 @@ export async function DELETE(req: NextRequest) {
       },
     };
     const deleteDynamo = await iTryDynamoDB.delete(paramsDynamo).promise();
-    return NextResponse.json(`Delete " ${sponsorId} " Success`)
+    return {
+      data: [],
+      status: "success"
+      }
   } catch (error) {
     console.log(error)
-    return NextResponse.json({error})
+    // return NextResponse.json({ error });
+    return {
+      status:"error",
+      error: error
+      }
   }
 }
 

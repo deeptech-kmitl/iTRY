@@ -3,12 +3,13 @@ import nodemailer from 'nodemailer'
 import cron from 'node-cron'
 import { CronJob } from "cron";
 import axios from 'axios'
-import { schedule } from '../create/staffActivity/mockupData';
+import { schedule } from '../../create/staffActivity/mockupData';
 import { Console } from 'console';
 import { DynamoDB } from 'aws-sdk';
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
+import { getNotification, postNotification } from '../../notification/[userId]/route';
 
-export async function POST(request: any) {
+export async function GET() {
 
     const paramsUsers = {
         TableName: 'TestUsers', // TODO: Change to 'Users'
@@ -22,7 +23,7 @@ export async function POST(request: any) {
 
     try {
         console.log("_______ Begin ________")
-        const {title} = await request.json()
+        // const {title} = await request.json()
 
         // ------------- GET Users From DynamoDB -------------
         const usersData = await iTryDynamoDB.scan(paramsUsers).promise()
@@ -41,10 +42,11 @@ export async function POST(request: any) {
 
         const tomorrowDateString = `${year}-${month}-${day}`
         console.log("Tomorrow Date String -- ", tomorrowDateString)
-        const testDateDB = (staffActData.Items ?? []).map(item => item.openDate)
-        console.log("TEST DATE -> ", testDateDB)
+        // const testDateDB = (staffActData.Items ?? []).map(item => item.openDate)
+        // console.log("TEST DATE -> ", testDateDB)
 
         // <<<<<<<<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY OPEN DATE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
         // MAP necessary data to send email
         const staffActivities = (staffActData.Items ?? [])
         .filter(item => item.openDate == tomorrowDateString)
@@ -55,7 +57,6 @@ export async function POST(request: any) {
             activityLink: 'http://localhost:3000/api/activityById/staff/' + item.activityId,
             imageUrl: item.imageUrl,
         }))
-        console.log("STAFF ACTIVITY -> ", staffActivities.map(activity => activity.activityName))
 
         // ------------- GET Camper Activity From DynamoDB -------------
         const camperActData = await iTryDynamoDB.scan(paramsCamperAct).promise()
@@ -68,10 +69,8 @@ export async function POST(request: any) {
             activityLink: 'http://localhost:3000/api/activityById/camper/' + item.activityId,
             imageUrl: item.imageUrl,
         }))
-        console.log("CAMPER ACTIVITY -> ", camperActivities.map(activity => activity.activityName))
 
         const combinedActivities = [...staffActivities, ...camperActivities]
-        console.log("Combined Staff & Camper Activities -> ", combinedActivities)
 
         // Check if there are staff activities scheduled for tomorrow
         if (combinedActivities.length === 0) {
@@ -95,7 +94,7 @@ export async function POST(request: any) {
             const mailOption = {
                 from: 'itrydpd@gmail.com',
                 to: usersEmail.join(','),
-                subject: title,
+                subject: '🔥 Let\' s join IT KMITL activities !!',
                 html: `
                 <h3>Welcome to ${activity.activityName} </h3>
                 ${activity.activityDetails}
@@ -104,11 +103,20 @@ export async function POST(request: any) {
                 `
             }
 
-            await transporter.sendMail(mailOption)
+            // await transporter.sendMail(mailOption)
             console.log("_______ Finish SEND OPEN DATE EMAIL ________")
+
+            await postNotification({
+                activityName: `${activity.activityName}`,
+                activityDetail: `${activity.activityDetails}`,
+                followerId: 'sendAllId'
+            })
+
+            console.log("--------- Finish SEND NOTIFICATION ---------")
         }
 
         // <<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY SCHEDULE (FOLLOWED ACTIVITY) >>>>>>>>>>>>>>>>>>>>>>>>
+
         const usersFollowedAct = (usersData.Items ?? []).filter(user => {
             const followedActivities = user.followedActivityId || []
             return followedActivities.some((activityId: string) => {
@@ -138,12 +146,14 @@ export async function POST(request: any) {
 
         console.log("USER FOLLOW DATA _________",usersFollowedAct)
         const emailFollowedAct = usersFollowedAct.map(user => user.email)
-        console.log("EMAIL THAT FOLLOWING ACTIVITIES -> ", emailFollowedAct)
 
         if (emailFollowedAct.length === 0) {
             console.log("No users to email. Skipping email.");
             return NextResponse.json({ message: "No users to email" }, { status: 200 });
         }
+
+        const allFollowerId = usersFollowedAct.map(user => user.testUserId) // TODO: change to userId
+        console.log('follower ---- > ', allFollowerId)
 
         for (const email of emailFollowedAct) {
             const user: any = (usersData.Items ?? []).find((user: any) => user.email === email)
@@ -152,6 +162,8 @@ export async function POST(request: any) {
             const followedActivities = user?.followedActivityId || [];
             console.log("FOLLOW ACTIVITY ___ ", followedActivities)
 
+            const followerId = user?.testUserId || [] //TODO: change to userId
+            console.log('------ user that follow act ---> ', followerId)
 
             const acitivitySchedule = followedActivities.flatMap((activityId: any) => {
                 const activityDetails = (camperActData.Items ?? []).find(item => 
@@ -159,7 +171,6 @@ export async function POST(request: any) {
                 ) || (staffActData.Items ?? []).find(item => 
                     item.activityId === activityId
                 )
-                console.log("ACTIVITY DETAIL -- ", activityDetails)
                 
                 if (activityDetails && Array.isArray(activityDetails.schedule)) {
                     return activityDetails.schedule
@@ -188,8 +199,14 @@ export async function POST(request: any) {
                         ${scheduleItem.details}
                     `
                 }
-                await transporter.sendMail(mailOption);
+                // await transporter.sendMail(mailOption);
                 console.log("SCHEDULE Email sent to user: ", email)
+
+                await postNotification({
+                    activityName: `${(activityDetails ?? {}).activityName}`,
+                    activityDetail: scheduleItem.title,
+                    followerId: followerId
+                })
             }
 
         }

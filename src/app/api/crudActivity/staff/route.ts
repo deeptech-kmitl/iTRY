@@ -112,6 +112,7 @@ async function PUT(req: ITryActivity) {
   } catch (err) {
     console.log(err);
   }
+  // >>>>> SEND EMAIL TO USER >>>>>
 }
 
 export async function DELETE(req: NextRequest) {

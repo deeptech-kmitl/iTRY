@@ -48,14 +48,16 @@ export async function POST(req: ITryActivity) {
       },
     };
 
-    console.log("paramsDynamo", paramsDynamo);
 
     const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
-    console.log("insertDynamo", insertDynamo);
-    return NextResponse.json("success");
+    return {
+      status: "success"
+    }
   } catch (error) {
-    console.log("error", error);
-    return NextResponse.json(error);
+    return {
+      status: "error",
+      message: error
+  }
   }
 }
 
@@ -108,9 +110,14 @@ async function PUT(req: ITryActivity) {
       ReturnValues: "UPDATED_NEW",
     };
     const updateDynamo = await iTryDynamoDB.update(paramsDynamo).promise();
-    return NextResponse.json("update success: " + activityName);
-  } catch (err) {
-    console.log(err);
+    return {
+      status: "success"
+    }
+  } catch (error) {
+    return {
+      status: "error",
+      message: error
+  }
   }
 }
 
@@ -124,10 +131,14 @@ export async function DELETE(req: NextRequest) {
       },
     };
     const deleteDynamo = await iTryDynamoDB.delete(paramsDynamo).promise();
-    console.log("DeleteDynamo", deleteDynamo);
-    return NextResponse.json("delete success: " + activityId);
-  } catch (err) {
-    console.log(err);
+    return {
+      status: "success"
+    }
+  } catch (error) {
+    return {
+      status: "error",
+      message: error
+  }
   }
 }
 

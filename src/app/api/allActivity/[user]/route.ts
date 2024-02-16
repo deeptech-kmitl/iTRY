@@ -16,9 +16,11 @@ export async function GET(res: NextApiRequest, { params }: any) {
   try {
     const data = await iTryDynamoDB.scan(paramsDB).promise();
     console.log("data", data);
-    return NextResponse.json(data);
+    // return NextResponse.json(data);
+    return { data: data.Items || [] };
   } catch (error) {
     console.error("Error:", error);
-    NextResponse.json({ error });
+    // return NextResponse.json({ error: error });
+    return { error: error };
   }
 }

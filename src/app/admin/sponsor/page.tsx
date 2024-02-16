@@ -1,12 +1,16 @@
-import React from "react";
-import { SponsorAdmin } from "../../components/SponsorAdmin";
+"use server"
 
+import { getSponsor } from "@/app/api/sponsor/route";
+import SponsorPage, { SponsorApi } from "@/app/components/SponsorPage/SponsorAdmin";
 
-export default function SponSorPage() {
+export default async function ShowSponSorPage() {
+
+  const data = await getSponsor() as SponsorApi | { error: unknown, status:"error" } | undefined
+  console.log(data);
+
   return (
-    <div>
-      <h1 className="text-3xl text-extrabold text-center pb-16">Sponsor</h1>
-      <SponsorAdmin />
-    </div>
+    <>
+      <SponsorPage data={ data } />
+    </>
   );
 }

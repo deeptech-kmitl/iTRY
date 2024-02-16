@@ -12,6 +12,11 @@ export const CardActivityAdmin = (props: any) => {
     setIsDialogOpen(false);
   };
 
+  const handleDelete = () => {
+    console.log("ลบ");
+    closeDialog();
+  };
+
   return (
     <div>
       <div className="w-50 bg-slate-900 border-solid cursor-pointer rounded-md place-content-center mb-5 shadow shadow-neonBlue">
@@ -53,7 +58,7 @@ export const CardActivityAdmin = (props: any) => {
                           </button>
                           <button
                             className="btn border-transparent bg-red-600 text-white px-10"
-                            onClick={closeDialog}
+                            onClick={handleDelete}
                           >
                             ยืนยัน
                           </button>
@@ -72,21 +77,19 @@ export const CardActivityAdmin = (props: any) => {
 };
 
 export const ButtonAdmin = () => {
-    return (
-        <div className="flex justify-between mb-5">
-        <span>
-          <button className="border-solid border-2 border-cyan-400 bg-slate-800 rounded-xl px-3 py-2 text-center font-semibold text-sm mr-5">
-            Camper
-          </button>
-          <button className="border-solid border-2 border-white bg-cyan-300 text-black rounded-xl px-3 py-2 font-semibold text-sm text-center">
-            Staff
-          </button>
-        </span>
-        <button className="border-solid border-2 border-cyan-400 bg-slate-800 rounded-xl px-5 py-2 text-center text-sm font-semibold">
-          สร้างกิจกรรม
+  return (
+    <div className="flex justify-between mb-5">
+      <span>
+        <button className="border-solid border-2 border-cyan-400 bg-slate-800 rounded-xl px-3 py-2 text-center font-semibold text-sm mr-5">
+          Camper
         </button>
-      </div>
-    
-    
-    )
-}
+        <button className="border-solid border-2 border-white bg-cyan-300 text-black rounded-xl px-3 py-2 font-semibold text-sm text-center">
+          Staff
+        </button>
+      </span>
+      <button className="border-solid border-2 border-cyan-400 bg-slate-800 rounded-xl px-5 py-2 text-center text-sm font-semibold">
+        สร้างกิจกรรม
+      </button>
+    </div>
+  );
+};

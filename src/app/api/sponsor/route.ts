@@ -43,14 +43,15 @@ export async function POST(request: any) {
   }
 }
 
-export async function GET(request: any) {
+export async function GET() {
   const paramsDynamo = {
     TableName: "Sponsor",
   };
   try {
     const getDynamo = await iTryDynamoDB.scan(paramsDynamo).promise();
+    console.log(getDynamo.Items)
     return {
-      data: [getDynamo.Items],
+      data: getDynamo.Items,
       status: "success"
       }
   } catch (error) {

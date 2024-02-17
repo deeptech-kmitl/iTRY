@@ -15,7 +15,7 @@ export default function UserLayout({
   const fetchNotification = async () => {
 
     try {
-      const response = await getNotification(undefined, { params: { userId: '04' } }); // FIXME: get auth user id
+      const response = await getNotification(undefined, { params: { userId: '01' } }); // FIXME: get auth user id
       return response;
     }
     catch (error) {

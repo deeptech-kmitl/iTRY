@@ -109,7 +109,8 @@ export async function GET() {
             await postNotification({
                 activityName: `${activity.activityName}`,
                 activityDetail: `${activity.activityDetails}`,
-                followerId: 'sendAllId'
+                followerId: 'sendAllId',
+                sendDate: ''
             })
 
             console.log("--------- Finish SEND NOTIFICATION ---------")
@@ -205,7 +206,8 @@ export async function GET() {
                 await postNotification({
                     activityName: `${(activityDetails ?? {}).activityName}`,
                     activityDetail: scheduleItem.title,
-                    followerId: followerId
+                    followerId: followerId,
+                    sendDate: ''
                 })
             }
 

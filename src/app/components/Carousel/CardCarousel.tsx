@@ -19,7 +19,7 @@ function Card({ imagen }: any) {
       onMouseEnter={() => setShown(true)}
       onMouseLeave={() => setShown(false)}
     >
-      <Image src={imagen} alt="" width={500} height={500} />
+      <Image className="aspect-video" src={imagen} alt="" width={500} height={500} />
     </animated.div>
   );
 }

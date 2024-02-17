@@ -119,6 +119,7 @@ async function PUT(req: ITryActivity) {
       message: error
   }
   }
+  // >>>>> SEND EMAIL TO USER >>>>>
 }
 
 export async function DELETE(req: NextRequest) {

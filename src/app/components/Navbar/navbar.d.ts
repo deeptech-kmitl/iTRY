@@ -4,7 +4,7 @@ export interface NotificationProps {
 }
 
 export interface NotificationRow {
-  title: string;
-  description: string;
-  date: string;
+  activityName: string,
+  activityDetail: string,
+  followerId: string,
 }

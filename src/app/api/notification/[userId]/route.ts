@@ -2,9 +2,10 @@ import { v4 as uuidv4 } from "uuid"
 import { ITryActivity } from '@/app/utils/ManageActivityPage/activity'
 import iTryDynamoDB from "@/app/api/utils/dynamoDB"
 import { NextRequest, NextResponse } from "next/server";
-import { SendEmail } from '@/app/utils/ManageEmail/email'
+import { Notification } from '@/app/utils/ManageEmail/email'
+// import { NotificationRow } from '@/app/components/Navbar/navbar'
 
-export async function POST(req: SendEmail) {
+export async function POST(req: Notification) { // FIXME: change Notification to NotificationRow
     
     try {
         console.log('...... SENDING NOTIFICATION')
@@ -50,7 +51,7 @@ export async function POST(req: SendEmail) {
     }
 }
 
-export async function GET(res: SendEmail, { params }: any) {
+export async function GET(___: any, { params }: any) {
 
     const { userId } = params
 
@@ -67,18 +68,16 @@ export async function GET(res: SendEmail, { params }: any) {
         const allNotifications = await iTryDynamoDB.scan(paramsDynamo).promise()
         console.log('Result: ', allNotifications)
 
-        // return {
-        //     status: 'success',
-        //     data: allNotifications
-        // }
-        return NextResponse.json(allNotifications)
+        return {
+            status: 'success',
+            data: allNotifications
+        }
     }
     catch(error) {
-        // return {
-        //     status: 'error',
-        //     error: error
-        // }
-        return NextResponse.json({error})
+        return {
+            status: 'error',
+            error: error
+        }
     }
 }
 

@@ -12,7 +12,7 @@ import { getNotification, postNotification } from '../../notification/[userId]/r
 export async function GET() {
 
     const paramsUsers = {
-        TableName: 'TestUsers', // TODO: Change to 'Users'
+        TableName: 'TestUser', // TODO: Change to 'Users'
     }
     const paramsStaffAct = {
         TableName: 'StaffActivities',
@@ -75,7 +75,7 @@ export async function GET() {
         // Check if there are staff activities scheduled for tomorrow
         if (combinedActivities.length === 0) {
             console.log("No any activities scheduled for tomorrow. Skipping email.");
-            return NextResponse.json({ message: "No any activities scheduled for tomorrow" }, { status: 200 });
+            return { message: 'No any activities scheduled for tomorrow', status: 'error' }
         }
         
         // ------------ SEND EMAIL --------------
@@ -103,7 +103,7 @@ export async function GET() {
                 `
             }
 
-            // await transporter.sendMail(mailOption)
+            await transporter.sendMail(mailOption)
             console.log("_______ Finish SEND OPEN DATE EMAIL ________")
 
             await postNotification({
@@ -149,10 +149,10 @@ export async function GET() {
 
         if (emailFollowedAct.length === 0) {
             console.log("No users to email. Skipping email.");
-            return NextResponse.json({ message: "No users to email" }, { status: 200 });
+            return { message: "No users to email", status: 'success' }
         }
 
-        const allFollowerId = usersFollowedAct.map(user => user.testUserId) // TODO: change to userId
+        const allFollowerId = usersFollowedAct.map(user => user.userId)
         console.log('follower ---- > ', allFollowerId)
 
         for (const email of emailFollowedAct) {
@@ -162,7 +162,7 @@ export async function GET() {
             const followedActivities = user?.followedActivityId || [];
             console.log("FOLLOW ACTIVITY ___ ", followedActivities)
 
-            const followerId = user?.testUserId || [] //TODO: change to userId
+            const followerId = user?.userId || []
             console.log('------ user that follow act ---> ', followerId)
 
             const acitivitySchedule = followedActivities.flatMap((activityId: any) => {
@@ -199,7 +199,7 @@ export async function GET() {
                         ${scheduleItem.details}
                     `
                 }
-                // await transporter.sendMail(mailOption);
+                await transporter.sendMail(mailOption);
                 console.log("SCHEDULE Email sent to user: ", email)
 
                 await postNotification({
@@ -211,12 +211,10 @@ export async function GET() {
 
         }
 
-        return NextResponse.json({message: "Email Sent Successfully"}, {status: 200})
+        return {message: "Email Sent Successfully", status: 'success'}
     }
     catch(error) {
         console.error(error)
-        return NextResponse.json({message: "Fail to send Email"}, {status: 500})
+        return {message: "Fail to send Email", status: 'errro'}
     }
-
-
 }

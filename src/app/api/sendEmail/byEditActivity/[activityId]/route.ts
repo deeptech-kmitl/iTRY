@@ -10,7 +10,7 @@ export async function GET(res: SendEmail, { params }: any) {
     const {activityId} = params
 
     const paramsUsers = {
-        TableName: 'TestUsers', // TODO: Change to 'Users'
+        TableName: 'TestUser', // TODO: Change to 'Users'
     }
     const paramsStaffAct = {
         TableName: 'StaffActivities',
@@ -61,12 +61,12 @@ export async function GET(res: SendEmail, { params }: any) {
                 <p>Some activity information has changed, please visit the web.</p>
             `
         }
-        // await transporter.sendMail(mailOption)
+        await transporter.sendMail(mailOption)
 
         await postNotification({
             activityName: `${activityName}`,
             activityDetail: `Some activity information has changed, please visit.`,
-            followerId: user.testUserId // TODO: change to userId
+            followerId: user.userId
         })
     }
     

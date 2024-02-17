@@ -19,7 +19,7 @@ interface SponsorData {
   sponsorUrl: string;
 }
 
-export default function SponsorPage({ data }: SponsorPageProps) {
+export default function SponsorPage({ data }:  SponsorPageProps) {
   const { register, setValue, watch, handleSubmit, onSubmit, deleteSponsor } = useSponsor();
   if (data && 'status' in data && data.status === 'error') {
     return <div>Error</div>

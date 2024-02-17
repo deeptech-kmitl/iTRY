@@ -24,9 +24,7 @@ async function POST(req: ITryActivity) {
             facebookLink,
             faq
         } = req;
-
         const activityId = await uuidv4();
-
         const paramsDynamo = {
             TableName: tableName,
             Item: {
@@ -47,14 +45,17 @@ async function POST(req: ITryActivity) {
             },
         };
 
-        console.log("paramsDynamo", paramsDynamo)
 
         const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
-        console.log("insertDynamo", insertDynamo);
-        return NextResponse.json("success")
+        return {
+            status: "success"
+        }
     } catch (error) {
-        console.log("error", error)
-        return NextResponse.json(error);
+
+        return {
+            status: "error",
+            message: error
+        }
     }
 }
 
@@ -104,15 +105,20 @@ export async function PUT(req: ITryActivity) {
             ReturnValues: "UPDATED_NEW"
         };
         const updateDynamo = await iTryDynamoDB.update(paramsDynamo).promise();
-        return NextResponse.json("update success: " + activityName)
-    }catch(err){
-        console.log(err)
+        return {
+            status: "success"
+        }
+    }catch(error){
+        return {
+            status: "error",
+            message: error
+        }
     }
 }
 
 export async function DELETE(req: ITryActivity) {
     try {
-        const {activityId} =await req;
+        const {activityId} = await req;
         const paramsDynamo = {
             TableName: tableName,
             Key:{
@@ -120,10 +126,14 @@ export async function DELETE(req: ITryActivity) {
             }
         }
         const deleteDynamo = await iTryDynamoDB.delete(paramsDynamo).promise();
-        console.log("DeleteDynamo", deleteDynamo);
-        return NextResponse.json("delete success: " + activityId)
-    } catch (err) {
-        console.log(err)
+        return {
+            status: "success"
+        }
+    } catch (error) {
+        return {
+            status: "error",
+            message: error
+        }
     }
 } 
 

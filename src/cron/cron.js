@@ -1,6 +1,11 @@
 const cron = require("node-cron");
+const axios = require('axios');
+const AWS = require('aws-sdk')
+const { DynamoDB } = AWS
+require('dotenv').config()
 
-cron.schedule("* * * * *", () => {
-  // Your task to be executed every minute goes here
-  console.log("Cron job executed every minute");
-});
+cron.schedule('0 9 * * *', async() => {
+  console.log('----- Cron job started! -----')
+
+    await axios.get('http://localhost:3000/api/sendEmail/byCron');
+})

@@ -1,15 +1,12 @@
+"use client";
 
-import React from 'react';
-import { useState } from 'react';
-
+import { ActivityAdmin } from "@/app/components/ActivityAdmin/ActivityAdmin";
 
 export default function ActivityPage() {
-  
+
   return (
-    <div>
-      <div className="pb-5">
-        <h1 className="text-3xl text-extrabold text-center">กิจกรรมทั้งหมด</h1>
-      </div>
-    </div>
+    <>
+      <ActivityAdmin />
+    </>
   );
 }

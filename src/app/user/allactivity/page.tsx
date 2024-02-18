@@ -15,16 +15,11 @@ export default function AllActivity() {
   const page = searchParams.get("page");
   const per_page = searchParams.get("per_page") ?? "10";
   console.log(">>>>>>>>>>", page);
+  const [sortByDate, setSortByDate] = useState("asc");
 
   // skipped and limited
   const start = (Number(page) - 1) * Number(per_page);
   const end = start + Number(per_page); // 5, 10, 15 ...
-
-  const toggleSortByDate = () => {
-    // setSortByDate(!sortByDate);
-  };
-
-
 
   return (
     <div>
@@ -35,14 +30,14 @@ export default function AllActivity() {
         <summary className="m-1 btn">ทั้งหมด</summary>
         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
           <li>
-            <a onClick={toggleSortByDate}>วันที่ล่าสุด</a>
+            <a onClick={()=>setSortByDate("asc")}>วันที่ล่าสุด</a>
           </li>
           <li>
-            <a onClick={toggleSortByDate}>วันที่เก่าสุด</a>
+            <a onClick={()=>setSortByDate("desc")}>วันที่เก่าสุด</a>
           </li>
         </ul>
       </details>{" "}
-      <AllActivityPage page={page} per_page={per_page} user={'camper'} />
+      <AllActivityPage page={page} per_page={per_page} user={'camper'} sort={sortByDate} />
     </div>
   );
 }

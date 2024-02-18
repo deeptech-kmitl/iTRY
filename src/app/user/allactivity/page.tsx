@@ -1,47 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { CardActivity } from "@/app/components/CardActivity";
-import { Paging } from "@/app/components/Paging";
+import { useSearchParams } from "next/navigation";
+import {AllActivityPage} from "@/app/components/AllActivityPage/AllActivityPage";
 
 export default function AllActivity() {
-  const [sortByDate, setSortByDate] = useState(false);
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page");
+  const per_page = searchParams.get("per_page") ?? "10";
+  console.log(">>>>>>>>>>", page);
+  const [sortByDate, setSortByDate] = useState("asc");
 
-  const toggleSortByDate = () => {
-    setSortByDate(!sortByDate);
-  };
-
-  const activities = [
-    {
-      image: "/open_house.png",
-      name: "OPEN HOUSE",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
-      date: "11/12/2023 - 12/12/2023",
-    },
-    {
-      image: "/open_house.png",
-      name: "IT Camp",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
-      date: "04/09/2023 - 07/09/2023",
-    },
-    {
-      image: "/open_house.png",
-      name: "TO BE IT",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
-      date: "20/11/2023 - 23/11/2023",
-    },
-  ];
-
-  const sortedActivities = [...activities].sort((a, b) => {
-    const dateA = new Date(
-      a.date.split(" - ")[0].split("/").reverse().join("-")
-    ).getTime();
-    const dateB = new Date(
-      b.date.split(" - ")[0].split("/").reverse().join("-")
-    ).getTime();
-    return sortByDate ? dateB - dateA : dateA - dateB;
-  });
+  // skipped and limited
+  const start = (Number(page) - 1) * Number(per_page);
+  const end = start + Number(per_page); // 5, 10, 15 ...
 
   return (
     <div>
@@ -52,25 +25,14 @@ export default function AllActivity() {
         <summary className="m-1 btn">ทั้งหมด</summary>
         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
           <li>
-            <a onClick={toggleSortByDate}>วันที่ล่าสุด</a>
+            <a onClick={()=>setSortByDate("asc")}>วันที่ใกล้สุด</a>
           </li>
           <li>
-            <a onClick={toggleSortByDate}>วันที่เก่าสุด</a>
+            <a onClick={()=>setSortByDate("desc")}>วันที่ช้าสุด</a>
           </li>
         </ul>
       </details>{" "}
-      {sortedActivities.map((activity, index) => (
-        <CardActivity
-          key={index}
-          image={activity.image}
-          name={activity.name}
-          description={activity.description}
-          date={activity.date}
-        />
-      ))}{" "}
-
-      <Paging/>
-      
+      <AllActivityPage page={page} per_page={per_page} user={'camper'} sort={sortByDate} />
     </div>
   );
 }

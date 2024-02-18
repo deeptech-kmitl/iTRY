@@ -1,15 +1,20 @@
 // sort by open date
-// dynamodb.js
 import { NextResponse, NextRequest } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import next from "next";
 import iTryDynamoDB from "../../../utils/dynamoDB";
 
-export async function GET(res: NextRequest, { params }: any) {
-  const obj = params;
+export async function GET(req: any) {
+  //   console.log("backend--------", req);
+  const { user, page } = req;
+  console.log("user-------", user, page);
+  //start
+  const offset = page ? (parseInt(page) - 1) * 10 : 0;
+  console.log("page", page, offset);
+
   const tableName =
-    obj.user == "staff" ? "StaffActivities" : "CamperActivities";
-  console.log("user", obj.user);
+    user == "staff" ? "StaffActivities" : "CamperActivities";
+//   console.log("user", user);
   const paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
     TableName: tableName,
   };
@@ -22,11 +27,15 @@ export async function GET(res: NextRequest, { params }: any) {
       (a, b) => new Date(b.openDate).getTime() - new Date(a.openDate).getTime()
     );
     console.log("data", data);
-    return NextResponse.json({ data: sortedData });
-    // return { data: sortedData };
+    console.log("count----", sortedData.slice(offset, offset + 10).length);
+
+    // return NextResponse.json({ data: sortedData.slice(offset, offset + 10) });
+    return { data: sortedData.slice(offset, offset + 10) };
   } catch (error) {
     console.error("Error:", error);
-    return NextResponse.json({ error: error });
-    // return { error: error };
+    // return NextResponse.json({ error: error });
+    return { error: error };
   }
 }
+
+export { GET as getActivitiesDesc };

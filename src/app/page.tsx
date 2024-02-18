@@ -138,7 +138,7 @@ export default function Home() {
               />
             </div>
           </div>
-          {activity.map((activity, index) => (
+          {/* {activity.map((activity, index) => (
             <CardActivity
               key={index}
               image={activity.image}
@@ -146,7 +146,7 @@ export default function Home() {
               description={activity.description}
               date={activity.date}
             />
-          ))}{" "}
+          ))}{" "} */}
         </div>
 
         <div className="md:py-16">

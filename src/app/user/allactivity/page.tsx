@@ -2,13 +2,8 @@
 
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { CardActivity, ascActivityApi } from "@/app/components/CardActivity";
-import { Paging } from "@/app/components/Paging";
 import { useSearchParams } from "next/navigation";
-import type { NextApiRequest, NextApiResponse } from "next";
 import {AllActivityPage} from "@/app/components/AllActivityPage/AllActivityPage";
-// import { getActivitiesAsc } from "@/app/api/allActivity/[...page]/route";
-// import type { ascActivityApi } from "@/app/api/types"; // Add this line
 
 export default function AllActivity() {
   const searchParams = useSearchParams();
@@ -30,10 +25,10 @@ export default function AllActivity() {
         <summary className="m-1 btn">ทั้งหมด</summary>
         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
           <li>
-            <a onClick={()=>setSortByDate("asc")}>วันที่ล่าสุด</a>
+            <a onClick={()=>setSortByDate("asc")}>วันที่ใกล้สุด</a>
           </li>
           <li>
-            <a onClick={()=>setSortByDate("desc")}>วันที่เก่าสุด</a>
+            <a onClick={()=>setSortByDate("desc")}>วันที่ช้าสุด</a>
           </li>
         </ul>
       </details>{" "}

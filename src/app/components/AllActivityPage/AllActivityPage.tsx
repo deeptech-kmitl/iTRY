@@ -1,9 +1,8 @@
 
 import { getActivitiesAsc } from "@/app/api/sortActivity/[user]/asc/route";
 import { getActivitiesDesc } from "@/app/api/sortActivity/[user]/desc/route";
-import { CardActivity, ascActivityApi } from "@/app/components/CardActivity";
+import { CardActivity } from "@/app/components/CardActivity";
 import { Paging } from "@/app/components/Paging";
-import { useSearchParams } from "next/navigation";
 
 export const AllActivityPage = async (props: any) => {
 //   console.log("props------", props);

@@ -1,47 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { CardActivity } from "@/app/components/CardActivity";
+import { CardActivity, ascActivityApi } from "@/app/components/CardActivity";
 import { Paging } from "@/app/components/Paging";
+import { useSearchParams } from "next/navigation";
+import type { NextApiRequest, NextApiResponse } from "next";
+import {AllActivityPage} from "@/app/components/AllActivityPage/AllActivityPage";
+// import { getActivitiesAsc } from "@/app/api/allActivity/[...page]/route";
+// import type { ascActivityApi } from "@/app/api/types"; // Add this line
 
 export default function AllActivity() {
-  const [sortByDate, setSortByDate] = useState(false);
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page");
+  const per_page = searchParams.get("per_page") ?? "10";
+  console.log(">>>>>>>>>>", page);
+
+  // skipped and limited
+  const start = (Number(page) - 1) * Number(per_page);
+  const end = start + Number(per_page); // 5, 10, 15 ...
 
   const toggleSortByDate = () => {
-    setSortByDate(!sortByDate);
+    // setSortByDate(!sortByDate);
   };
 
-  const activities = [
-    {
-      image: "/open_house.png",
-      name: "OPEN HOUSE",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
-      date: "11/12/2023 - 12/12/2023",
-    },
-    {
-      image: "/open_house.png",
-      name: "IT Camp",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
-      date: "04/09/2023 - 07/09/2023",
-    },
-    {
-      image: "/open_house.png",
-      name: "TO BE IT",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis tortor ut nunc bibendum, ut accumsan augue cursus. Etiam laoreet risus viverra elementum finibus....",
-      date: "20/11/2023 - 23/11/2023",
-    },
-  ];
 
-  const sortedActivities = [...activities].sort((a, b) => {
-    const dateA = new Date(
-      a.date.split(" - ")[0].split("/").reverse().join("-")
-    ).getTime();
-    const dateB = new Date(
-      b.date.split(" - ")[0].split("/").reverse().join("-")
-    ).getTime();
-    return sortByDate ? dateB - dateA : dateA - dateB;
-  });
 
   return (
     <div>
@@ -59,18 +42,7 @@ export default function AllActivity() {
           </li>
         </ul>
       </details>{" "}
-      {sortedActivities.map((activity, index) => (
-        <CardActivity
-          key={index}
-          image={activity.image}
-          name={activity.name}
-          description={activity.description}
-          date={activity.date}
-        />
-      ))}{" "}
-
-      <Paging/>
-      
+      <AllActivityPage page={page} per_page={per_page} user={'camper'} />
     </div>
   );
 }

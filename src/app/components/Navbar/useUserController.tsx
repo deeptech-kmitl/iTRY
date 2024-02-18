@@ -6,9 +6,11 @@ export default function useUserController() {
   const isLogin = status === "authenticated"
   const userData: User = {
     name: session?.user?.name || "",
+    email: session?.user?.email || "",
     role: session?.user?.role || "",
     id: session?.user?.id || ""
   }
+  console.log("userData", userData);
   return {
     isLogin,
     userData

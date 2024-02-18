@@ -18,7 +18,6 @@ export async function GET(___: any, {params}: any) {
   } catch (error) {
     console.error("Error:", error);
     return {error: error}
-    return NextResponse.json({ error });
   }
 }
 

@@ -24,7 +24,7 @@ export default function BannerPage({ apiData }: BannerPageProps) {
         return (
             <div>
                 <h1 className="text-3xl text-extrabold text-center pb-16">Banner</h1>
-                <div className="grid md:grid-cols-2 grid-cols-1 gap-2 p-5">
+                <div className="grid md:grid-cols-2 gap-2 p-5">
                     {apiData?.data.map((item, key) => (
                         <div key={item.bannerId}>
                             <div className="w-full h-full rounded overflow-hidden md:p-5 p-1 ">

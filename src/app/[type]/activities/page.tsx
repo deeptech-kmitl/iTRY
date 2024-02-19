@@ -17,7 +17,7 @@ export default async function ActivitiesPage({ params, searchParams }: Activitie
 
   const page = parseInt(searchParams?.page || "") || 1;
 
-  const activities = await getActivitiesDesc(params.type, page, 3) as ActivityApiData | ApiError | undefined;;
+  const activities = await getActivitiesDesc(params.type, page, 5) as ActivityApiData | ApiError | undefined;;
   console.log("activities", activities)
   return (
     <AllActivitiesContainer activitiesData={activities} page={page} showPagination />

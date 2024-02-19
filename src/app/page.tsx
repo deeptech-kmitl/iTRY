@@ -1,6 +1,7 @@
 "use server";
 
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 const Map = dynamic(() => import('./components/GoogleMap'), { ssr: false });
 const RegisteringActivitiesContainer = dynamic(() => import('./components/Home/RegisteringActivitiesContainer'), { ssr: false });
 const TravelContainer = dynamic(() => import('./components/Home/TravelContainer'), { ssr: false });
@@ -15,15 +16,27 @@ export default async function Home() {
   return (
     <>
       <UserLayout customClassName="flex flex-col gap-8">
-        <BannerServer />
-        <IncomingServer />
-        <AllActivitiesServer />
-        <RegisteringActivitiesContainer />
-        <TravelContainer />
+        <Suspense fallback={<p>Loading Banner...</p>}>
+          <BannerServer />
+        </Suspense>
+        <Suspense fallback={<p>Loading Incoming...</p>}>
+          <IncomingServer />
+        </Suspense>
+        <Suspense fallback={<p>Loading All Activities...</p>}>
+          <AllActivitiesServer />
+        </Suspense>
+        <Suspense fallback={<p>Loading Registering Activities...</p>}>
+          <RegisteringActivitiesContainer />
+        </Suspense>
+        <Suspense fallback={<p>Loading Travel...</p>}>
+          <TravelContainer />
+        </Suspense>
         <div className="pt-6">
           <Map />
         </div>
-        <SponsorServer />
+        <Suspense fallback={<p>Loading Sponsors...</p>}>
+          <SponsorServer />
+        </Suspense>
       </UserLayout>
     </>
   );

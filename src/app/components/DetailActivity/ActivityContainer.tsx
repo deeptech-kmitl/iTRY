@@ -10,6 +10,7 @@ import Link from "next/link";
 import ITryButton from "../Button";
 import { Fragment, ReactNode } from 'react';
 import sortDateAsc from "@/app/utils/sortingFunction";
+import CardPosition from "../CardPosition";
 
 interface ActivityContainerProps {
   activity: ITryActivity
@@ -100,6 +101,13 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
             <div className="w-[100%] md:w-[75%]"><FollowButton activity={activity}  /></div>
             <div className='px-3'><ShareSocial /></div>
           </div>
+        </div>
+      </div>
+      <div className="">
+        <div className='grid grid-cols-6 place-items-center'>
+          {activity?.jobPositions.map((job, index) => (
+            <CardPosition key={index} {...job} />
+          ))}
         </div>
       </div>
       <div className='pt-0 md:pt-4 text-sm md:text-xl' >

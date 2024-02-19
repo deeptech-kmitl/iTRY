@@ -1,11 +1,11 @@
 'use client'
-import useBannerPage from "@/app/utils/BannerPage/useBannerPage";
 import ITryButton from "../Button";
 import ITryInput from "../Input";
 import Image from "next/image";
 import { ApiDataList } from "../global";
 import ManageableImage from "../ManageableImage/ManageableImage";
 import ITryToastNotification from "../Toast/ToastNotification";
+import useBannerPage from "@/app/utils/BannerPage/useBannerPage";
 
 interface BannerPageProps {
     apiData: ApiDataList<BannerData> | { error: unknown, status: "error" } | undefined;
@@ -17,7 +17,7 @@ export interface BannerData {
 }
 export default function BannerPage({ apiData }: BannerPageProps) {
 
-    const { register, setValue, watch, handleSubmit, onSubmit, onDelete } = useBannerPage();
+    const { register, setValue, watch, handleSubmit, onSubmit, onDeleteBanner } = useBannerPage();
     if (apiData && 'status' in apiData && apiData.status === 'error') {
         // Handle error case
         return <div>Error</div>;
@@ -30,7 +30,7 @@ export default function BannerPage({ apiData }: BannerPageProps) {
                     {apiData?.data.map((item, key) => (
                         <div key={item.bannerId}>
                             <div className="w-full h-full rounded overflow-hidden md:p-5 p-1 ">
-                                <ManageableImage itemId={item.bannerId} itemImageUrl={item.bannerUrl} onDelete={onDelete} />
+                                <ManageableImage itemId={item.bannerId} itemImageUrl={item.bannerUrl} deleteFunc={onDeleteBanner} />
                             </div>
 
                         </div>

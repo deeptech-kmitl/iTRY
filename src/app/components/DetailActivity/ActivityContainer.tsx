@@ -28,7 +28,7 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
       {/* ช่องทางการติดต่อสอบถาม */}
       <div className="grid grid-cols-1 md:grid-cols-2 text-sm md:text-xl py-1 md:py-8">
         <div>
-          <Image src="/open_house.png" alt="image_activity" width="0" height="0" sizes="100vw" className="w-full h-auto rounded-lg border aspect-video w-full object-cover object-top" />
+          <Image src="/open_house.png" alt="image_activity" width="0" height="0" sizes="100vw" className="w-full h-auto rounded-lg border aspect-video w-full object-cover object-center" />
         </div>
         <div className='pl-0 md:pl-12 py-6 md:py-0 px-8 md:px-0'>
           <p className='font-bold py-1'>ช่องทางการติดต่อสอบถาม</p>

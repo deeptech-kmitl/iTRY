@@ -3,11 +3,10 @@ import { NextResponse, NextRequest } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import iTryDynamoDB from "../../../utils/dynamoDB";
 
-export async function GET(res: NextResponse, { params }: any) {
-  const obj = params;
-  const tableName =
-    obj.user == "staff" ? "StaffActivities" : "CamperActivities";
-  console.log("user", obj.user);
+export async function getIncomingActivity() {
+  const tableName = "CamperActivities"
+
+  console.log("today", new Date().toISOString().slice(0, 10))
 
   const paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
     TableName: tableName,
@@ -16,7 +15,7 @@ export async function GET(res: NextResponse, { params }: any) {
       "#openDate": "openDate",
     },
     ExpressionAttributeValues: {
-      ":today": new Date().toISOString(),
+      ":today": new Date().toISOString().slice(0, 10),
     },
   };
 
@@ -27,9 +26,10 @@ export async function GET(res: NextResponse, { params }: any) {
     const sortedData = items.sort(
       (a, b) => new Date(a.openDate).getTime() - new Date(b.openDate).getTime()
     );
-    console.log("data", data);
-    // return NextResponse.json({ data: sortedData[0] });
-    return { data: sortedData[0] };
+    
+    console.log("sortedData", sortedData)
+
+    return { data: sortedData[0], status: "success" };
   } catch (error) {
     console.error("Error:", error);
     throw error

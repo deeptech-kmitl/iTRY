@@ -4,14 +4,16 @@ import ITryButton from "../Button";
 interface ManageableImageProps {
   itemId: string;
   itemImageUrl: string;
-  onDelete: (id: string) => void;
+  deleteFunc: (id: string) => void;
 }
 
-export default function ManageableImage({ itemId, itemImageUrl, onDelete }: ManageableImageProps) {
+export default function ManageableImage({ itemId, itemImageUrl, deleteFunc }: ManageableImageProps) {
+
+
   return (
     <>
-      <Image priority className="w-full aspect-video object-cover object-top" src={itemImageUrl} alt={itemImageUrl} width={700} height={300} />
-      <ITryButton customWidthClassName="w-full" onClick={() => onDelete(itemId)}>ลบ</ITryButton>
+      <Image priority className="w-full aspect-video object-cover object-center" src={itemImageUrl} alt={itemImageUrl} width={700} height={300} />
+      <ITryButton customWidthClassName="w-full" onClick={() => {deleteFunc(itemId)}}>ลบ</ITryButton>
     </>
   )
 }

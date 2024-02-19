@@ -5,7 +5,7 @@ import { ITryActivity, ITryActivityCard } from "../utils/ManageActivityPage/acti
 import Image from "next/image";
 import { reduceHtml } from "../utils/reduceHtmlTag";
 
-export const CardActivity = async ({ activityId, activityDetails, activityName, closeDate, imageUrl, openDate, typeActivity }: ITryActivity) => {
+export const CardActivity = ({ activityId, activityDetails, activityName, closeDate, imageUrl, openDate, typeActivity }: ITryActivity) => {
 
   const activityDetailsReduced = reduceHtml(activityDetails, 3) + "<span>...</span>";
 
@@ -15,7 +15,7 @@ export const CardActivity = async ({ activityId, activityDetails, activityName, 
         <div className="card card-side mb-5 bg-slate-900 shadow-xl w-full h-full">
           <Image priority className="w-3/6 h-auto object-cover" alt="" src={imageUrl as string} width={200} height={200} />
           <div className="card-body">
-            <h2 className="card-title text-2xl">{activityName}</h2>
+            <h2 className="card-title text-base md:text-xl lg:text-2xl">{activityName}</h2>
             <p className="text-base text-stone-400" dangerouslySetInnerHTML={{ __html: activityDetailsReduced }} />
             <p className="text-cyan-400">
               รับสมัคร : {openDate} - {closeDate}

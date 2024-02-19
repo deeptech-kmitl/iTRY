@@ -33,7 +33,6 @@ export async function GET(res: NextResponse, { params }: any) {
     // return { data: sortedData };
   } catch (error) {
     console.error("Error:", error);
-    return NextResponse.json({ error: error });
-    // return { error: error };
+    throw error
   }
 }

@@ -41,7 +41,8 @@ export async function createCamperActivity(req: ITryActivity) {
                 applyLink: applyLink,
                 igLink: igLink,
                 facebookLink: facebookLink,
-                faq: faq
+                faq: faq,
+                typeActivity: "camper"
             },
         };
 
@@ -53,10 +54,7 @@ export async function createCamperActivity(req: ITryActivity) {
         }
     } catch (error) {
 
-        return {
-            status: "error",
-            message: error
-        }
+        throw error
     }
 }
 
@@ -110,10 +108,7 @@ export async function updateCamperActivity(req: ITryActivity) {
             status: "success"
         }
     }catch(error){
-        return {
-            status: "error",
-            message: error
-        }
+        throw error
     }
 }
 
@@ -131,9 +126,6 @@ export async function deleteCamperActivity(req: ITryActivity) {
             status: "success"
         }
     } catch (error) {
-        return {
-            status: "error",
-            message: error
-        }
+        throw error
     }
 } 

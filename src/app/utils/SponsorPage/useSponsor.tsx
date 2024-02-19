@@ -4,8 +4,9 @@ import { uploadFileToS3 } from "@/app/api/create/staffActivity/route"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
-import { v4 as uuidv4 } from "uuid"
-import iTryDynamoDB from "@/app/api/utils/dynamoDB"
+import ITryToastNotification from "@/app/components/Toast/ToastNotification"
+import { mutate } from "swr"
+import { createSponSor, deleteSponSor } from "@/app/api/sponsor/route"
 
 export default function useSponsor() {
     const schema = yup.object().shape({
@@ -19,41 +20,49 @@ export default function useSponsor() {
     const onSubmit = async (data: any) => {
         try {
             const image = data.image;
-            const imageUrl: any = await uploadFileToS3(image);
+            const imageUrl: string = await uploadFileToS3(image) || ""
+    
+            await createSponSor(imageUrl)
+            
+            await ITryToastNotification({
+                type: "success",
+                text: "เพิ่มสปอนเซอร์สำเร็จ"
+            })
 
-            const sponsorId = uuidv4();
+            setValue("image", undefined)
 
-            const dynamoData = {
-                sponsorId: sponsorId,
-                sponsorUrl: imageUrl
-            };
+            mutate('getSponsors');
 
-            const params = {
-                TableName: "Sponsor",
-                Item: dynamoData
-            };
-
-            await iTryDynamoDB.put(params).promise();
             console.log("Data saved to DynamoDB successfully");
         }
         catch(error) {
+            await ITryToastNotification({
+                type: "error",
+                text: "เพิ่มสปอนเซอร์ล้มเหลว"
+            })
             console.error("Error saving data to DynamoDB:", error);
         }
     }
 
     const onDelete = async (sponsorId:string) => {
         try {
-            const params = {
-                TableName: "Sponsor",
-                Key: {
-                    sponsorId: sponsorId
-                }
-            }
+            
+            await deleteSponSor(sponsorId);
 
-            await iTryDynamoDB.delete(params).promise();
+            await ITryToastNotification({
+                type: "success",
+                text: "ลบสปอนเซอร์สำเร็จ"
+            })
+
+            mutate('getSponsors');
+
             console.log(`${sponsorId} deleted success`)
         }
         catch(error) {
+            await ITryToastNotification({
+                type: "error",
+                text: "ลบสปอนเซอร์ล้มเหลว"
+            })
             console.error("Error deleting sponsor:", error);
         }
     }

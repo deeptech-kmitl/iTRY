@@ -23,7 +23,7 @@ export async function createStaffActivity(req: ITryActivity) {
       igLink,
       facebookLink,
       applyLink,
-      faq,
+      faq
     } = req;
 
     const activityId = await uuidv4();
@@ -46,6 +46,7 @@ export async function createStaffActivity(req: ITryActivity) {
         igLink: igLink,
         facebookLink: facebookLink,
         faq: faq,
+        typeActivity: "staff"
       },
     };
 
@@ -56,10 +57,7 @@ export async function createStaffActivity(req: ITryActivity) {
       status: "success"
     }
   } catch (error) {
-    return {
-      status: "error",
-      message: error
-  }
+    throw error
   }
 }
 
@@ -116,10 +114,7 @@ export async function updateStaffActivity(req: ITryActivity) {
       status: "success"
     }
   } catch (error) {
-    return {
-      status: "error",
-      message: error
-  }
+    throw error
   }
   // >>>>> SEND EMAIL TO USER >>>>>
 }
@@ -137,9 +132,6 @@ export async function deleteStaffActivity(activityId: string) {
       status: "success"
     }
   } catch (error) {
-    return {
-      status: "error",
-      message: error
-  }
+    throw error
   }
 }

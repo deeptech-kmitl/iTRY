@@ -29,7 +29,7 @@ export default function SponsorPage({ data }: SponsorPageProps) {
           {data.data.map((item, key) => (
             <div key={item.sponsorId}>
               <div className="w-full h-full rounded overflow-hidden md:p-5 p-1">
-                <ManageableImage itemId={item.sponsorId} itemImageUrl={item.sponsorUrl} onDelete={onDelete} />
+                <ManageableImage itemId={item.sponsorId} itemImageUrl={item.sponsorUrl} deleteFunc={onDelete} />
               </div>
             </div>
           ))}

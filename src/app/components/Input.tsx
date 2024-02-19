@@ -84,7 +84,7 @@ export default function ITryInput(props: ITryInputProps) {
       <div className={`relative w-full ${!file && "border-dashed aspect-video border-color-primary border-2"} flex justify-center items-center cursor-pointer`}>
         <input {...register} accept="image/*" type="file" onChange={handleFileChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
         {file ? (
-          <Image priority id="selected-image" src={typeof (file) === "string" ? file : URL.createObjectURL(file)} className="w-full object-cover aspect-video object-top" alt="" width={300} height={300} />
+          <Image priority id="selected-image" src={typeof (file) === "string" ? file : URL.createObjectURL(file)} className="w-full object-cover aspect-video object-center" alt="" width={300} height={300} />
         ) : (
             <p className="text-white">เพิ่มรูปภาพ</p>
         )}

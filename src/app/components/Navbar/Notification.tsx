@@ -20,6 +20,7 @@ export default function ITryNotification({ notificationData }: { notificationDat
               <Link
                 className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal "
                 href="#"
+                shallow
               >
                 <div className="flex flex-col">
                   <div className="flex items-end gap-4">

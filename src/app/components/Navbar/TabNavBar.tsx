@@ -60,7 +60,7 @@ export default function TabNavBar() {
         {menuTabNav.map((menu, index) => {
           return <Fragment key={index}>
             {menu.show && (
-              <Link href={menu.path}>
+              <Link href={menu.path} shallow>
                 <p className={getActiveTabMenu(menu.activeTabName)}>{menu.title}</p>
               </Link >
             )}

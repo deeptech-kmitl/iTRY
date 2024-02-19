@@ -15,7 +15,7 @@ export default async function AllActivitiesServer() {
   return (
     <div className="flex flex-col gap-8">
       <div className="text-base md:text-2xl flex items-center">
-        <Link href="/camper/activities">
+        <Link href="/camper/activities" shallow>
           <p className="mr-2">รายชื่อกิจกรรมสำหรับผู้เข้าร่วมกิจกรรมทั้งหมด</p>
         </Link>
         <FontAwesomeIcon icon={faArrowRight} />

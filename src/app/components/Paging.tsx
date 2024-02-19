@@ -47,9 +47,7 @@ export const Paging: FC<PagingProps> = ({ page = 1, countActivities, perPage }: 
       <button
         className="join-item btn"
         disabled={!hasPrevPage}
-        onClick={() => {
-          router.push(`allactivity?page=${Number(page) - 1}`);
-        }}
+        onClick={() => nextPage(page - 1)}
       >
         «
       </button>

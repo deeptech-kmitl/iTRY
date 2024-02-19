@@ -11,7 +11,7 @@ interface IncomingContainerProps {
   activity: ITryActivity
 }
 
-export const IncomingContainer = ({ activity }: IncomingContainerProps) => {
+export default function IncomingContainer({ activity }: IncomingContainerProps) {
   const targetDate = new Date(activity?.openDate);
   const currentDate = new Date();
   const timeDifference = targetDate.getTime() - currentDate.getTime();

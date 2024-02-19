@@ -1,14 +1,15 @@
 "use server";
-import React from "react";
-import Map from "./components/GoogleMap";
-import RegisteringActivitiesContainer from "./components/Home/RegisteringActivitiesContainer";
-import SponsorContainer from "./components/Home/SponsorContainer";
-import TravelContainer from "./components/Home/TravelContainer";
-import UserLayout from "./user/layout";
-import BannerServer from "./components/Home/BannerServer";
-import AllActivitiesServer from "./components/Home/AllActivitiesServer";
-import IncomingServer from "./components/Home/IncomingServer";
-import SponsorServer from "./components/Home/SponsorServer";
+
+import dynamic from 'next/dynamic';
+const Map = dynamic(() => import('./components/GoogleMap'), { ssr: false });
+const RegisteringActivitiesContainer = dynamic(() => import('./components/Home/RegisteringActivitiesContainer'), { ssr: false });
+const TravelContainer = dynamic(() => import('./components/Home/TravelContainer'), { ssr: false });
+const UserLayout = dynamic(() => import('./user/layout'), { ssr: false });
+const BannerServer = dynamic(() => import('./components/Home/BannerServer'), { ssr: false });
+const AllActivitiesServer = dynamic(() => import('./components/Home/AllActivitiesServer'), { ssr: false });
+const IncomingServer = dynamic(() => import('./components/Home/IncomingServer'), { ssr: false });
+const SponsorServer = dynamic(() => import('./components/Home/SponsorServer'), { ssr: false });
+
 
 export default async function Home() {
   return (

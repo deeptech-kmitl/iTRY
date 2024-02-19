@@ -1,15 +1,16 @@
 "use server"
-import { getActivitiesDesc } from "@/app/api/sortActivity/[user]/desc/route";
-import AllActivitiesContainer from "@/app/components/Home/AllActivitiesContainer";
-import { TypeActivityParams } from "@/app/components/ManageActivityPage/activity";
-import { ApiDataList, ApiError } from "@/app/components/global";
-import { ActivityApiData, ITryActivityCard } from "@/app/utils/ManageActivityPage/activity";
-import { useSearchParams } from "next/navigation";
+import { TypeActivityParams } from '@/app/components/ManageActivityPage/activity';
+import dynamic from 'next/dynamic';
+const AllActivitiesContainer = dynamic(() => import('@/app/components/Home/AllActivitiesContainer'), { ssr: false });
+import { getActivitiesDesc } from '@/app/api/sortActivity/[user]/desc/route';
+import { ActivityApiData } from '@/app/utils/ManageActivityPage/activity';
+import { ApiError } from '@/app/components/global';
+
 
 
 interface ActivitiesPageProps {
   params: TypeActivityParams,
-  searchParams: {page: string}
+  searchParams: { page: string }
 }
 
 export default async function ActivitiesPage({ params, searchParams }: ActivitiesPageProps) {

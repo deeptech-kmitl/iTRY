@@ -5,7 +5,11 @@ import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import Image from "next/image";
 
-function Card({ imagen }: any) {
+interface CardProps {
+  imagen: string;
+}
+
+function Card({ imagen }: CardProps) {
   const [show, setShown] = useState(false);
 
   const props3 = useSpring({

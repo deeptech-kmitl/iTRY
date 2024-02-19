@@ -1,5 +1,6 @@
 "use server"
-import ActivityContainer from '@/app/components/DetailActivity/ActivityContainer';
+import dynamic from 'next/dynamic';
+const ActivityContainer = dynamic(() => import('@/app/components/DetailActivity/ActivityContainer'), { ssr: false });
 import { TypeActivityParams } from '@/app/components/ManageActivityPage/activity';
 import { getCamperActivity } from '@/app/api/activityById/camper/[id]/route';
 import { getStaffActivity } from '@/app/api/activityById/staff/[id]/route';

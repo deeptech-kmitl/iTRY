@@ -1,10 +1,12 @@
+import Image from "next/image";
+
 export default function RegisteringActivitiesContainer() {
   return (
     <div className="md:py-16">
       <div className="grid grid-cols-1 gap-4">
         <div className="text-base md:text-2xl flex items-center">
           <p className="mr-2">กิจกรรมที่กำลังเปิดรับสมัคร</p>
-          <img
+          <Image
             width="25"
             height="25"
             src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png"

@@ -1,5 +1,4 @@
 import ITryFooter from "../components/Footer/footer"
-import ITryFooterr from "../components/Footer/footer"
 import ITryNavBar from "../components/Navbar/NavBar"
 import ITrySideNavBar from "../components/Navbar/SideNavBar"
 
@@ -16,7 +15,7 @@ export default function AdminLayout({
         <ITrySideNavBar />
         <div className="h-full w-full">
           <ITryNavBar />
-          <div className="px-12 py-16 xl:px-24 xl:py-36">
+          <div className="px-12 py-16 md:px-16 lg:px-48 xl:px-96 md:py-24">
             {children}
           </div>
         </div>

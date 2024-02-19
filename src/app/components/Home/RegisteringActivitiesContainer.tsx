@@ -6,12 +6,6 @@ export default function RegisteringActivitiesContainer() {
       <div className="grid grid-cols-1 gap-4">
         <div className="text-base md:text-2xl flex items-center">
           <p className="mr-2">กิจกรรมที่กำลังเปิดรับสมัคร</p>
-          <Image
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/FFFFFF/more-than.png"
-            alt="more-than"
-          />
         </div>
         {/* <div className="bg-BlueO md:border-2 md:border-neonBlue rounded-xl my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 md:gap-4">
               {activity.slice(0, 6).map((item, key) => (

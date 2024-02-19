@@ -2,7 +2,7 @@ import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { WrappedInputProps } from "../global";
 import PositionInput from "./PositionInput";
 import ITryButton from "../Button";
-import WrapInputField from "../WrapInputField";
+import WrapInputField from "../wrapInputField";
 import { JobPositionsActivity } from "@/app/utils/ManageActivityPage/activity";
 
 

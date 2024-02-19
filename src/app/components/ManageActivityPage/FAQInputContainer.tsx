@@ -3,7 +3,7 @@ import ITryInput from "../Input";
 import { WrappedInputProps } from "../global";
 import ITryButton from "../Button";
 import FAQInput from "./FAQInput";
-import WrapInputField from "../WrapInputField";
+import WrapInputField from "../wrapInputField";
 import { FAQActivity } from "@/app/utils/ManageActivityPage/activity";
 
 interface FAQInputContainerProps extends WrappedInputProps {

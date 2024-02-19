@@ -1,5 +1,8 @@
+import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
-import ReactQuill from 'react-quill';
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false, // Disable server-side rendering
+});
 import "react-quill/dist/quill.snow.css"
 import { RichTextComponentProps } from './global';
 

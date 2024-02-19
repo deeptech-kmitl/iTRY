@@ -25,7 +25,7 @@ function Card({ imagen }: CardProps) {
       onMouseEnter={() => setShown(true)}
       onMouseLeave={() => setShown(false)}
     >
-      <Image className="aspect-video" src={imagen} alt="" width={500} height={500} />
+      <Image className="aspect-video w-full" src={imagen} alt="" width={500} height={500} />
     </animated.div>
   );
 }

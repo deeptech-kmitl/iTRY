@@ -8,7 +8,7 @@ import { BannerData } from "../BannerPage/BannerPage";
 
 export default async function BannerServer() {
   const banners = await getBanner() as ApiDataList<BannerData> | ApiError | undefined;
-
+  console.log("banners", banners)
   return (
     <BannerContainer bannersData={banners} />
   )

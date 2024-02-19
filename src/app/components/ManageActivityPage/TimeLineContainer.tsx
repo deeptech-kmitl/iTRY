@@ -1,6 +1,6 @@
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { WrappedInputProps } from "../global"
-import WrapInputField from "../WrapInputField"
+import WrapInputField from "../wrapInputField"
 import TimeLineInput from "./TimeLineInput"
 import ITryButton from "../Button";
 import { ScheduleActivity } from "@/app/utils/ManageActivityPage/activity";

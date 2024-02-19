@@ -1,6 +1,6 @@
 import { UseFormRegister } from "react-hook-form";
 import ITryInput from "../Input";
-import WrapInputField from "../WrapInputField";
+import WrapInputField from "../wrapInputField";
 
 interface LinkActivityProps {
   label?: string;

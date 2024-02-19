@@ -2,7 +2,7 @@ import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from "rea
 import { WrappedInputProps } from "../global";
 import ContactInputTelephone from "./ContactInputTelephone";
 import ITryButton from "../Button";
-import WrapInputField from "../WrapInputField";
+import WrapInputField from "../wrapInputField";
 import ITryInput from "../Input";
 import { PhoneActivity } from "@/app/utils/ManageActivityPage/activity";
 

@@ -24,7 +24,7 @@ export default function Timeline({ schedule }: TimelineProps) {
                         <div className={`w-fit px-4 inline-block timeline-end ${index % 2 === 1 ? "md:text-end md:timeline-start" : ""}`}>
                             <time>{convertDateToThai(data.date)}</time>
                             <div className="text-neonBlue">{data.title}</div>
-                            <div className="px-8 w-fit timeline-end timeline-box mx-0 text-xs md:text-sm">
+                            <div className="px-8 w-fit timeline-end timeline-box mx-0 text-xs md:text-sm inline-block">
                                 <p>{data.details}</p>
                             </div>
                         </div>

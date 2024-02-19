@@ -13,7 +13,7 @@ export async function uploadFileToS3(file: Buffer) {
 
     // Specify the S3 bucket and key for the new image
     const params = {
-      Bucket: process.env.NEXT_PUBLIC_BUCKET_NAME || process.env.BUCKET_NAME,
+      Bucket: process.env.BUCKET_NAME,
       Key: `${Date.now()}.png`, // Example: Use timestamp as part of the key
       Body: imageData,
       ContentType: "image/png",

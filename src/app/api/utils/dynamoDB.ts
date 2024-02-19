@@ -2,11 +2,11 @@
 import { DynamoDB } from 'aws-sdk';
 
 const iTryDynamoDB = new DynamoDB.DocumentClient({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.REGION,
+  accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+  region: process.env.NEXT_PUBLIC_REGION,
 });
 
-console.log("process.env.REGION", process.env.REGION)
+console.log("process.env.NEXT_PUBLIC_REGION,", process.env.NEXT_PUBLIC_REGION)
 
 export default iTryDynamoDB;

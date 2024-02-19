@@ -21,7 +21,7 @@ export const CardActivity = ({ activityId, activityDetails, activityName, closeD
             <p className="text-cyan-400">
               รับสมัครวันที่ : {convertDateToThai(openDate)} - {convertDateToThai(closeDate)}
             </p>
-            <Link href={`/${typeActivity}/activity-details/${activityId}`} className="text-bold text-cyan-400 text-right text-sm w-fit self-end">
+          <Link href={`/${typeActivity}/activity-details/${activityId}`} className="text-bold text-cyan-400 text-right text-sm w-fit self-end" shallow>
             <ITryButton>อ่านรายละเอียดเพิ่มเติม</ITryButton>
             </Link>
           </div>

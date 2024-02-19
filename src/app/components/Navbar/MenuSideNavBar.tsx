@@ -23,7 +23,7 @@ export default function ITryMenuSideNav({
   }
 
   return (
-    <Link href={path} className={`flex flex-col gap-1 items-center text-black hover:bg-white w-full h-full py-4 cursor-pointer duration-200 ${pathname.startsWith(path) && activeMenu()}`}>
+    <Link href={path} className={`flex flex-col gap-1 items-center text-black hover:bg-white w-full h-full py-4 cursor-pointer duration-200 ${pathname.startsWith(path) && activeMenu()}`} shallow>
       <FontAwesomeIcon icon={icon} className="h-8 w-8" />
       <p className="text-xs font-bold">{title}</p>
     </Link>

@@ -11,6 +11,19 @@ interface BannerContainerProps {
 }
 
 export default function BannerContainer({ bannersData }: BannerContainerProps) {
+
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    //Implementing the setInterval method
+    const interval = setInterval(() => {
+      setCount(count + 1);
+    }, 5000);
+
+    //Clearing the interval
+    return () => clearInterval(interval);
+  }, [count]);
+
   if (bannersData?.status === 'error') {
     // Handle error case
     return <div>Error</div>;
@@ -22,18 +35,6 @@ export default function BannerContainer({ bannersData }: BannerContainerProps) {
         content: <Card imagen={banner.bannerUrl} />,
       }
     })
-
-    const [count, setCount] = useState(1);
-
-    useEffect(() => {
-      //Implementing the setInterval method
-      const interval = setInterval(() => {
-        setCount(count + 1);
-      }, 5000);
-
-      //Clearing the interval
-      return () => clearInterval(interval);
-    }, [count]);
 
     return (
       <div className="relative md:h-96 h-64 overflow-hidden object-cover">

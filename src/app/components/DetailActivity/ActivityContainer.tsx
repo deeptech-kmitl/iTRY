@@ -105,7 +105,7 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
       </div>
       <div className="">
         <div className='grid grid-cols-6 place-items-center'>
-          {activity?.jobPositions.map((job, index) => (
+          {activity?.jobPositions && activity?.jobPositions?.map((job, index) => (
             <CardPosition key={index} {...job} />
           ))}
         </div>

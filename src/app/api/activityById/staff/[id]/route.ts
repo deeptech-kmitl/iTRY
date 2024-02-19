@@ -1,9 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
-import AWS, { DynamoDB } from "aws-sdk";
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 
-export async function GET(activityId: string) {
+export async function getStaffActivity(activityId: string) {
   const paramsDynamo = {
     TableName: "StaffActivities",
     Key: {
@@ -12,13 +9,9 @@ export async function GET(activityId: string) {
   };
   try{
     const result = await iTryDynamoDB.get(paramsDynamo).promise();
-    console.log("result", result);
-    return NextResponse.json(result);
+    return result.Item
 
   }catch(error){
-    console.error("Error:", error);
-    return NextResponse.json({ error });
+    throw error;
   }
 }
-
-export { GET as getStaffActivity }

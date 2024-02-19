@@ -5,11 +5,11 @@ import FAQ from "./FAQ";
 import Timeline from "./Timeline";
 import FollowButton from "../FollowButton";
 import ShareSocial from "../ShareSocial";
-import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
+import { ITryActivity, ScheduleActivity } from "@/app/utils/ManageActivityPage/activity";
 import Link from "next/link";
 import ITryButton from "../Button";
 import { Fragment } from 'react';
-import useUserController from "../Navbar/useUserController";
+import sortDateAsc from "@/app/utils/sortingFunction";
 
 interface ActivityContainerProps {
   activity: ITryActivity
@@ -17,12 +17,40 @@ interface ActivityContainerProps {
 
 export default function ActivityContainer({ activity }: ActivityContainerProps) {
 
+  const combinedSchedule: ScheduleActivity[] = [
+    {
+      date: activity.openDate,
+      title: "วันเปิดรับการสมัคร",
+      details: activity?.applyLink ? `สามารถสมัครได้ที่ : ${activity?.applyLink}` : "กดติดตามเพื่อรอช่องทางการสมัครจากกิจกรรม"
+    },
+    {
+      date: activity.closeDate,
+      title: "วันปิดรับการสมัคร",
+      details: activity?.applyLink ? `สามารถสมัครได้ที่ : ${activity?.applyLink}` : "กดติดตามเพื่อรอช่องทางการสมัครจากกิจกรรม"
+    },
+    ...(activity?.schedule || [])
+  ].sort((a, b) => sortDateAsc(a.date, b.date))
+  
+  const renderStatusActivity = () => {
+    const today = new Date();
+
+    if (today < new Date(activity.openDate)) {
+      return 'ใกล้เปิดรับสมัครแล้ว';
+    } else if (today >= new Date(activity.openDate) && today <= new Date(activity.closeDate)) {
+      return 'กำลังเปิดรับสมัคร';
+    } else if (today > new Date(activity.closeDate)) {
+      return 'กิจกรรมนี้กำลังดำเนินการ';
+    } else {
+      return 'กิจกรรมนี้จบลงแล้ว ขอบคุณทุกที่สนับสนุน';
+    }
+  }
+
   return (
     <div>
       <div className="grid grid-cols-1 text-base md:text-2xl text-center font-bold">
-        <p className="py-5">{activity.activityName}</p>
+        <p className="py-5">{activity?.activityName}</p>
         <div className="bg-white h-[1px]"></div>
-        <p className="py-5 text-neonBlue">กำลังเปิดรับสมัคร</p>
+        <p className="py-5 text-neonBlue">{renderStatusActivity()}</p>
       </div>
 
       {/* ช่องทางการติดต่อสอบถาม */}
@@ -35,17 +63,23 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
           <div className='flex py-2 md:py-4 items-center'>
             <FontAwesomeIcon icon={faPhone} className='h-4 md:h-8' />
             <p className='px-2 md:px-8 text-[13px] md:text-base'>
-              {activity.phone.map((phoneData, index) => (
+              {activity?.phone ? (
+                <>
+                {activity?.phone?.map((phoneData, index) => (
                 <Fragment key={index}>
-                  <span>{phoneData.phone}</span>
-                  {index < activity.phone.length - 1 ? ', ' : ''}
+                  <span>{phoneData?.phone}</span>
+                  {index < activity?.phone?.length - 1 ? ', ' : ''}
                 </Fragment>
               ))}
+                </>
+              ) : (
+                <span>ไม่มีเบอร์โทรศัพท์</span>
+              )}
             </p>
           </div>
           <div className='flex py-2 md:py-4 items-center'>
             <FontAwesomeIcon icon={faEnvelope} className='h-4 md:h-8' />
-            <p className='px-2 md:px-8 text-[13px] md:text-base'>{activity.email}</p>
+            <p className='px-2 md:px-8 text-[13px] md:text-base'>{activity?.email ? activity?.email : "ไม่มีอีเมล"}</p>
           </div>
           <div className='relative flex pt-1 md:pt-7 items-center'>
             <div className="w-[100%] md:w-[75%]"><FollowButton activity={activity}  /></div>
@@ -57,13 +91,16 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
         {/* รายละเอียดกิจกรรม */}
         <p className=' font-bold pt-1 md:pt-16 pb-6'>รายละเอียดกิจกรรม</p>
         <div className='bg-slate-900 p-4 rounded-lg'>
-          {activity.activityDetails ? (<p dangerouslySetInnerHTML={{ __html: activity.activityDetails }} />) : <p className="text-stone-400">ไม่มีรายละเอียดกิจกรรม</p>}
+          {activity?.activityDetails ? (<p dangerouslySetInnerHTML={{ __html: activity.activityDetails }} />) : <p className="text-stone-400">ไม่มีรายละเอียดกิจกรรม</p>}
         </div>
 
         {/* Social Media */}
         <p className='text-sm md:text-xl font-bold pt-16 pb-6'>Social Media</p>
         <div className='flex gap-3'>
-          {activity.igLink && (
+          {(!activity.igLink && !activity.facebookLink) && (
+            <p className='px-2 md:px-8 text-[13px] md:text-base'>ไม่มี Social Media</p>
+          )}
+          {activity?.igLink && (
             <>
               <Link href={activity.igLink} target="_blank">
                 <ITryButton customClassName='btn hover:bg-transparent bg-transparent border-none p-0' removeDefaultClassName >
@@ -72,9 +109,9 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
               </Link>
             </>
           )}
-          {activity.facebookLink && (
+          {activity?.facebookLink && (
             <>
-              <Link href={activity.facebookLink} target="_blank">
+              <Link href={activity?.facebookLink} target="_blank">
                 <ITryButton customClassName='btn hover:bg-transparent bg-transparent border-none p-0' removeDefaultClassName >
                   <Image width="48" height="48" src="/facebook-icon.png" alt='facebook' />
                 </ITryButton>
@@ -85,11 +122,11 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
 
         {/* กำหนดการกิจกรรม */}
         <p className='text-sm md:text-xl font-bold pt-16 pb-6'>กำหนดการกิจกรรม</p>
-        <Timeline schedule={activity.schedule} />
+        <Timeline schedule={combinedSchedule} />
 
         {/* FAQ */}
         <p className='text-sm md:text-xl font-bold pt-16 pb-6'>FAQ</p>
-        <FAQ faq={activity.faq} />
+        <FAQ faq={activity?.faq} />
       </div>
     </div>
   )

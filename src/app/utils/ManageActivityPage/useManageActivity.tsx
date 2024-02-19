@@ -95,13 +95,6 @@ type KeySchema =
           result = typeActivity === "camper" ? await updateCamperActivity(savedData) : await updateStaffActivity(savedData)
         }
 
-        console.log("result", result)
-
-        await ITryToastNotification({
-          type: "success",
-          text: "เพิ่มกิจกรรมสำเร็จ"
-        })
-
         if (result && result.status === "success" && result?.activityId) {
           await ITryToastNotification({
             type: "success",

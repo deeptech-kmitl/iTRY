@@ -3,7 +3,7 @@ import Image from "next/image";
 import ITryRichText from "./RichText";
 import { DateProps, ITryInputProps, NormalProps, InputField, RadioProps, RichTextProps, WrappedInputProps, ImageInputProps } from "./global";
 import { ChangeEvent } from "react";
-import WrapInputField from "./WrapInputField";
+import WrapInputField from "./wrapInputField";
 
 export default function ITryInput(props: ITryInputProps) {
 
@@ -37,11 +37,11 @@ export default function ITryInput(props: ITryInputProps) {
   }
 
   const renderRadioInput = () => {
-    const { customInputClassName, radioData, name: nameRadio, defaultIndex, register } = props as RadioProps;
+    const { customInputClassName, customContainerClassName, radioData, name: nameRadio, defaultIndex, register } = props as RadioProps;
 
     const radioElement = (name: string, value: string, index: number) => {
       return (
-        <div className="flex gap-1 items-centerr" key={index}>
+        <div className={`flex gap-1 items-center`} key={index}>
           <input
             type="radio" className={`radio ${customInputClassName}`}
             value={value}
@@ -55,7 +55,7 @@ export default function ITryInput(props: ITryInputProps) {
     }
 
     const renderRadioElements = (
-      <div className="flex gap-4">
+      <div className={`flex gap-4 ${customContainerClassName}`}>
         {radioData.map((data, index) => radioElement(data.name, data.value, index))}
       </div>
     )

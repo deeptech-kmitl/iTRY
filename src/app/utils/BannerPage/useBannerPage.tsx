@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
 import { creatBanner, deleteBanner } from "@/app/api/banner/route";
+import { useRouter } from "next/navigation";
+import ITryToastNotification from "@/app/components/Toast/ToastNotification";
 
 export default function useBannerPage() {
     const schema = yup.object().shape({
@@ -15,12 +17,20 @@ export default function useBannerPage() {
         resolver: yupResolver(schema),
     });
 
+    const router = useRouter()
+
     const onSubmit = async (data: any) => {
         try {
             const image = data.image;
             const imageUrl: any = await uploadFileToS3(image); // อัปโหลดภาพไปยัง Amazon S3 และรับ URL กลับมา
     
-            const result = await creatBanner({bannerUrl: imageUrl});
+            const result = await creatBanner({ bannerUrl: imageUrl });
+            
+
+            await ITryToastNotification({
+                type: "success",
+                text: "เพิ่มแบนเนอร์สำเร็จ"
+            })
     
             console.log("Data saved to DynamoDB successfully result:", result);
         } catch (error) {
@@ -28,9 +38,14 @@ export default function useBannerPage() {
         }
     }
 
-    const deleted = async (bannerId: string) => {
+    const onDelete = async (bannerId: string) => {
         try {
             const result = await deleteBanner(bannerId);
+
+            ITryToastNotification({
+                type: "success",
+                text: "ลบแบนเนอร์สำเร็จ"
+            })
     
             console.log(`Banner with ID ${bannerId} deleted successfully result:`, result);
         } catch (error) {
@@ -38,5 +53,5 @@ export default function useBannerPage() {
         }
     }
     
-    return {register, setValue, watch, handleSubmit, onSubmit, deleted}
+    return { register, setValue, watch, handleSubmit, onSubmit, onDelete }
 }

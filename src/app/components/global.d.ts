@@ -49,6 +49,7 @@ export type ITryModalProps = {
   actionButton?: ReactNode;
   content?: ReactNode;
   alertHeader?: ReactNode;
+  titleCenter?: boolean;
 }
 
 export type WrappedInputProps = {
@@ -80,6 +81,7 @@ type RadioProps = {
   radioData: RadioData[];
   defaultIndex: number;
   customInputClassName?: string;
+  customContainerClassName?: string;
   name: string;
   register: UseFormRegister<any>;
 
@@ -124,3 +126,13 @@ type ImageInputProps = {
 }
 
 export type InputField = "text" | "date"
+
+export interface ApiDataList<Type> {
+  status: "success",
+  data: Type[]
+}
+
+export interface ApiError {
+  error: unknown,
+  status: "error"
+}

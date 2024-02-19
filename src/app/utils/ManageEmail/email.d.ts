@@ -7,7 +7,6 @@ export interface SendEmail {
 export interface Notification {
     activityName: string,
     activityDetail: string,
-    followerId: string,
     sendDate: string
 }
 

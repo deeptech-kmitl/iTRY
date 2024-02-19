@@ -5,7 +5,7 @@ const tableName = 'CamperActivities';
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 import { ITryActivity } from '@/app/utils/ManageActivityPage/activity';
 
-async function POST(req: ITryActivity) {
+export async function createCamperActivity(req: ITryActivity) {
     try {
         console.log("start upload")
         console.log("req", req)
@@ -48,6 +48,7 @@ async function POST(req: ITryActivity) {
 
         const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
         return {
+            activityId: activityId,
             status: "success"
         }
     } catch (error) {
@@ -59,7 +60,7 @@ async function POST(req: ITryActivity) {
     }
 }
 
-export async function PUT(req: ITryActivity) {
+export async function updateCamperActivity(req: ITryActivity) {
     try {
         const {
             activityName,
@@ -116,7 +117,7 @@ export async function PUT(req: ITryActivity) {
     }
 }
 
-export async function DELETE(req: ITryActivity) {
+export async function deleteCamperActivity(req: ITryActivity) {
     try {
         const {activityId} = await req;
         const paramsDynamo = {
@@ -136,5 +137,3 @@ export async function DELETE(req: ITryActivity) {
         }
     }
 } 
-
-export { POST as createCamperActivity, PUT as updateCamperActivity, DELETE as deleteCamperActivity }

@@ -9,14 +9,15 @@ export default function ITryModal({
   customClassName,
   content,
   actionButton,
-  alertHeader
+  alertHeader,
+  titleCenter = false
 }: ITryModalProps) {
   return (
     <>
       <dialog className="modal bg-black bg-opacity-60" open={isOpen}>
         <div className={`p-16 modal-box rounded-none shadow-none bg-modal ${customClassName}`}>
           {alertHeader}
-          <h3 className="font-bold text-2xl pt-8">{title}</h3>
+          <h3 className={`font-bold text-2xl pt-8 ${titleCenter ? "justify-center flex" : ""}`}>{title}</h3>
           <div className="mt-8">
             {content}
           </div>

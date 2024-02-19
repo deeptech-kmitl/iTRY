@@ -41,7 +41,7 @@ export default function useSponsor() {
         }
     }
 
-    const deleteSponsor = async (sponsorId:string) => {
+    const onDelete = async (sponsorId:string) => {
         try {
             const params = {
                 TableName: "Sponsor",
@@ -58,5 +58,5 @@ export default function useSponsor() {
         }
     }
 
-    return {register, setValue, watch, handleSubmit, onSubmit, deleteSponsor}
+    return {register, setValue, watch, handleSubmit, onSubmit, onDelete}
 }

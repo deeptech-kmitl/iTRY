@@ -20,7 +20,6 @@ export async function GET(res: NextApiRequest, { params }: any) {
     return { data: data.Items || [] };
   } catch (error) {
     console.error("Error:", error);
-    // return NextResponse.json({ error: error });
-    return { error: error };
+    throw error
   }
 }

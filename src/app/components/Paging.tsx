@@ -1,24 +1,46 @@
 "use client";
 
 import { FC } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface PagingProps {
-  activities: any[];
+  page: number;
+  countActivities: number;
+  perPage: number;
   };
 
-export const Paging: FC<PagingProps> = ({activities}) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page") ?? "1";
-  const per_page = searchParams.get('per_page') ?? '10'
+export const Paging: FC<PagingProps> = ({ page = 1, countActivities, perPage }: PagingProps) => {
 
+  const router = useRouter()
+  const pathname = usePathname()
   // skipped and limited
-  const start = (Number(page) - 1) * Number(per_page);
-  const end = start + Number(per_page); // 5, 10, 15 ...
+  const start = (Number(page) - 1) * Number(perPage);
+  const end = start + Number(perPage); // 5, 10, 15 ...
 
-  const hasNextPage = end < activities.length;
+  const hasNextPage = end < countActivities;
   const hasPrevPage = start > 0;
+
+  const nextPage = (nextPage: number) => {
+    console.log("pathname", pathname)
+    // redirect
+    router.push(`${pathname}?page=${nextPage}`)
+  }
+
+  const getPageRange = (currentPage: number, totalPages: number) => {
+    const delta = 1;
+    const range: any[] = [];
+
+    const startPage = (page - delta) < 1 ? 1 : (page - delta);
+    const endPage = Math.ceil(countActivities / perPage)
+
+    for (let i = startPage; i <= endPage; i++) {
+      range.push(i);
+    }
+
+    return range;
+  };
+
+  const pageRange = getPageRange(page, countActivities);
 
   return (
     <div className="join flex justify-center pt-5">
@@ -26,23 +48,26 @@ export const Paging: FC<PagingProps> = ({activities}) => {
         className="join-item btn"
         disabled={!hasPrevPage}
         onClick={() => {
-          router.push(`allactivity?page=${Number(page) - 1}&per_page=${per_page}`);
+          router.push(`allactivity?page=${Number(page) - 1}`);
         }}
       >
         «
       </button>
 
-      <button className="join-item btn">
-        {" "}
-        {page}
-      </button>
-
+      {pageRange.map((pageNumber, index) => (
+        <span
+          key={index}
+          className={`join-item btn ${pageNumber === page && "btn-active"}`}
+          onClick={() => { if (typeof (pageNumber) === 'number' && !(pageNumber === page)) { nextPage(pageNumber) }}}
+          style={{ cursor: pageNumber === page ? 'auto' : 'pointer', fontWeight: pageNumber === page ? 'bold' : 'normal' }}
+        >
+          {pageNumber}
+        </span>
+      ))}
       <button
         className="join-item btn"
         disabled={!hasNextPage}
-        onClick={() => {
-          router.push(`allactivity/?page=${Number(page) + 1}&per_page=${per_page}`);
-        }}
+        onClick={() => nextPage(page + 1)}
       >
         »
       </button>

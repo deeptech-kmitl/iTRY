@@ -14,7 +14,9 @@ export async function createUser(userData: GoogleProfile | FacebookProfile) {
       id: myuuid,
       role: roleUser,
       email: email,
-      name: name
+      name: name,
+      notifications: [],
+      activitiesFollow: []
     }
     const paramsDynamo = {
       TableName: "Users",
@@ -29,10 +31,7 @@ export async function createUser(userData: GoogleProfile | FacebookProfile) {
   } catch (error) {
     console.log(error)
     // return NextResponse.json({ error });
-    return {
-      status: "error",
-      error: error
-    }
+    throw error;
   }
 }
 
@@ -48,15 +47,31 @@ export async function findUser(email: string) {
 
   try {
     const result = await iTryDynamoDB.scan(paramsDynamo).promise();
+    console.log("user from db", result?.Items?.[0])
     return {
       data: result?.Items?.[0], // Assuming multiple items with the same email
       status: "success",
     };
   } catch (error) {
-    console.error("Error:", error);
+    throw error
+  }
+}
+
+export async function getAllUser() {
+
+  const paramsDynamo = {
+    TableName: "Users",
+  };
+
+  try {
+    const result = await iTryDynamoDB.scan(paramsDynamo).promise();
+    console.log("result", result)
     return {
-      status: "error",
-      error: error,
+      data: result?.Items, // Assuming multiple items with the same email
+      status: "success",
     };
+  } catch (error) {
+    console.error("Error:", error);
+    throw error
   }
 }

@@ -10,7 +10,7 @@ export async function POST(req: Notification) { // FIXME: change Notification to
     try {
         console.log('...... SENDING NOTIFICATION')
 
-        const {activityName, activityDetail, followerId} = req
+        const {activityName, activityDetail} = req
         const notificationId = await uuidv4()
 
         // ----------- CURRENT DATE AND TIME ----------------
@@ -33,7 +33,6 @@ export async function POST(req: Notification) { // FIXME: change Notification to
                 activityName: activityName,
                 activityDetail: activityDetail,
                 sendDate: `${formattedDate} ${formattedTime}`,
-                followerId: followerId
             }
         }
 
@@ -51,9 +50,7 @@ export async function POST(req: Notification) { // FIXME: change Notification to
     }
 }
 
-export async function GET(___: any, { params }: any) {
-
-    const { userId } = params
+export async function getNotification(userId: string) {
 
     const paramsDynamo = {
         TableName: "Notification",
@@ -66,7 +63,6 @@ export async function GET(___: any, { params }: any) {
 
     try {
         const allNotifications = await iTryDynamoDB.scan(paramsDynamo).promise()
-        console.log('Result: ', allNotifications)
 
         return {
             status: 'success',
@@ -74,11 +70,8 @@ export async function GET(___: any, { params }: any) {
         }
     }
     catch(error) {
-        return {
-            status: 'error',
-            error: error
-        }
+        throw error
     }
 }
 
-export { POST as postNotification, GET as getNotification }
+export { POST as postNotification }

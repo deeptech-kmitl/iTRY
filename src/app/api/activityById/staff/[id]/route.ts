@@ -3,13 +3,11 @@ import { NextResponse } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 
-export async function GET(res: NextApiRequest, { params }: any) {
-  const { id } = params;
-  console.log("id", id);
+export async function GET(activityId: string) {
   const paramsDynamo = {
     TableName: "StaffActivities",
     Key: {
-      activityId: id,
+      activityId: activityId,
     },
   };
   try{

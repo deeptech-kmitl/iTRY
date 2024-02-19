@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
-const tableName = "StaffActivities";
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
 
-export async function POST(req: ITryActivity) {
+const tableName = "StaffActivities";
+
+export async function createStaffActivity(req: ITryActivity) {
   try {
     console.log("start upload");
     console.log("req", req);
@@ -51,6 +52,7 @@ export async function POST(req: ITryActivity) {
 
     const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
     return {
+      activityId: activityId,
       status: "success"
     }
   } catch (error) {
@@ -61,7 +63,7 @@ export async function POST(req: ITryActivity) {
   }
 }
 
-async function PUT(req: ITryActivity) {
+export async function updateStaffActivity(req: ITryActivity) {
   try {
     const {
       activityId,
@@ -122,9 +124,8 @@ async function PUT(req: ITryActivity) {
   // >>>>> SEND EMAIL TO USER >>>>>
 }
 
-export async function DELETE(req: NextRequest) {
+export async function deleteStaffActivity(activityId: string) {
   try {
-    const { activityId } = await req.json();
     const paramsDynamo = {
       TableName: tableName,
       Key: {
@@ -142,5 +143,3 @@ export async function DELETE(req: NextRequest) {
   }
   }
 }
-
-export { PUT as updateStaffActivity };

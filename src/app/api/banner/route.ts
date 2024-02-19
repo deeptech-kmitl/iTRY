@@ -13,7 +13,7 @@ export async function GET() {
       return {data : result.Items, status:"success"};
     } catch (error) {
       console.error("Error:", error); 
-      return { error: error, status:"error" };
+      throw error
     }
   }
   
@@ -44,10 +44,7 @@ export async function GET() {
     } catch (error) {
       console.log(error);
       // return NextResponse.json({ error });
-      return {
-        status:"error",
-        error: error
-        }
+      throw error
     }
   }
   
@@ -71,10 +68,7 @@ export async function GET() {
     } catch (error) {
       console.log(error)
       // return NextResponse.json({error})
-      return {
-        status:"error",
-        error: error
-        }
+      throw error
     }
   }
   export { GET as getBanner, POST as creatBanner, DELETE as deleteBanner }

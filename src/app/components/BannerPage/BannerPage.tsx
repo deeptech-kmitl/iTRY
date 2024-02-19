@@ -3,14 +3,12 @@ import useBannerPage from "@/app/utils/BannerPage/useBannerPage";
 import ITryButton from "../Button";
 import ITryInput from "../Input";
 import Image from "next/image";
+import { ApiDataList } from "../global";
+import ManageableImage from "../ManageableImage/ManageableImage";
+import ITryToastNotification from "../Toast/ToastNotification";
 
 interface BannerPageProps {
-    apiData: BannerApi | { error: unknown, status: "error" } | undefined;
-}
-
-export interface BannerApi {
-    data : BannerData[],
-    status: "success"
+    apiData: ApiDataList<BannerData> | { error: unknown, status: "error" } | undefined;
 }
 
 export interface BannerData {
@@ -18,7 +16,8 @@ export interface BannerData {
     bannerUrl: string;
 }
 export default function BannerPage({ apiData }: BannerPageProps) {
-    const { register, setValue, watch, handleSubmit, onSubmit, deleted } = useBannerPage();
+
+    const { register, setValue, watch, handleSubmit, onSubmit, onDelete } = useBannerPage();
     if (apiData && 'status' in apiData && apiData.status === 'error') {
         // Handle error case
         return <div>Error</div>;
@@ -31,14 +30,12 @@ export default function BannerPage({ apiData }: BannerPageProps) {
                     {apiData?.data.map((item, key) => (
                         <div key={item.bannerId}>
                             <div className="w-full h-full rounded overflow-hidden md:p-5 p-1 ">
-                                <Image className="w-full" src={item.bannerUrl} alt={item.bannerUrl} width={700} height={300} />
-                                <ITryButton customWidthClassName="w-full" onClick={() => deleted(item.bannerId)}>ลบ</ITryButton>
-
+                                <ManageableImage itemId={item.bannerId} itemImageUrl={item.bannerUrl} onDelete={onDelete} />
                             </div>
 
                         </div>
                     ))}
-                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:px-8 px-0">
+                    <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full rounded overflow-hidden md:p-5 p-1">
                         <ITryInput type="image" register={register} file={watch("image")} formKeyFile="image" setValue={setValue} />
                         <ITryButton type="submit" customPositionClassName="mt-0" fullWidth>สร้าง Banner</ITryButton>
                     </form>

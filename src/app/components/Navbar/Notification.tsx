@@ -9,11 +9,13 @@ import { useEffect, useState } from "react";
 
 export default function ITryNotification({ notificationData }: { notificationData: NotificationProp }) {  
 
-  if (Array.isArray(notificationData.notifications)) {
+  const notifications = notificationData.notifications
+
+  if (Array.isArray(notifications)) {
       const getCustomDataDropDown = () => {
       return (
         <>
-          {notificationData.notifications?.map((notification, index) => (
+          {notifications.length != 0 ? notifications?.map((notification, index) => (
             <li key={index}>
               <Link
                 className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal "
@@ -30,7 +32,17 @@ export default function ITryNotification({ notificationData }: { notificationDat
                 </div>
               </Link>
             </li>
-          ))}
+          )) : (
+              <div
+                className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal "
+              >
+                <div className="flex flex-col">
+                  <div className="flex items-end gap-4">
+                    <p>ไม่มีการแจ้งเตือน</p>
+                  </div>
+                </div>
+              </div>
+          )}
         </>
       )
     }

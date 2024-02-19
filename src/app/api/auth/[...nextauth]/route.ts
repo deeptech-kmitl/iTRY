@@ -69,17 +69,22 @@ const handler = NextAuth({
           console.log("ERROR")
           throw new Error("Invalid credentials")
         }
-        const user = { id: '1', name: 'J Smith', email: 'test@example.com', role: "admin" };
+        const user: User = { id: '1', name: 'J Smith', email: 'test@example.com', role: "admin", activitiesFollow:[], notifications: [] };
         return user
       }
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        return {...token, ...session.user}
+      }
       if (user) {
         token.role = user.role
         token.email = user.email
         token.id = user.id
+        token.notifications = user.notifications
+        token.activitiesFollow = user.activitiesFollow
       }
       return token
     },
@@ -88,6 +93,8 @@ const handler = NextAuth({
         session.user.role = token.role
         session.user.email = token.email
         session.user.id = token.id
+        session.user.notifications = token.notifications
+        session.user.activitiesFollow = token.activitiesFollow
       }
       return session
     }

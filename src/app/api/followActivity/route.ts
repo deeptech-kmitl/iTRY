@@ -1,5 +1,3 @@
-"use server"
-
 import iTryDynamoDB from "../utils/dynamoDB";
 import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
 

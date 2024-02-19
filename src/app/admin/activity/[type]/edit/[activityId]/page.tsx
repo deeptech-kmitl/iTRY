@@ -1,7 +1,8 @@
 'use server'
+import dynamic from 'next/dynamic';
+const ManageActivityPage = dynamic(() => import('@/app/components/ManageActivityPage/ManageActivityPage'), { ssr: false });
 import { getCamperActivity } from "@/app/api/activityById/camper/[id]/route";
 import { getStaffActivity } from "@/app/api/activityById/staff/[id]/route";
-import ManageActivityPage from "@/app/components/ManageActivityPage/ManageActivityPage"
 import { TypeActivityParams } from "@/app/components/ManageActivityPage/activity"
 import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
 
@@ -16,4 +17,5 @@ export default async function EditActivityPage({ params }: EditActivityPageProps
   return (
     <ManageActivityPage typeAction="edit" typeActivity={params.type} activity={activity} />
   )
+
 }

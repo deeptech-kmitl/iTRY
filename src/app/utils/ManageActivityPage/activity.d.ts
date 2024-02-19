@@ -1,5 +1,6 @@
 import { TypeActivity } from "@/app/components/ManageActivityPage/activity";
 import { ApiDataList } from "@/app/components/global";
+import { ReactNode } from "react";
 
 interface ITryActivity extends ActivityDefaultProps {
   imageUrl: File | Blob | string;
@@ -35,7 +36,7 @@ interface ActivityDefaultProps {
 export interface ScheduleActivity {
   date: string;
   title: string;
-  details: string;
+  details: string | ReactNode;
 }
 
 export interface JobPositionsActivity {

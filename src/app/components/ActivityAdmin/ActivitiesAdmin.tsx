@@ -53,13 +53,13 @@ export default function ActivitiesAdmin({ activitiesCamper, activitiesStaff, pag
   return (
     <>
       <h1 className="text-3xl text-extrabold text-center mb-5">กิจกรรมทั้งหมด</h1>
-      <div className="flex justify-between mb-5">
-        <span>
+      <div className="flex justify-between mb-5 items-center">
+        <div className="w-fit h-full">
           <div role="tablist" className="tabs tabs-boxed border-color-primary border">
             <a role="tab" onClick={() => setTabSelected("camper")} className={`tab text-white ${tabSelected === "camper" && "bg-linear-blue"}`}>Camper</a>
             <a role="tab" onClick={() => setTabSelected("staff")} className={`tab text-white ${tabSelected === "staff" && "bg-linear-blue"}`}>Staff</a>
           </div>
-        </span>
+        </div>
         <ITryButton onClick={openTypeActivity}>
           สร้างกิจกรรม
         </ITryButton>

@@ -36,7 +36,7 @@ export default function AllActivitiesContainer({ activitiesData, customClassName
             ))}{" "}
           </>
         ) : (
-            <NoResultData />
+            <NoResultData text="ไม่มีกิจกรรมที่คุณต้องการ" />
         )}
         {showPagination && <Paging page={page || 1} countActivities={activitiesData?.countActivities || 0} perPage={5} />}
       </div>

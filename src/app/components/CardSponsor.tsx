@@ -1,50 +1,21 @@
 "use client";
 
 import Image from "next/image";
+import { SponsorData } from "./SponsorPage/SponsorAdmin";
 
-export default function CardSponsor() {
-  const items = [];
-  const colCount = Math.min(items.length, 5);
-  const dummyRouteOption = [
-    {
-      sponsorImage: "/test_sponsor_pepsi.png",
-    },
-    {
-      sponsorImage: "/test_sponsor_lactasoi.png",
-    },
-    {
-      sponsorImage: "/test_sponsor_amazoncafe.png",
-    },
-    {
-      sponsorImage: "/test_sponsor_mama.png",
-    },
-    {
-      sponsorImage: "/test_sponsor_major.jpg",
-    },
-  ];
 
+export default function CardSponsor({ sponsorId, sponsorUrl }: SponsorData) {
   return (
     <div
-      className={`grid grid-cols-3 md:grid-cols-5  place-items-center gap-4`}
+      className="flex justify-center w-full md:w-full h-full overflow-hidden"
     >
-      {dummyRouteOption.map((sponsor, key) => (
-        <div
-          key={key}
-          className="flex justify-center w-full md:w-full h-full overflow-hidden"
-        >
-          <figure className="w-full h-full">
-            <Image
-              className=""
-              src={sponsor.sponsorImage}
-              alt={sponsor.sponsorImage}
-              width="180"
-              height="180"
-              layout="responsive"
-              objectFit="cover"
-            />
-          </figure>
-        </div>
-      ))}
+      <Image
+        className="w-full object-cover object-center aspect-square"
+        width={200}
+        height={200}
+        src={sponsorUrl}
+        alt={sponsorUrl}
+      />
     </div>
   );
 }

@@ -8,7 +8,7 @@ import ShareSocial from "../ShareSocial";
 import { ITryActivity, ScheduleActivity } from "@/app/utils/ManageActivityPage/activity";
 import Link from "next/link";
 import ITryButton from "../Button";
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import sortDateAsc from "@/app/utils/sortingFunction";
 
 interface ActivityContainerProps {
@@ -17,28 +17,43 @@ interface ActivityContainerProps {
 
 export default function ActivityContainer({ activity }: ActivityContainerProps) {
 
+  const getTextDate: string | ReactNode = activity?.applyLink ? (
+    <>
+      สามารถสมัครได้ที่ :{" "}
+      <Link target="_blank" href={activity?.applyLink} className="text-gray-500">
+        {activity?.applyLink}
+      </Link>
+    </>
+  ) : (
+    "กดติดตามเพื่อรอช่องทางการสมัครจากกิจกรรม"
+  )
+
   const combinedSchedule: ScheduleActivity[] = [
     {
       date: activity.openDate,
       title: "วันเปิดรับการสมัคร",
-      details: activity?.applyLink ? `สามารถสมัครได้ที่ : ${activity?.applyLink}` : "กดติดตามเพื่อรอช่องทางการสมัครจากกิจกรรม"
+      details: getTextDate
     },
     {
       date: activity.closeDate,
       title: "วันปิดรับการสมัคร",
-      details: activity?.applyLink ? `สามารถสมัครได้ที่ : ${activity?.applyLink}` : "กดติดตามเพื่อรอช่องทางการสมัครจากกิจกรรม"
+      details: getTextDate
     },
     ...(activity?.schedule || [])
   ].sort((a, b) => sortDateAsc(a.date, b.date))
   
   const renderStatusActivity = () => {
     const today = new Date();
+    const openDate = new Date(activity.openDate)
+    const closeDate = new Date(activity.closeDate)
 
-    if (today < new Date(activity.openDate)) {
-      return 'ใกล้เปิดรับสมัครแล้ว';
-    } else if (today >= new Date(activity.openDate) && today <= new Date(activity.closeDate)) {
-      return 'กำลังเปิดรับสมัคร';
-    } else if (today > new Date(activity.closeDate)) {
+    if (today < openDate) {
+      const dayDifference = Math.ceil((openDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      return `ใกล้เปิดรับสมัครแล้ว (อีก ${dayDifference} วันจะเปิดรับสมัคร)`;
+    } else if (today >= openDate && today <= closeDate) {
+      const dayDifference = Math.ceil((closeDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      return `กำลังเปิดรับสมัคร (อีก ${dayDifference} วันจะปิดรับสมัคร)`;
+    } else if (today > closeDate) {
       return 'กิจกรรมนี้กำลังดำเนินการ';
     } else {
       return 'กิจกรรมนี้จบลงแล้ว ขอบคุณทุกที่สนับสนุน';

@@ -41,7 +41,7 @@ export default function ITryInput(props: ITryInputProps) {
 
     const radioElement = (name: string, value: string, index: number) => {
       return (
-        <div className={`flex gap-1 items-center`} key={index}>
+        <div className={`flex gap-2 items-center`} key={index}>
           <input
             type="radio" className={`radio ${customInputClassName}`}
             value={value}

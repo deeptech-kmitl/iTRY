@@ -8,11 +8,12 @@ import UserLayout from "./user/layout";
 import BannerServer from "./components/Home/BannerServer";
 import AllActivitiesServer from "./components/Home/AllActivitiesServer";
 import IncomingServer from "./components/Home/IncomingServer";
+import SponsorServer from "./components/Home/SponsorServer";
 
 export default async function Home() {
   return (
     <>
-      <UserLayout>
+      <UserLayout customClassName="flex flex-col gap-8">
         <BannerServer />
         <IncomingServer />
         <AllActivitiesServer />
@@ -21,7 +22,7 @@ export default async function Home() {
         <div className="pt-6">
           <Map />
         </div>
-        <SponsorContainer />
+        <SponsorServer />
       </UserLayout>
     </>
   );

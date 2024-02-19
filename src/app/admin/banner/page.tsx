@@ -3,7 +3,7 @@ import { getBanner } from "@/app/api/banner/route";
 import BannerPage, { BannerData } from "@/app/components/BannerPage/BannerPage";
 import { ApiDataList, ApiError } from "@/app/components/global";
 import useSWR from "swr";
-export default async function ShowBannerPage() {
+export default function ShowBannerPage() {
 
   // const data = await getBanner() as ApiDataList<BannerData> | ApiError | undefined;
   const { data, error } = useSWR('getBanner', getBanner);

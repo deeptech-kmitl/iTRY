@@ -11,7 +11,7 @@ export default function Map() {
         const initMap = async () => {
 
             const loader = new Loader({
-                apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
+                apiKey: (process.env.NEXT_PUBLIC_MAPS_API_KEY || process.env.MAPS_API_KEY) as string,
                 version: "weekly"
             })
 
@@ -25,7 +25,7 @@ export default function Map() {
             }
 
             // map options
-            const mapOptions = google.maps.MapOptions = {
+            const mapOptions: google.maps.MapOptions = {
                 center: position,
                 zoom: 17,
                 mapId: 'DEMO_MAP_ID'

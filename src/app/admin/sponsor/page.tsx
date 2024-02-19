@@ -5,7 +5,7 @@ import SponsorPage, { SponsorData } from "@/app/components/SponsorPage/SponsorAd
 import { ApiDataList, ApiError } from "@/app/components/global";
 import useSWR from "swr";
 
-export default async function ShowSponSorPage() {
+export default function ShowSponSorPage() {
 
   const { data, error } = useSWR('getSponsors', getSponSors);
 

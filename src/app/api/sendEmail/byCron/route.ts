@@ -213,10 +213,10 @@ export async function GET() {
 
         }
 
-        return {message: "Email Sent Successfully", status: 'success'}
+        return NextResponse.json({ message: "Email Sent Successfully", status: 'success' })
     }
     catch(error) {
         console.error(error)
-        return {message: "Fail to send Email", status: 'errro'}
+        return NextResponse.json({ message: "Fail to send Email", status: 'errror' })
     }
 }

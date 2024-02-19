@@ -6,4 +6,7 @@ const iTryDynamoDB = new DynamoDB.DocumentClient({
   secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
   region: process.env.NEXT_PUBLIC_REGION,
 });
+
+console.log("process.env.NEXT_PUBLIC_REGION,", process.env.NEXT_PUBLIC_REGION)
+
 export default iTryDynamoDB;

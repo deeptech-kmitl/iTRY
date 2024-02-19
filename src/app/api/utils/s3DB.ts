@@ -7,4 +7,6 @@ const iTryS3 = new AWS.S3({
   region: process.env.NEXT_PUBLIC_REGION,
 });
 
+console.log("process.env.NEXT_PUBLIC_REGION,", process.env.NEXT_PUBLIC_REGION)
+
 export default iTryS3;

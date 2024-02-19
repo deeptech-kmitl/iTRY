@@ -1,16 +1,21 @@
-'use server'
+'use client'
 import { getBanner } from "@/app/api/banner/route";
-import BannerPage, { BannerApi} from "@/app/components/BannerPage/BannerPage";
+import BannerPage, { BannerData } from "@/app/components/BannerPage/BannerPage";
+import { ApiDataList, ApiError } from "@/app/components/global";
+import useSWR from "swr";
 export default async function ShowBannerPage() {
 
-  const data = await getBanner() as BannerApi | { error: unknown, status:"error" } | undefined;
+  // const data = await getBanner() as ApiDataList<BannerData> | ApiError | undefined;
+  const { data, error } = useSWR('getBanner', getBanner);
 
-  console.log("apiData", data);
-
+  if (error) {
+    // Handle error case
+    return <div>Error</div>;
+  }
   
   return (
     <>
-      <BannerPage apiData={data}/>
+      <BannerPage apiData={data as ApiDataList<BannerData> | ApiError | undefined}/>
     </>
   )
 }

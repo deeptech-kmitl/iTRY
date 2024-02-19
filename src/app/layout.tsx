@@ -1,6 +1,7 @@
 // RootLayout.tsx
 import { Metadata } from 'next';
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 import ITryApp from './app';
 
 export const metadata: Metadata = {
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark">
       <body className="font-prompt">
-          <ITryApp>{children}</ITryApp>
+        <ITryApp>
+          {children}
+        </ITryApp>
       </body>
     </html>
   );

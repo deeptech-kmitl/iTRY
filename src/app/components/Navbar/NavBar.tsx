@@ -1,40 +1,20 @@
 'use client'
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import ITryNotification from './Notification';
 import ITryUserName from './UserName';
 // import { NotificationProps } from './navbar.d';
 import { NotificationProp, Notification } from '@/app/utils/ManageEmail/email';
 import HomeIcon from './HomeIcon';
 import TabNavBar from './TabNavBar';
-import { usePathname } from 'next/navigation';
-import { getNotification } from '@/app/api/notification/[userId]/route';
+import useUserController from './useUserController';
 
-export default function ITryNavBar({ fetchNotification }: { fetchNotification: any }) {
+export default function ITryNavBar() {
 
-  const [notificationData, setNotificationData] = useState<NotificationProp>({
-    countNotification: 0,
-    notifications: []
-  })
+  const { userData } = useUserController();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (fetchNotification) {
-          const data = await fetchNotification()
-          setNotificationData({
-            countNotification: (data.data.Items)?.length ?? 0,
-            notifications: data.data.Items ?? []
-          });
-        }
-      } catch (error) {
-        console.error('Failed to fetch notification data:', error)
-      }
-    };
-
-    fetchData()
-    console.log('----------END---------------')
-  }, [fetchNotification])
+  const notificationData: NotificationProp = {
+    countNotification: userData?.notifications.length || 0,
+    notifications: [...userData?.notifications]
+  }
 
 
   return (

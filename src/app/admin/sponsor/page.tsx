@@ -1,16 +1,22 @@
-"use server"
+"use client"
 
-import { getSponsor } from "@/app/api/sponsor/route";
-import SponsorPage, { SponsorApi } from "@/app/components/SponsorPage/SponsorAdmin";
+import { getSponSors } from "@/app/api/sponsor/route";
+import SponsorPage, { SponsorData } from "@/app/components/SponsorPage/SponsorAdmin";
+import { ApiDataList, ApiError } from "@/app/components/global";
+import useSWR from "swr";
 
 export default async function ShowSponSorPage() {
 
-  const data = await getSponsor() as SponsorApi | { error: unknown, status:"error" } | undefined
-  console.log(data);
+  const { data, error } = useSWR('getSponsors', getSponSors);
+
+  if (error) {
+    // Handle error case
+    return <div>Error</div>;
+  }
 
   return (
     <>
-      <SponsorPage data={ data } />
+      <SponsorPage data={data as ApiDataList<SponsorData> | ApiError | undefined } />
     </>
   );
 }

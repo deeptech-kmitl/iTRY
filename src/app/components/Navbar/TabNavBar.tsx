@@ -23,11 +23,17 @@ export default function TabNavBar() {
     },
     {
       title: "Staff",
-      path: "/staff",
+      path: "/staff/activities",
       show: true,
-      activeTabName: ["/staff"]
+      activeTabName: ["/staff/activities"]
     },
     {
+      title: "Camper",
+      path: "/camper/activities",
+      show: true,
+      activeTabName: ["/camper/activities"]
+    },
+    { 
       title: "Admin",
       path: "/admin/activity",
       show: userData.role === "admin" && isLogin,

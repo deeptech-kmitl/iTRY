@@ -23,8 +23,8 @@ export default function ShareSocial() {
     }
 
     return (
-        <div className='absolute w-[55%]'>
-            <button className="absolute btn btn-sm bg-transparent border-none p-0 w-10" onClick={openModal}>
+        <div className='relative w-[55%]'>
+            <button className="relative btn btn-sm bg-transparent border-none p-0 w-10" onClick={openModal}>
                 <FontAwesomeIcon className="fa-thin h-8 text-lightBlue" icon={faShareFromSquare} />
             </button>
             {isModalOpen && (

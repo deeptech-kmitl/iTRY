@@ -34,8 +34,7 @@ export async function GET(req: any) {
     return { data: sortedData.slice(offset, offset + 10) };
   } catch (error) {
     console.error("Error:", error);
-    // return NextResponse.json({ error: error });
-    return { error: error };
+    throw error
   }
 }
 

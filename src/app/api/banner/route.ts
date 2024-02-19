@@ -3,7 +3,7 @@ import iTryDynamoDB from "../utils/dynamoDB";
 import { uploadFileToS3 } from "../create/staffActivity/route";
 import { v4 as uuidv4 } from "uuid";
 
-export async function GET() {
+export async function getBanner() {
     try {
       const result = await iTryDynamoDB.scan({
         TableName: "Banner",
@@ -13,16 +13,15 @@ export async function GET() {
       return {data : result.Items, status:"success"};
     } catch (error) {
       console.error("Error:", error); 
-      return { error: error, status:"error" };
+      throw error
     }
   }
   
-  export async function POST(request: any) {
+  export async function createBanner(bannerUrl: string) {
     try {
-      const {bannerUrl} = request;
   
       if (!bannerUrl) {
-        return NextResponse.json({ error: "File is required." }, { status: 400 });
+        throw new Error("No file selected")
       }
 
       //dynamodb
@@ -44,14 +43,11 @@ export async function GET() {
     } catch (error) {
       console.log(error);
       // return NextResponse.json({ error });
-      return {
-        status:"error",
-        error: error
-        }
+      throw error
     }
   }
   
-  export async function DELETE(bannerId: string) {
+  export async function deleteBanner(bannerId: string) {
     try {
         // สร้างพารามิเตอร์สำหรับลบข้อมูลจาก DynamoDB
         const params = {
@@ -71,10 +67,6 @@ export async function GET() {
     } catch (error) {
       console.log(error)
       // return NextResponse.json({error})
-      return {
-        status:"error",
-        error: error
-        }
+      throw error
     }
   }
-  export { GET as getBanner, POST as creatBanner, DELETE as deleteBanner }

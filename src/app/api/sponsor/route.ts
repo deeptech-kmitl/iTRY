@@ -5,45 +5,39 @@ import iTryS3 from "../utils/s3DB";
 import iTryDynamoDB from "../utils/dynamoDB";
 import { uploadFileToS3 } from "../create/staffActivity/route";
 
-export async function POST(request: any) {
+export async function createSponSor(sponsorUrl: string) {
   try {
-    const formData = await request.formData();
-    const file = formData.get("file");
 
-    if (!file) {
-      return NextResponse.json({ error: "File is required." }, { status: 400 });
+    if(!sponsorUrl) {
+      throw new Error("No image selected")
     }
-    // S3
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const fileName = await uploadFileToS3(buffer);
-    console.log("filename");
 
     //dynamodb
     let myuuid = uuidv4();
+
+    console.log("myuuid: " + myuuid)
+    console.log("sponsorUrl: " + sponsorUrl)
+
     const paramsDynamo = {
       TableName: "Sponsor",
       Item: {
         sponsorId: myuuid,
-        sponsorUrl: fileName,
+        sponsorUrl: sponsorUrl,
       },
     };
     // Insert data into DynamoDB
     const insertDynamo = await iTryDynamoDB.put(paramsDynamo).promise();
     return {
-      data: [],
       status: "success"
       }
   } catch (error) {
     console.log(error)
     // return NextResponse.json({ error });
-    return {
-      status:"error",
-      error: error
-      }
+    throw error
   }
 }
 
-export async function GET() {
+export async function getSponSors() {
   const paramsDynamo = {
     TableName: "Sponsor",
   };
@@ -57,20 +51,12 @@ export async function GET() {
   } catch (error) {
     console.log(error)
     // return NextResponse.json({ error });
-    return {
-      status:"error",
-      error: error
-      }
+    throw error
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function deleteSponSor(sponsorId: string) {
   try {
-    const url = new URL(req.url)
-    const params = url.searchParams.get('sponsorId');
-    console.log(params);
-    const sponsorId = params;
-    console.log(sponsorId);
     const paramsDynamo = {
       TableName: "Sponsor",
       Key: {
@@ -79,17 +65,11 @@ export async function DELETE(req: NextRequest) {
     };
     const deleteDynamo = await iTryDynamoDB.delete(paramsDynamo).promise();
     return {
-      data: [],
       status: "success"
       }
   } catch (error) {
     console.log(error)
     // return NextResponse.json({ error });
-    return {
-      status:"error",
-      error: error
-      }
+    throw error
   }
 }
-
-export { GET as getSponsor, POST as createSponsor, DELETE as deleteSposor}

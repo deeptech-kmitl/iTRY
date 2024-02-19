@@ -6,8 +6,9 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { createCamperActivity, updateCamperActivity } from '@/app/api/crudActivity/camper/route';
 import { ITryActivity } from './activity';
-import { updateStaffActivity } from '@/app/api/crudActivity/staff/route';
-import { getCamperActivity } from '@/app/api/activityById/camper/[id]/route';
+import { createStaffActivity, updateStaffActivity } from '@/app/api/crudActivity/staff/route';
+import ITryToastNotification from '@/app/components/Toast/ToastNotification';
+import { useRouter } from 'next/navigation';
 
 interface UseManageActivityProps {
   typeAction: TypeAction
@@ -19,6 +20,8 @@ interface UseManageActivityProps {
 type keySchema = "activityName" | "openDate" | "closeDate" | "visibility" | "activityDetails" | "schedule" | "facebookLink"
 
 export default function useManageActivity({ typeAction, typeActivity, activity }: UseManageActivityProps) {
+
+  const router = useRouter()
 
   const scheduleSchema = yup.object({
     date: yup.string().required('กรุณากรอกวันที่ไทม์ไลน์'),
@@ -76,17 +79,31 @@ export default function useManageActivity({ typeAction, typeActivity, activity }
     if (typeof (data.imageUrl) !== "string") {
       const imageUrl = data.imageUrl;
       const realImageUrl: any = await uploadFileToS3(imageUrl)
-      savedData = { ...data, imageUrl: realImageUrl }
+      savedData = { ...data, imageUrl: realImageUrl, typeActivity: typeActivity }
     }
     try {
+      let result: { status: string; message?: unknown; activityId?: string };
       if (typeAction === "add") {
-        await typeActivity === "camper" ? createCamperActivity(savedData) : createCamperActivity(savedData)
+        result = typeActivity === "camper" ? await createCamperActivity(savedData) : await createStaffActivity(savedData)
       } else {
-        await typeActivity === "camper" ? updateCamperActivity(savedData) : updateStaffActivity(savedData)
+        result = typeActivity === "camper" ? await updateCamperActivity(savedData) : await updateStaffActivity(savedData)
       }
 
+      console.log("result", result)
 
+      await ITryToastNotification({
+        type: "success",
+        text: "เพิ่มกิจกรรมสำเร็จ"
+      })
 
+      if (result && result.status === "success" && result?.activityId) {
+        await ITryToastNotification({
+          type: "success",
+          text: "เพิ่มกิจกรรมสำเร็จ"
+        });
+
+        router.push(`/${typeActivity}/activity-details/${result?.activityId}`);
+      }
     } catch (e) {
       console.log("e", e)
     }
@@ -98,10 +115,10 @@ export default function useManageActivity({ typeAction, typeActivity, activity }
   useEffect(() => {
     const setDefaultValues = async () => {
       if (typeAction === "edit" && activity) {
-         Object.keys(activity).forEach((fieldName) => {
-            const key = fieldName as keySchema;
-            setValue(key, activity[key]);
-          });
+        Object.keys(activity).forEach((fieldName) => {
+          const key = fieldName as keySchema;
+          setValue(key, activity[key]);
+        });
       }
     };
 

@@ -1,34 +1,38 @@
-import { NextResponse, NextRequest } from "next/server";
-import AWS, { DynamoDB } from "aws-sdk";
+"use server"
+
 import iTryDynamoDB from "../utils/dynamoDB";
+import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function updateFollowActivity(userId: string, email:string, newActivity: ITryActivity[]) {
   try {
-    const { userId, activityId } = await req.json();
-    console.log("userId:", userId, "activity:", activityId);
+    console.log("userId:", userId, "activity:", newActivity);
 
+    // Append the new activity to the activitiesFollow array
     const paramsDynamo = {
       TableName: "Users",
       Key: {
-        userId: userId,
+        id: userId,
+        email: email,
       },
-      UpdateExpression:
-        "SET #followedActivityId = list_append(if_not_exists(#followedActivityId, :emptyList), :newValue)",
+      UpdateExpression: "SET #activitiesFollow = :newValue",
       ExpressionAttributeNames: {
-        "#followedActivityId": "followedActivityId",
+        "#activitiesFollow": "activitiesFollow",
       },
       ExpressionAttributeValues: {
-        ":newValue": [activityId],
-        ":emptyList": [],
+        ":newValue": newActivity,
       },
       ReturnValues: "UPDATED_NEW",
     };
 
-    //add activity into DynamoDB
-    const data = await iTryDynamoDB.update(paramsDynamo).promise();
-    return NextResponse.json({ message: "Item updated successfully" });
+
+    // Add activity into DynamoDB
+    const response = await iTryDynamoDB.update(paramsDynamo).promise();
+    console.log("response", response)
+    return {
+      status: "success",
+    };
   } catch (error) {
     console.error("Unable to update item:", error);
-    return NextResponse.json({ error });
+    throw error;
   }
 }

@@ -23,19 +23,33 @@ export default function useSignInController(
   });
 
   const onSubmit = async (data: any) => {
-    signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      callbackUrl: callbackUrl
-    })
+    try {
+      signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        callbackUrl: callbackUrl, redirect: callbackUrl ? true : false
+      })
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFacebookLogin = () => {
-    signIn('facebook', { callbackUrl: callbackUrl })
+    // console.log("callbackUrl ? true : false", callbackUrl ? true : false)
+    try {
+      signIn('facebook', { callbackUrl: callbackUrl, redirect: false })
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleGoogleLogin = () => {
-    signIn("google", { callbackUrl: callbackUrl })
+    // console.log("callbackUrl ? true : false", callbackUrl ? true : false)
+    try {
+      signIn("google", { callbackUrl: callbackUrl, redirect: false })
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {

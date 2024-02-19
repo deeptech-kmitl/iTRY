@@ -1,5 +1,6 @@
 'use client'
 
+import { ToastContainer } from "react-toastify";
 import Providers from "./components/Providers";
 
 export default function ITryApp({
@@ -9,6 +10,9 @@ export default function ITryApp({
 }) {
 
   return (
-    <Providers>{children}</Providers>
+    <Providers>
+      {children}
+      <ToastContainer />
+    </Providers>
   )
 }

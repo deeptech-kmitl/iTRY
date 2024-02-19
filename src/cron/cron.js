@@ -7,5 +7,5 @@ require('dotenv').config()
 cron.schedule('0 9 * * *', async() => {
   console.log('----- Cron job started! -----')
 
-    await axios.get('http://localhost:3000/api/sendEmail/byCron');
+  await axios.get('http://localhost:3000/api/sendEmail/byCron');
 })

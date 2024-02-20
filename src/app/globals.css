@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Prompt&display=swap");
 
 @tailwind base;
 
@@ -17,17 +17,16 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 0, 0, 0;
   --background-end-rgb: 0, 0, 0;
   --background-body: #050922;
-  --primary-color: #40F8FF;
-  --input-border-color: #40F8FF;
+  --primary-color: #40f8ff;
+  --input-border-color: #40f8ff;
   --background-side-navbar: rgb(1, 156, 161);
   --background-modal: #242532;
-  --background-button: #5DC2D8;
+  --background-button: #5dc2d8;
   --background-button-hover: #00d0ff;
 }
 
@@ -41,7 +40,7 @@ body {
 }
 
 .bg-gray {
-  background: #2A2A2A
+  background: #2a2a2a;
 }
 
 input {
@@ -53,19 +52,19 @@ input {
 }
 
 .bg-linear-blue {
-  background: linear-gradient(40deg, #40F8FF, #00BAC1, #2B79A4);
+  background: linear-gradient(40deg, #40f8ff, #00bac1, #2b79a4);
 }
 
 .bg-button {
-  background: var(--background-button)
+  background: var(--background-button);
 }
 
 .bg-button:hover {
-  background: var(--background-button-hover)
+  background: var(--background-button-hover);
 }
 
 .bg-side-navbar {
-  background: var(--background-side-navbar)
+  background: var(--background-side-navbar);
 }
 
 .border-color-primary {
@@ -73,7 +72,7 @@ input {
 }
 
 .text-primary-color {
-  color: var(--primary-color)
+  color: var(--primary-color);
 }
 
 .rounded-image {
@@ -90,7 +89,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -109,3 +108,14 @@ input[type="radio"]:checked {
 .css-1fzpoyk img {
   object-fit: cover !important;
 }
+
+/* Media query for mobile devices */
+@media screen and (max-width: 700px) {
+  .swal2-popup {
+    width: 70%; /* Adjust the width for smaller screens */
+    max-width: none; /* Remove maximum width for smaller screens */
+    font-size: 12px;
+  }
+}
+
+

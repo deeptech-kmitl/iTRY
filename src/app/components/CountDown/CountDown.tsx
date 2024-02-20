@@ -54,30 +54,30 @@ export default function ITryCounDown({ openDate, style, activityName }: ITryCoun
   return (
     <>
       <div className="text-center py-10">
-        <span className="text-3xl font-bold">{activityName}</span>
-        <span className="text-3xl font-bold"> is Coming</span>
+        <span className="md:text-2xl text-base font-bold">{activityName}</span>
+        <span className="md:text-2xl text-base font-bold"> is Coming</span>
       </div>
-      <div className="justify-center mb-16 grid grid-flow-col gap-5 text-center auto-cols-max">
-        <div className="flex flex-col px-8 items-center">
-          <span className="countdown font-mono text-5xl">
+      <div className="justify-center mb-16 grid grid-flow-col md:gap-5 gap-1 text-center auto-cols-max md:text-2xl text-base">
+        <div className="flex flex-col md:px-8 px-2 items-center">
+          <span className="countdown font-mono">
             <span style={{ "--value": `${days}`, ...style }}>{days}</span>
           </span>
           days
         </div>
-        <div className="flex flex-col px-8 items-center">
-          <span className="countdown font-mono text-5xl">
+        <div className="flex flex-col md:px-8 px-2 items-center">
+          <span className="countdown font-mono">
             <span style={{ "--value": `${hours}`, ...style }}>{hours}</span>
           </span>
           hours
         </div>
-        <div className="flex flex-col px-8 items-center">
-          <span className="countdown font-mono text-5xl">
+        <div className="flex flex-col md:px-8 px-2 items-center">
+          <span className="countdown font-mono">
             <span style={{ "--value": `${minutes}`, ...style }}>{minutes}</span>
           </span>
           minutes
         </div>
-        <div className="flex flex-col px-8 items-center">
-          <span className="countdown font-mono text-5xl">
+        <div className="flex flex-col pmd:x-8 px-2 items-center">
+          <span className="countdown font-mono">
             <span style={{ "--value": `${seconds}`, ...style }}>{seconds}</span>
           </span>
           seconds

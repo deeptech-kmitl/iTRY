@@ -82,16 +82,18 @@ export async function POST() {
 
                 // Send Email
                 const activityLink = `http://localhost:3000/api/activityById/${activity.source}/` + activity.activityId
+                const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
                 const mailOption = {
                     from: 'itrydpd@gmail.com',
                     to: user.email,
-                    subject: '🔥 Let\' s join IT KMITL activities !!',
+                    subject: `🔥 ${dayDifference === 0 ? 'วันนี้ 🔥': 'อีก ' + dayDifference + ' วัน 🔥'} เตรียมพบกับกิจกรรม ${activity.activityName}`,
                     html: `
-                            <h3>Welcome to ${activity.activityName} </h3>
+                            <h3>🥰 มาเข้าร่วมกิจกรรมดีๆ กับคณะ IT กันเถอะ !</h3>
+                            <h4><u>รายละเอียดกิจกรรม</u></h4>
                             ${activity.activityDetails}
                             ${activity.imageUrl ? `<img src="${activity.imageUrl}" alt="activity image">` : ''}
-                            <p>Visit Activity 👉 <a href="${activityLink}">${activityLink}</a></p>
+                            <p>สามารถดูรายละเอียดเพิ่มเติมได้ที่ 👉 <a href="${activityLink}">${activityLink}</a></p>
                         `
                 }
                 
@@ -126,10 +128,11 @@ export async function POST() {
                     const mailOption = {
                         from: 'itrydpd@gmail.com',
                         to: userEmail,
-                        subject: `🚨 ${matchingActivity?.activityName} scheduled for tomorrow !`,
+                        subject: `🚨 ประกาศจากกิจกรรม ${matchingActivity?.activityName}`,
                         html: `
-                            <h2>${sendSchedule?.title}</h2>
-                            <h4>Details Activity</h4>
+                            <h3>✨ เตรียมตัวให้พร้อมสำหรับวันพรุ่งนี้ ✨</h3>
+                            <h3>👉 ${sendSchedule?.title}</h3>
+                            <h4><u>รายละเอียด</u></h4>
                                 ${sendSchedule?.details}
                         `
                     }

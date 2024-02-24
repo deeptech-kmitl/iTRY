@@ -26,7 +26,10 @@ export async function sendEmailAndNoti(params: string) {
     const convertActivitiesCamper = activitiesCamper?.data || []
     const convertActivitieStaff = activitiesStaff?.data || []
 
-    const combinedActivies = [...convertActivitiesCamper, ...convertActivitieStaff]
+    const combinedActivies = [
+        ...convertActivitiesCamper.map(activity => ({ ...activity, source: 'camper' })),
+        ...convertActivitieStaff.map(activity => ({ ...activity, source: 'staff' }))
+    ];
 
 
 
@@ -60,12 +63,15 @@ export async function sendEmailAndNoti(params: string) {
 
     followerData?.map(async user => {
 
+        const activityLink = `http://localhost:3000/api/activityById/${updatedActivityData?.source}/` + updatedActivityData?.activityId
+
         const mailOption = {
             from: 'itrydpd@gmail.com',
             to: user.email,
-            subject: `📢 The ${updatedActivityData?.activityName} activity has updated`,
+            subject: `📢 ประกาศจากกิจกรรม ${updatedActivityData?.activityName}`,
             html: `
-                <p>Some activity information has changed, please visit the web.</p>
+                <p>✨ มีการอัปเดตข้อมูลในกิจกรรม ${updatedActivityData?.activityName}</p>
+                <p>⚠️ อย่าลืม!! เข้าไปดูรายละเอียดใหม่ได้ที่ <a href="${activityLink}">${activityLink}</a></p>
             `
         }
 

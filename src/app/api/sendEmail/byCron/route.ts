@@ -101,7 +101,7 @@ export async function POST() {
                 const newNotification: Notification = {
                     activityId: activity.activityId ?? '',
                     activityName: activity.activityName,
-                    activityDetail: activity.activityDetails,
+                    activityDetail: 'ประกาศเปิดกิจกรรม !!',
                     sendDate: sendDate
                 }
 

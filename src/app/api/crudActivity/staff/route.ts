@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
-import { sendEmailAndNoti } from "../../sendEmail/byEditActivity/[activityId]/route";
+import { sendEmailAndNoti } from "../../sendEmail/byEditActivity/route";
 
 const tableName = "StaffActivities";
 

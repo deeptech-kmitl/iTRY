@@ -10,10 +10,10 @@ import { User } from 'next-auth';
 import { Notification } from '@/app/utils/ManageEmail/email';
 import { updateNotification } from '@/app/api/notification/route';
 
-export async function GET(res: SendEmail, { params }: any) {
+export async function sendEmailAndNoti(params: string) {
     console.log("___ SEND EMAIL ___")
 
-    const {activityId} = params
+    const activityId = params
 
     // Get user and activity data
     const users = await getAllUser() as ApiDataList<User> | ApiError | undefined

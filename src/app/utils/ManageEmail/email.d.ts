@@ -5,10 +5,10 @@ export interface SendEmail {
 }
 
 export interface Notification {
+    activityId: string,
     activityName: string,
     activityDetail: string,
     sendDate: string,
-    followerId: followerId,
 }
 
 export interface NotificationProp {

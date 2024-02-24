@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
+import { sendEmailAndNoti } from "../../sendEmail/byEditActivity/[activityId]/route";
 
 const tableName = "StaffActivities";
 
@@ -100,6 +101,9 @@ export async function updateStaffActivity(req: ITryActivity) {
       ":newFaq": faq,
     };
 
+    // // >>>>> SEND EMAIL TO USER >>>>>
+    // await sendEmailAndNoti(activityId)
+
     const paramsDynamo = {
       TableName: tableName,
       Key: {
@@ -116,7 +120,6 @@ export async function updateStaffActivity(req: ITryActivity) {
   } catch (error) {
     throw error
   }
-  // >>>>> SEND EMAIL TO USER >>>>>
 }
 
 export async function deleteStaffActivity(activityId: string) {

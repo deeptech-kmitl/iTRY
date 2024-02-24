@@ -1,46 +1,52 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
-import { postNotification } from '@/app/api/notification/[userId]/route';
 import { SendEmail } from '@/app/utils/ManageEmail/email'
+import { getAllUser } from '@/app/api/users/route';
+import { ApiDataList, ApiError } from '@/app/components/global';
+import { getActivitiesDesc } from '@/app/api/sortActivity/[user]/desc/route';
+import { ActivityApiData } from '@/app/utils/ManageActivityPage/activity';
+import { User } from 'next-auth';
+import { Notification } from '@/app/utils/ManageEmail/email';
+import { updateNotification } from '@/app/api/notification/route';
 
 export async function GET(res: SendEmail, { params }: any) {
     console.log("___ SEND EMAIL ___")
 
     const {activityId} = params
 
-    const paramsUsers = {
-        TableName: 'TestUser', // TODO: Change to 'Users'
-    }
-    const paramsStaffAct = {
-        TableName: 'StaffActivities',
-    }
-    const paramsCamperAct = {
-        TableName: 'CamperActivities',
-    }
+    // Get user and activity data
+    const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
+    const activitiesStaff = await getActivitiesDesc("staff", 1, 1000000) as ActivityApiData | ApiError | undefined
+    const activitiesCamper = await getActivitiesDesc("camper", 1, 1000000) as ActivityApiData | ApiError | undefined
 
-    const usersData = await iTryDynamoDB.scan(paramsUsers).promise()
-    const staffActData = await iTryDynamoDB.scan(paramsStaffAct).promise()
-    const camperActData = await iTryDynamoDB.scan(paramsCamperAct).promise()
+    if (users?.status === "error" || activitiesStaff?.status === "error" || activitiesCamper?.status === "error") throw new Error("")
+    const activeUsers = users?.data?.filter(user => user?.receiveEmail)
+
+    const convertActivitiesCamper = activitiesCamper?.data || []
+    const convertActivitieStaff = activitiesStaff?.data || []
+
+    const combinedActivies = [...convertActivitiesCamper, ...convertActivitieStaff]
 
 
-    // Get user that follow activity
-    const usersFollowedAct = (usersData.Items ?? []).filter(user => {
-        const followedActivities = user.followedActivityId || []
-        return followedActivities.includes(activityId)
+
+    const followerData = activeUsers?.filter(user => {
+        return user.activitiesFollow.some(activityFallow => activityFallow.activityId === activityId)
     })
-    console.log(">>> User Data that follow activity: ", usersFollowedAct)
+
+    const updatedActivityData = combinedActivies.find(activity => activity.activityId === activityId)
+
+    const currentDate = new Date();
+
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    const hours = String(currentDate.getHours()).padStart(2, '0');
+    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+
+    const sendDate = `${month}-${day} ${hours}:${minutes}`;
 
 
-    // Find activity name
-    const activityName = ((staffActData.Items ?? [])
-        .find(item => item.activityId === activityId) || {}).activityName
-            || ((camperActData.Items || [])
-            .find(item => item.activityId === activityId) || {}).activityName
-    
-    console.log("Activity Name: ", activityName)
-    
-    
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         host: 'smtp.gmail.com',
@@ -52,22 +58,27 @@ export async function GET(res: SendEmail, { params }: any) {
         }
     })
 
-    for (const user of usersFollowedAct) {
+    followerData?.map(async user => {
+
         const mailOption = {
             from: 'itrydpd@gmail.com',
             to: user.email,
-            subject: `📢 The ${activityName} activity has updated`,
+            subject: `📢 The ${updatedActivityData?.activityName} activity has updated`,
             html: `
                 <p>Some activity information has changed, please visit the web.</p>
             `
         }
-        await transporter.sendMail(mailOption)
 
-        await postNotification({
-            activityName: `${activityName}`,
-            activityDetail: `Some activity information has changed, please visit.`,
-            followerId: user.userId
-        })
-    }
+        const newNotification: Notification = {
+            activityId: updatedActivityData?.activityId ?? '',
+            activityName: updatedActivityData?.activityName ?? '',
+            activityDetail: 'Some activity information has changed, please visit the web page.',
+            sendDate: sendDate
+        }
+
+        const newNotifications: Notification[] = [...user?.notifications, newNotification]
+        await updateNotification(user.id, user.email, newNotifications)
+        await transporter.sendMail(mailOption)
+    })
     
 }

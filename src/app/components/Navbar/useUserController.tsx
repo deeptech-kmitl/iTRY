@@ -10,7 +10,8 @@ export default function useUserController() {
     role: session?.user?.role || "",
     id: session?.user?.id || "",
     notifications: session?.user?.notifications || [],
-    activitiesFollow: session?.user?.activitiesFollow || []
+    activitiesFollow: session?.user?.activitiesFollow || [],
+    // receiveEmail: session?.user?.receiveEmail || false
   }
   console.log("userData", userData);
   return {

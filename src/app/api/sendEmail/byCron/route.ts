@@ -7,220 +7,162 @@ import { schedule } from '../../create/staffActivity/mockupData';
 import { Console } from 'console';
 import { DynamoDB } from 'aws-sdk';
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
-import { getNotification, postNotification } from '../../notification/[userId]/route';
+// import { getNotification, postNotification } from '../../notification/[userId]/route';
+import { findUser, getAllUser } from '../../users/route';
+import { updateNotification } from '../../notification/route';
+import { ApiDataList, ApiError } from '@/app/components/global';
+import { User } from 'next-auth';
+import { Notification } from '@/app/utils/ManageEmail/email';
+import { getActivitiesDesc } from '../../sortActivity/[user]/desc/route';
+import { ActivityApiData, ITryActivity } from '@/app/utils/ManageActivityPage/activity';
 
-export async function GET() {
+export async function POST() {
+    console.log('.... Sending Email and Notification.')
 
-    return NextResponse.json({status: "success"})
+    try {
 
-    // const paramsUsers = {
-    //     TableName: 'TestUser', // TODO: Change to 'Users'
-    // }
-    // const paramsStaffAct = {
-    //     TableName: 'StaffActivities',
-    // }
-    // const paramsCamperAct = {
-    //     TableName: 'CamperActivities',
-    // }
+        // Get user and activity data
+        const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
+        const activitiesStaff = await getActivitiesDesc("staff", 1, 1000000) as ActivityApiData | ApiError | undefined
+        const activitiesCamper = await getActivitiesDesc("camper", 1, 1000000) as ActivityApiData | ApiError | undefined
 
-    // try {
-    //     console.log("_______ Begin ________")
-    //     // const {title} = await request.json()
+        if (users?.status === "error" || activitiesStaff?.status === "error" || activitiesCamper?.status === "error") throw new Error("")
+        const activeUsers = users?.data?.filter(user => user?.receiveEmail)
 
-    //     // ------------- GET Users From DynamoDB -------------
-    //     const usersData = await iTryDynamoDB.scan(paramsUsers).promise()
-    //     const usersEmail = (usersData.Items ?? []).map(item => item.email)
-    //     console.log("USERS -> ", usersEmail)
+        const convertActivitiesCamper = activitiesCamper?.data || []
+        const convertActivitieStaff = activitiesStaff?.data || []
 
-    //     // ------------- GET Staff Activity From DynamoDB -------------
-    //     const staffActData = await iTryDynamoDB.scan(paramsStaffAct).promise()
+        // const combinedActivies = [...convertActivitiesCamper, ...convertActivitieStaff]
+        const combinedActivies = [
+            ...convertActivitiesCamper.map(activity => ({ ...activity, source: 'camper' })),
+            ...convertActivitieStaff.map(activity => ({ ...activity, source: 'staff' }))
+        ];
 
-    //     // Tomorrow Date String
-    //     const tomorrowDate = new Date()
-    //     tomorrowDate.setDate(tomorrowDate.getDate() + 1)
-    //     const year = tomorrowDate.getFullYear();
-    //     const month = String(tomorrowDate.getMonth() + 1).padStart(2, '0');
-    //     const day = String(tomorrowDate.getDate()).padStart(2, '0');
+        const currentDate = new Date();
 
-    //     const tomorrowDateString = `${year}-${month}-${day}`
-    //     console.log("Tomorrow Date String -- ", tomorrowDateString)
-    //     // const testDateDB = (staffActData.Items ?? []).map(item => item.openDate)
-    //     // console.log("TEST DATE -> ", testDateDB)
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const day = String(currentDate.getDate()).padStart(2, '0');
 
-    //     // <<<<<<<<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY OPEN DATE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        const hours = String(currentDate.getHours()).padStart(2, '0');
+        const minutes = String(currentDate.getMinutes()).padStart(2, '0');
 
-    //     // MAP necessary data to send email
-    //     const staffActivities = (staffActData.Items ?? [])
-    //     .filter(item => item.openDate == tomorrowDateString)
-    //     .map(item => ({
-    //         activityName: item.activityName,
-    //         activityDetails: item.activityDetails,
-    //         openDate: item.openDate,
-    //         activityLink: 'http://localhost:3000/api/activityById/staff/' + item.activityId,
-    //         imageUrl: item.imageUrl,
-    //     }))
-
-    //     // ------------- GET Camper Activity From DynamoDB -------------
-    //     const camperActData = await iTryDynamoDB.scan(paramsCamperAct).promise()
-    //     const camperActivities = (camperActData.Items ?? [])
-    //     .filter(item => item.openDate == tomorrowDateString)
-    //     .map(item => ({
-    //         activityName: item.activityName,
-    //         activityDetails: item.activityDetails,
-    //         openDate: item.openDate,
-    //         activityLink: 'http://localhost:3000/api/activityById/camper/' + item.activityId,
-    //         imageUrl: item.imageUrl,
-    //     }))
-
-    //     const combinedActivities = [...staffActivities, ...camperActivities]
-
-    //     // Check if there are staff activities scheduled for tomorrow
-    //     if (combinedActivities.length === 0) {
-    //         console.log("No any activities scheduled for tomorrow. Skipping email.");
-    //         return { message: 'No any activities scheduled for tomorrow', status: 'error' }
-    //     }
+        const sendDate = `${month}-${day} ${hours}:${minutes}`;
         
-    //     // ------------ SEND EMAIL --------------
-    //     const transporter = nodemailer.createTransport({
-    //         service: 'gmail',
-    //         host: 'smtp.gmail.com',
-    //         port: 465,
-    //         secure: true,
-    //         auth: { // for sender
-    //             user: process.env.SMTP_EMAIL,
-    //             pass: process.env.SMTP_PASSWORD
-    //         }
-    //     })
 
-    //     for (const activity of combinedActivities) {
-    //         const mailOption = {
-    //             from: 'itrydpd@gmail.com',
-    //             to: usersEmail.join(','),
-    //             subject: '🔥 Let\' s join IT KMITL activities !!',
-    //             html: `
-    //             <h3>Welcome to ${activity.activityName} </h3>
-    //             ${activity.activityDetails}
-    //             ${activity.imageUrl ? `<img src="${activity.imageUrl}" alt="activity image">` : ''}
-    //             <p>Visit Activity 👉 <a href="${activity.activityLink}">${activity.activityLink}</a></p>
-    //             `
-    //         }
+        // Incoming Activity in 3 days (openDate)
+        const filterIncomingActivities = combinedActivies.filter(activity => {
+            const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
+            return dayDifference <= 3 && dayDifference >= 0;
+        })
 
-    //         await transporter.sendMail(mailOption)
-    //         console.log("_______ Finish SEND OPEN DATE EMAIL ________")
+        // Incoming Activity in 1 day (schedule for follower)
+        const filterActivitesIncomingSchedule = combinedActivies.filter(activity => (activity.schedule ?? []).some(schedule => {
+            const dayDifference = Math.ceil((new Date(schedule.date).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
+            return dayDifference <= 1 && dayDifference >= 0;
+        }))
 
-    //         await postNotification({
-    //             activityName: `${activity.activityName}`,
-    //             activityDetail: `${activity.activityDetails}`,
-    //             followerId: 'sendAllId',
-    //             sendDate: ''
-    //         })
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: { // for sender
+                user: process.env.SMTP_EMAIL,
+                pass: process.env.SMTP_PASSWORD
+            }
+        })
 
-    //         console.log("--------- Finish SEND NOTIFICATION ---------")
-    //     }
+        // <<<<<<<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY OPEN DATE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    //     // <<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY SCHEDULE (FOLLOWED ACTIVITY) >>>>>>>>>>>>>>>>>>>>>>>>
+        activeUsers?.map(async user => {
 
-    //     const usersFollowedAct = (usersData.Items ?? []).filter(user => {
-    //         const followedActivities = user.followedActivityId || []
-    //         return followedActivities.some((activityId: string) => {
-    //             return (
-    //                 (camperActData.Items ?? []).some(item => 
-    //                     {
-    //                         if (item.schedule) {
-    //                             return item.schedule.some((scheduleItem: any) => 
-    //                                 scheduleItem.date == tomorrowDateString && item.activityId == activityId)
-    //                         }
-    //                         return false
-    //                     }
-                        
-    //                 ) || 
-    //                 (staffActData.Items ?? []).some(item => 
-    //                     {
-    //                         if (item.schedule) {
-    //                             return item.schedule.some((scheduleItem: any) => 
-    //                                 scheduleItem.date == tomorrowDateString && item.activityId == activityId)
-    //                         }
-    //                         return false
-    //                     }
-    //                 )
-    //             )
-    //         })
-    //     })
+            const newNotificationArray: Notification[] = []
 
-    //     console.log("USER FOLLOW DATA _________",usersFollowedAct)
-    //     const emailFollowedAct = usersFollowedAct.map(user => user.email)
+            filterIncomingActivities.map(async activity => {
 
-    //     if (emailFollowedAct.length === 0) {
-    //         console.log("No users to email. Skipping email.");
-    //         return { message: "No users to email", status: 'success' }
-    //     }
+                // Send Email
+                const activityLink = `http://localhost:3000/api/activityById/${activity.source}/` + activity.activityId
+                const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
-    //     const allFollowerId = usersFollowedAct.map(user => user.userId)
-    //     console.log('follower ---- > ', allFollowerId)
-
-    //     for (const email of emailFollowedAct) {
-    //         const user: any = (usersData.Items ?? []).find((user: any) => user.email === email)
-    //         console.log("USER ___ ", user)
-
-    //         const followedActivities = user?.followedActivityId || [];
-    //         console.log("FOLLOW ACTIVITY ___ ", followedActivities)
-
-    //         const followerId = user?.userId || []
-    //         console.log('------ user that follow act ---> ', followerId)
-
-    //         const acitivitySchedule = followedActivities.flatMap((activityId: any) => {
-    //             const activityDetails = (camperActData.Items ?? []).find(item => 
-    //                 item.activityId === activityId
-    //             ) || (staffActData.Items ?? []).find(item => 
-    //                 item.activityId === activityId
-    //             )
+                const mailOption = {
+                    from: 'itrydpd@gmail.com',
+                    to: user.email,
+                    subject: `🔥 ${dayDifference === 0 ? 'วันนี้ 🔥': 'อีก ' + dayDifference + ' วัน 🔥'} เตรียมพบกับกิจกรรม ${activity.activityName}`,
+                    html: `
+                            <h3>🥰 มาเข้าร่วมกิจกรรมดีๆ กับคณะ IT กันเถอะ !</h3>
+                            <h4><u>รายละเอียดกิจกรรม</u></h4>
+                            ${activity.activityDetails}
+                            ${activity.imageUrl ? `<img src="${activity.imageUrl}" alt="activity image">` : ''}
+                            <p>สามารถดูรายละเอียดเพิ่มเติมได้ที่ 👉 <a href="${activityLink}">${activityLink}</a></p>
+                        `
+                }
                 
-    //             if (activityDetails && Array.isArray(activityDetails.schedule)) {
-    //                 return activityDetails.schedule
-    //                 .filter((scheduleItem: any) =>scheduleItem.date === tomorrowDateString)
-    //                 .map((scheduleItem: any) => ({ ...scheduleItem, activityId }))
-    //             }
-    //             return [];
-    //         })
-    //         console.log("SCHEDULE -> ", acitivitySchedule)
+                // Send Notification
+                const newNotification: Notification = {
+                    activityId: activity.activityId ?? '',
+                    activityName: activity.activityName,
+                    activityDetail: activity.activityDetails,
+                    sendDate: sendDate
+                }
 
+                newNotificationArray.push(newNotification)
+                await transporter.sendMail(mailOption)
+            })
 
-    //         for (const scheduleItem of acitivitySchedule) {
-    //             const activityDetails = (camperActData.Items ?? []).find(item => 
-    //                 item.activityId === scheduleItem.activityId
-    //             ) || (staffActData.Items ?? []).find(item => 
-    //                 item.activityId === scheduleItem.activityId
-    //             )
+            // <<<<<<<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY SCHEDULE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    //             const mailOption = {
-    //                 from: 'itrydpd@gmail.com',
-    //                 to: email,
-    //                 subject: `🚨 ${(activityDetails ?? {}).activityName} scheduled for tomorrow !`,
-    //                 html: `
-    //                 <h2>${scheduleItem.title}</h2>
-    //                 <h4>Details Activity</h4>
-    //                     ${scheduleItem.details}
-    //                 `
-    //             }
-    //             await transporter.sendMail(mailOption);
-    //             console.log("SCHEDULE Email sent to user: ", email)
+            const userEmail = user.email
+            user.activitiesFollow.map(async activityFollow => {
 
-    //             await postNotification({
-    //                 activityName: `${(activityDetails ?? {}).activityName}`,
-    //                 activityDetail: scheduleItem.title,
-    //                 followerId: followerId,
-    //                 sendDate: ''
-    //             })
-    //         }
+                const matchingActivity = filterActivitesIncomingSchedule.find(activityIncoming => {
+                    return activityIncoming.activityId === activityFollow.activityId
+                })
 
-    //     }
+                if (matchingActivity) {
+                    const sendSchedule = matchingActivity?.schedule.find(scheduleItem => {
+                        const dayDifference = Math.ceil((new Date(scheduleItem.date).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
+                        return dayDifference <= 1 && dayDifference > 0
+                    })
 
-    //     return NextResponse.json({ message: "Email Sent Successfully", status: 'success' })
-    // }
-    // catch(error) {
-    //     console.error(error)
-    //     return NextResponse.json({ message: "Fail to send Email", status: 'errror' })
-    // }
+                    // Send Email
+                    const mailOption = {
+                        from: 'itrydpd@gmail.com',
+                        to: userEmail,
+                        subject: `🚨 ประกาศจากกิจกรรม ${matchingActivity?.activityName}`,
+                        html: `
+                            <h3>✨ เตรียมตัวให้พร้อมสำหรับวันพรุ่งนี้ ✨</h3>
+                            <h3>👉 ${sendSchedule?.title}</h3>
+                            <h4><u>รายละเอียด</u></h4>
+                                ${sendSchedule?.details}
+                        `
+                    }
 
-    
+                    // Send Notification
+                    if (sendSchedule) {
+                        const newNotification: Notification = {
+                            activityId: matchingActivity.activityId ?? '',
+                            activityName: matchingActivity?.activityName,
+                            activityDetail: sendSchedule?.title,
+                            sendDate: sendDate
+                        }
+                        newNotificationArray.push(newNotification)
+                        await transporter.sendMail(mailOption)
+                    }
+                    
+                }
+                
+            })
+
+            const newNotifications: Notification[] = [...user?.notifications, ...newNotificationArray]
+            await updateNotification(user.id, user.email, newNotifications)
+            console.log('<<< SendEmail and Notification seccess >>>')
+        })
+
+        return NextResponse.json({ message: "Success" }, { status: 200 })
+    }
+
+    catch(error) {
+        return NextResponse.json({ message: "Error" }, { status: 500 })
+    }
 }
+

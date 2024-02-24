@@ -6,5 +6,4 @@ export interface NotificationProps {
 export interface NotificationRow {
   activityName: string,
   activityDetail: string,
-  followerId: string,
 }

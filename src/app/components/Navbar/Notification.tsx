@@ -23,9 +23,9 @@ export default function ITryNotification({ notificationData }: { notificationDat
                 shallow
               >
                 <div className="flex flex-col">
-                  <div className="flex items-end gap-4">
+                  <div className="flex justify-between items-start gap-4">
                     <p className="font-bold">{notification.activityName}</p>
-                    <p className="text-stone-400 text-xs">{notification.sendDate}</p>
+                    <p className="text-stone-400 text-xs self-end">{notification.sendDate}</p>
                   </div>
                   <div className="text-stone-300 text-xs">
                     {notification.activityDetail}

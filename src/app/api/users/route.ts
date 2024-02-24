@@ -16,7 +16,8 @@ export async function createUser(userData: GoogleProfile | FacebookProfile) {
       email: email,
       name: name,
       notifications: [],
-      activitiesFollow: []
+      activitiesFollow: [],
+      // receiveEmail: false,
     }
     const paramsDynamo = {
       TableName: "Users",

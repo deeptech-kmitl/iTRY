@@ -22,6 +22,7 @@ declare module "next-auth" {
     email: string;
     notifications: Notification[];
     activitiesFollow: ITryActivity[];
+    receiveEmail: boolean;
   }
 }
 

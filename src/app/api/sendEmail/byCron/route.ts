@@ -119,31 +119,33 @@ export async function POST() {
                 })
 
                 if (matchingActivity) {
-                    const sendSchedule = matchingActivity?.schedule.find(scheduleItem => {
+                    const sendSchedules = matchingActivity?.schedule.filter(scheduleItem => {
                         const dayDifference = Math.ceil((new Date(scheduleItem.date).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
                         return dayDifference <= 1 && dayDifference > 0
                     })
 
-                    // Send Email
-                    const mailOption = {
-                        from: 'itrydpd@gmail.com',
-                        to: userEmail,
-                        subject: `🚨 ประกาศจากกิจกรรม ${matchingActivity?.activityName}`,
-                        html: `
-                            <h3>✨ เตรียมตัวให้พร้อมสำหรับวันพรุ่งนี้ ✨</h3>
-                            <h3>👉 ${sendSchedule?.title}</h3>
-                            <h4><u>รายละเอียด</u></h4>
-                                ${sendSchedule?.details}
-                        `
-                    }
 
-                    // Send Notification
-                    if (sendSchedule) {
+                    if (sendSchedules) {
+
+                        // Send Notification
                         const newNotification: Notification = {
                             activityId: matchingActivity.activityId ?? '',
-                            activityName: matchingActivity?.activityName,
-                            activityDetail: sendSchedule?.title,
+                            activityName: `กิจกรรม "${matchingActivity?.activityName}"`,
+                            activityDetail: `อย่าลืม ! ดู timeline สำหรับวันพรุ่งนี้`,
                             sendDate: sendDate
+                        }
+
+                        // Send Email
+                        const mailOption = {
+                            from: 'itrydpd@gmail.com',
+                            to: userEmail,
+                            subject: `🚨 ประกาศจากกิจกรรม ${matchingActivity?.activityName}`,
+                            html: `
+                                    <h3>✨ เตรียมตัวให้พร้อมสำหรับวันพรุ่งนี้ ✨</h3>
+                                    ${sendSchedules.map(scheduleItem => `
+                                        <p><strong>👉 ${scheduleItem.title}</strong> - ${scheduleItem.details}</p>
+                                    `).join('')}
+                                `
                         }
                         newNotificationArray.push(newNotification)
                         await transporter.sendMail(mailOption)

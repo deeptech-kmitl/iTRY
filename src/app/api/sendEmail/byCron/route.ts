@@ -89,11 +89,19 @@ export async function POST() {
                     to: user.email,
                     subject: `🔥 ${dayDifference === 0 ? 'วันนี้ 🔥': 'อีก ' + dayDifference + ' วัน 🔥'} เตรียมพบกับกิจกรรม ${activity.activityName}`,
                     html: `
-                            <h3>🥰 มาเข้าร่วมกิจกรรมดีๆ กับคณะ IT กันเถอะ !</h3>
-                            <h4><u>รายละเอียดกิจกรรม</u></h4>
-                            ${activity.activityDetails}
-                            ${activity.imageUrl ? `<img src="${activity.imageUrl}" alt="activity image">` : ''}
-                            <p>สามารถดูรายละเอียดเพิ่มเติมได้ที่ 👉 <a href="${activityLink}">${activityLink}</a></p>
+                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                            <div style="background-color: #ffcc00; padding: 20px; border-radius: 10px 10px 0 0;">
+                                <h2 style="margin: 0; color: #333;">IT KMITL Activity!</h2>
+                                <h3 style="margin: 5px 0 0; color: #333;">💖 พบกับกิจกรรม <b>${activity.activityName}</b></h3>
+                            </div>
+                            <div style="padding: 20px; background-color: #fff3e6;">
+                                ${activity.imageUrl ? `<img src="${activity.imageUrl}" alt="activity image" style="max-width: 100%; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">` : ''}
+                            </div>
+                            <div style="background-color: #ffcc00; padding: 20px; border-radius: 0 0 10px 10px;">
+                                <h4 style="margin: 0; color: #333;">เปิดรับสมัคร: ${activity.openDate}</h4><br>
+                                <p style="margin: 5px 0 0; color: #ffcc00; text-align: center;"><a href="${activityLink}" style="color: #ffcc00; text-decoration: none; background-color: #fff; padding: 10px 20px; border-radius: 5px; display: inline-block;"><b>ดูรายละเอียดเพิ่มเติม</b></a></p>
+                            </div>
+                        </div>
                         `
                 }
                 
@@ -148,7 +156,7 @@ export async function POST() {
                                 `
                         }
                         newNotificationArray.push(newNotification)
-                        await transporter.sendMail(mailOption)
+                        // await transporter.sendMail(mailOption)
                     }
                     
                 }
@@ -156,7 +164,7 @@ export async function POST() {
             })
 
             const newNotifications: Notification[] = [...user?.notifications, ...newNotificationArray]
-            await updateNotification(user.id, user.email, newNotifications)
+            // await updateNotification(user.id, user.email, newNotifications)
             console.log('<<< SendEmail and Notification seccess >>>')
         })
 

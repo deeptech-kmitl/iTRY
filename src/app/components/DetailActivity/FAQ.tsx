@@ -9,7 +9,7 @@ export default function FAQ({ faq }: FAQProps) {
     return (
         <>
             {
-                faq.map((faq, index) =>
+                faq?.map((faq, index) =>
                 (
                     <Fragment key={index}>
                         <div className="collapse collapse-arrow bg-base-200 border rounded-md border-neonBlue">

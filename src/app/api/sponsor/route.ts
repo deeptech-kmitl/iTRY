@@ -1,9 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import AWS, { DynamoDB } from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
-import iTryS3 from "../utils/s3DB";
 import iTryDynamoDB from "../utils/dynamoDB";
-import { uploadFileToS3 } from "../create/staffActivity/route";
 
 export async function createSponSor(sponsorUrl: string) {
   try {
@@ -14,9 +10,6 @@ export async function createSponSor(sponsorUrl: string) {
 
     //dynamodb
     let myuuid = uuidv4();
-
-    console.log("myuuid: " + myuuid)
-    console.log("sponsorUrl: " + sponsorUrl)
 
     const paramsDynamo = {
       TableName: "Sponsor",
@@ -43,7 +36,6 @@ export async function getSponSors() {
   };
   try {
     const getDynamo = await iTryDynamoDB.scan(paramsDynamo).promise();
-    console.log(getDynamo.Items)
     return {
       data: getDynamo.Items,
       status: "success"

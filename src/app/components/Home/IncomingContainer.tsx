@@ -14,11 +14,10 @@ interface IncomingContainerProps {
 export default function IncomingContainer({ activity }: IncomingContainerProps) {
   const targetDate = new Date(activity?.openDate);
   const currentDate = new Date();
-  const timeDifference = targetDate.getTime() - currentDate.getTime();
 
   return (
     <>
-      <div className="w-50 bg-gradient-to-b from-sky-900 to-slate-900 cursor-pointer rounded-md place-content-center">
+      <div className="w-50 bg-gradient-to-b from-sky-900 to-slate-900 rounded-md place-content-center">
         {activity ? (
           <>
             <ITryCounDown activityName={activity.activityName} openDate={activity.openDate} />

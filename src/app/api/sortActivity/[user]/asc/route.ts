@@ -1,24 +1,38 @@
 // sort by open date
 // dynamodb.js
-import { NextResponse, NextRequest } from "next/server";
-import AWS, { DynamoDB } from "aws-sdk";
-import next from "next";
+import AWS from "aws-sdk";
 import iTryDynamoDB from "../../../utils/dynamoDB";
+import { TypeActivity } from "@/app/components/ManageActivityPage/activity";
+import { RoleUser } from "@/app/api/users/route";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export async function GET(req: any) {
+export async function getActivitiesAsc(typeActivity: TypeActivity, page: number, limit: number) {
   //   console.log("backend--------", req);
-  const { user, page } = req;
-  console.log("user-------", user, page);
   //start
-  const offset = page ? (parseInt(page) - 1) * 10 : 0;
-  console.log("page", page, offset);
+  const offset = page ? (page - 1) * limit : 0;
+  const session = await getServerSession(authOptions)
+
+  console.log("session", session)
 
   const tableName =
-    user == "staff" ? "StaffActivities" : "CamperActivities";
-//   console.log("user", user);
-  const paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
+    typeActivity == "staff" ? "StaffActivities" : "CamperActivities";
+  //   console.log("user", user);
+  let paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
     TableName: tableName,
   };
+
+  if (!(session?.user?.role === "admin")) {
+    paramsDB = {
+      ...paramsDB,
+      FilterExpression: "visibility = :roleUser OR visibility = :all OR visibility = :outsider",
+      ExpressionAttributeValues: {
+        ":roleUser": session?.user?.role || "",
+        ":all": "all",
+        ":outsider": "outsider"
+      },
+    }
+  }
 
   try {
     const data = await iTryDynamoDB.scan(paramsDB).promise();
@@ -27,15 +41,10 @@ export async function GET(req: any) {
     const sortedData = items.sort(
       (a, b) => new Date(a.openDate).getTime() - new Date(b.openDate).getTime()
     );
-    console.log("data", data);
-    console.log("count----", sortedData.slice(offset, offset + 10).length);
+    const newData = sortedData.slice(offset, offset + limit)
 
-    // return NextResponse.json({ data: sortedData.slice(offset, offset + 10) });
-    return { data: sortedData.slice(offset, offset + 10) };
+    return { data: newData, status: "success", countActivities: sortedData?.length };
   } catch (error) {
-    console.error("Error:", error);
     throw error
   }
 }
-
-export { GET as getActivitiesAsc }; 

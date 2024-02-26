@@ -4,12 +4,14 @@ import { v4 as uuidv4 } from "uuid";
 import { FacebookProfile } from "next-auth/providers/facebook";
 import { User } from "next-auth";
 
+export type RoleUser = "insider" | "outsider" | "admin"
+
 export async function createUser(userData: GoogleProfile | FacebookProfile) {
   try {
     const { email, name } = userData
     //dynamodb
     let myuuid = uuidv4();
-    const roleUser = email.includes("@kmitl.ac.th") ? "insider" : "outsider"
+    const roleUser: RoleUser = email.includes("@kmitl.ac.th") ? "insider" : "outsider"
     const addUser: User = {
       id: myuuid,
       role: roleUser,
@@ -17,7 +19,7 @@ export async function createUser(userData: GoogleProfile | FacebookProfile) {
       name: name,
       notifications: [],
       activitiesFollow: [],
-      // receiveEmail: false,
+      receiveEmail: false,
     }
     const paramsDynamo = {
       TableName: "Users",
@@ -48,7 +50,6 @@ export async function findUser(email: string) {
 
   try {
     const result = await iTryDynamoDB.scan(paramsDynamo).promise();
-    console.log("user from db", result?.Items?.[0])
     return {
       data: result?.Items?.[0], // Assuming multiple items with the same email
       status: "success",
@@ -66,7 +67,6 @@ export async function getAllUser() {
 
   try {
     const result = await iTryDynamoDB.scan(paramsDynamo).promise();
-    console.log("result", result)
     return {
       data: result?.Items, // Assuming multiple items with the same email
       status: "success",

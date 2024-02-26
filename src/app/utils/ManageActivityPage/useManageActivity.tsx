@@ -1,4 +1,3 @@
-import { uploadFileToS3 } from '@/app/api/create/staffActivity/route';
 import { TypeAction, TypeActivity } from '@/app/components/ManageActivityPage/activity';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
@@ -9,6 +8,7 @@ import { ITryActivity } from './activity';
 import { createStaffActivity, updateStaffActivity } from '@/app/api/crudActivity/staff/route';
 import ITryToastNotification from '@/app/components/Toast/ToastNotification';
 import { useRouter } from 'next/navigation';
+import { uploadFileToS3 } from '@/app/api/uploadFile/route';
 
 interface UseManageActivityProps {
   typeAction: TypeAction

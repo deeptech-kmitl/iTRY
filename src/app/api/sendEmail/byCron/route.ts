@@ -1,12 +1,5 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
-import cron from 'node-cron'
-import { CronJob } from "cron";
-import axios from 'axios'
-import { schedule } from '../../create/staffActivity/mockupData';
-import { Console } from 'console';
-import { DynamoDB } from 'aws-sdk';
-import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 // import { getNotification, postNotification } from '../../notification/[userId]/route';
 import { findUser, getAllUser } from '../../users/route';
 import { updateNotification } from '../../notification/route';
@@ -23,6 +16,7 @@ export async function POST() {
 
         // Get user and activity data
         const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
+        
         const activitiesStaff = await getActivitiesDesc("staff", 1, 1000000) as ActivityApiData | ApiError | undefined
         const activitiesCamper = await getActivitiesDesc("camper", 1, 1000000) as ActivityApiData | ApiError | undefined
 

@@ -10,17 +10,16 @@ interface AllActivitiesContainerProps {
   customClassName?: string;
   page?: number;
   showPagination?: boolean;
+  canEdit?: boolean;
 }
 
-export default function AllActivitiesContainer({ activitiesData, customClassName, page = 1, showPagination = false }: AllActivitiesContainerProps) {
+export default function AllActivitiesContainer({ activitiesData, customClassName, page = 1, showPagination = false, canEdit = false }: AllActivitiesContainerProps) {
 
 
   if (activitiesData?.status === 'error') {
     // Handle error case
     return <div>Error</div>;
   } else if (Array.isArray(activitiesData?.data)) {
-
-    console.log("activitiesData?.countActivities", activitiesData?.countActivities)
 
 
     return (
@@ -31,6 +30,7 @@ export default function AllActivitiesContainer({ activitiesData, customClassName
             {activitiesData?.data.map((activity, index) => (
               <CardActivity
                 key={index}
+                canEdit={canEdit}
                 {...activity}
               />
             ))}{" "}

@@ -1,21 +1,37 @@
 // sort by open date
-import { NextResponse, NextRequest } from "next/server";
-import AWS, { DynamoDB } from "aws-sdk";
-import next from "next";
+import AWS from "aws-sdk";
 import iTryDynamoDB from "../../../utils/dynamoDB";
 import { TypeActivity } from "@/app/components/ManageActivityPage/activity";
+import { RoleUser } from "@/app/api/users/route";
+import { auth, authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
 export async function getActivitiesDesc(typeActivity: TypeActivity, page: number, limit: number) {
   //   console.log("backend--------", req);
+  const session = await getServerSession(authOptions)
   //start
   const offset = page ? (page - 1) * limit : 0;
 
+  console.log("session", session)
+
   const tableName =
     typeActivity == "staff" ? "StaffActivities" : "CamperActivities";
-//   console.log("user", user);
-  const paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
-    TableName: tableName
+  //   console.log("user", user);
+  let paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
+    TableName: tableName,
   };
+
+  if (!(session?.user?.role === "admin")) {
+    paramsDB = {
+      ...paramsDB,
+      FilterExpression: "visibility = :roleUser OR visibility = :all OR visibility = :outsider",
+      ExpressionAttributeValues: {
+        ":roleUser": session?.user?.role || "",
+        ":all": "all",
+        ":outsider": "outsider"
+      },
+    }
+  }
 
   try {
     const data = await iTryDynamoDB.scan(paramsDB).promise();
@@ -24,6 +40,7 @@ export async function getActivitiesDesc(typeActivity: TypeActivity, page: number
     const sortedData = items.sort(
       (a, b) => new Date(b.openDate).getTime() - new Date(a.openDate).getTime()
     );
+    console.log('sortedData', sortedData)
     const newData = sortedData.slice(offset, offset + limit)
 
     return { data: newData, status: "success", countActivities: sortedData?.length };

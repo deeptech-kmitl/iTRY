@@ -17,6 +17,7 @@ export default function ITryButton({
 
   const getTypeButton = () => {
     if (type === "outline") return "btn-outline "
+    if (type === "ghost") return "btn-ghost "
   }
 
   const getFullWidthButton = () => {

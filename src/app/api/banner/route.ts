@@ -1,6 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
 import iTryDynamoDB from "../utils/dynamoDB";
-import { uploadFileToS3 } from "../create/staffActivity/route";
 import { v4 as uuidv4 } from "uuid";
 
 export async function getBanner() {
@@ -9,7 +7,6 @@ export async function getBanner() {
         TableName: "Banner",
       }).promise();
       
-      console.log("Result:", result.Items);
       return {data : result.Items, status:"success"};
     } catch (error) {
       console.error("Error:", error); 

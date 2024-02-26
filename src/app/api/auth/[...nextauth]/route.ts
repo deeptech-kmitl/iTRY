@@ -1,9 +1,8 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google"
 import FacebookProvider, { FacebookProfile } from "next-auth/providers/facebook"
-import CredentialsProvider from "next-auth/providers/credentials"
 import { createUser, findUser } from "../../users/route";
-import { User } from "next-auth";
+import { AuthOptions, User } from "next-auth";
 
 const signIn = async (profile: GoogleProfile | FacebookProfile) => {
   const { email } = profile
@@ -22,7 +21,7 @@ const signIn = async (profile: GoogleProfile | FacebookProfile) => {
   }
 }
 
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
@@ -48,36 +47,12 @@ const handler = NextAuth({
           throw error;
         }
       }
-    }),
-    CredentialsProvider({
-      name: "credentials",
-      "credentials": {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "test@example.com"
-        },
-        password: { label: "Password", type: "password" }
-      },
-      authorize: async (credential, req) => {
-        const { email, password } = credential as {
-          email: string;
-          password: string;
-        };
-        console.log(email, password)
-        if (email !== "wavezaza2@outlook.com") {
-          console.log("ERROR")
-          throw new Error("Invalid credentials")
-        }
-        const user: User = { id: '1', name: 'J Smith', email: 'test@example.com', role: "admin", activitiesFollow:[], notifications: [] };
-        return user
-      }
     })
   ],
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       if (trigger === "update") {
-        return {...token, ...session.user}
+        return { ...token, ...session.user }
       }
       if (user) {
         token.role = user.role
@@ -102,6 +77,9 @@ const handler = NextAuth({
   pages: {
     signIn: "/?signIn=true"
   }
-})
+}
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }
+export const { auth } = handler

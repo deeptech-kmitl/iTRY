@@ -1,7 +1,7 @@
 "use server";
 
 import dynamic from 'next/dynamic';
-const HeaderActivityAdmin = dynamic(() => import('@/app/components/ActivityAdmin/ActivitiesAdmin'), { ssr: false });
+const ActivitiesAdmin = dynamic(() => import('@/app/components/ActivityAdmin/ActivitiesAdmin'), { ssr: false });
 import { getActivitiesDesc } from "@/app/api/sortActivity/[user]/desc/route";
 import { ApiError } from "@/app/components/global";
 import { ActivityApiData } from "@/app/utils/ManageActivityPage/activity";
@@ -17,6 +17,6 @@ export default async function ActivitiesAdminPage({ searchParams }: ActivitiesAd
   const activitiesStaff = await getActivitiesDesc("staff", page, 5) as ActivityApiData | ApiError | undefined;
 
   return (
-    <HeaderActivityAdmin activitiesCamper={activitiesCamper} activitiesStaff={activitiesStaff} page={page} />
+    <ActivitiesAdmin activitiesCamper={activitiesCamper} activitiesStaff={activitiesStaff} page={page} />
   )
 }

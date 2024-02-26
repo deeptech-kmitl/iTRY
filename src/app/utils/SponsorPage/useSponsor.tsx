@@ -1,12 +1,12 @@
 "use client"
 
-import { uploadFileToS3 } from "@/app/api/create/staffActivity/route"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
 import ITryToastNotification from "@/app/components/Toast/ToastNotification"
 import { mutate } from "swr"
 import { createSponSor, deleteSponSor } from "@/app/api/sponsor/route"
+import { uploadFileToS3 } from "@/app/api/uploadFile/route"
 
 export default function useSponsor() {
     const schema = yup.object().shape({
@@ -56,7 +56,6 @@ export default function useSponsor() {
 
             mutate('getSponsors');
 
-            console.log(`${sponsorId} deleted success`)
         }
         catch(error) {
             await ITryToastNotification({

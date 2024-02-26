@@ -4,7 +4,7 @@ import iTryDynamoDB from '../utils/dynamoDB';
 
 const tableName = 'Route';
 
-export async function PUT(req: NextRequest){
+export async function updateTravel(req: NextRequest){
     try{
         const {
             routeId,

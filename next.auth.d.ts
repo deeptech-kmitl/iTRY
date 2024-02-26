@@ -1,3 +1,4 @@
+import { RoleUser } from "@/app/api/users/route";
 import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
 import { Notification } from "@/app/utils/ManageEmail/email";
 import { DefaultSession, DefaultUser } from "next-auth"
@@ -7,7 +8,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-      role: string;
+      role: RoleUser;
       name: string;
       email: string;
       notifications: Notification[];
@@ -17,7 +18,7 @@ declare module "next-auth" {
 
   interface User extends DefaultUser {
     id: string;
-    role: string;
+    role: RoleUser;
     name: string;
     email: string;
     notifications: Notification[];
@@ -29,7 +30,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
     id: string;
-    role: string;
+    role: RoleUser;
     name: string;
     email: string;
     notifications: Notification[];

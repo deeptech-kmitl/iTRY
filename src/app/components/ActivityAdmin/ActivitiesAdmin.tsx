@@ -64,7 +64,7 @@ export default function ActivitiesAdmin({ activitiesCamper, activitiesStaff, pag
           สร้างกิจกรรม
         </ITryButton>
       </div>
-      <AllActivitiesContainer activitiesData={selectedActivities} showPagination page={page}  />
+      <AllActivitiesContainer activitiesData={selectedActivities} showPagination page={page} canEdit={true}  />
       <ITryModal isOpen={isOpen} onClose={closeTypeActivity} title="กรุณาเลือกประเภทกิจกรรมที่ต้องการสร้าง" content={modalTypeActivityContent} customClassName="p-8" titleCenter />
     </>
   )

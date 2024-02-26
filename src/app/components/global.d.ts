@@ -4,7 +4,7 @@ import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 
 export type ITryButtonProps = {
   children?: React.ReactNode
-  type?: "default" | "outline" | "submit"
+  type?: "default" | "outline" | "submit" | "ghost"
   fullWidth?: boolean
   size?: "large" | "default" | "small" | "tiny",
   disabled?: boolean,

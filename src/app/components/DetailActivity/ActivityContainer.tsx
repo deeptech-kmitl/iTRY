@@ -42,7 +42,7 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
     },
     ...(activity?.schedule || [])
   ].sort((a, b) => sortDateAsc(a.date, b.date))
-  
+
   const renderStatusActivity = () => {
     const today = new Date();
     const openDate = new Date(activity.openDate)
@@ -81,12 +81,12 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
             <p className='px-2 md:px-8 text-[13px] md:text-base'>
               {activity?.phone ? (
                 <>
-                {activity?.phone?.map((phoneData, index) => (
-                <Fragment key={index}>
-                  <span>{phoneData?.phone}</span>
-                  {index < activity?.phone?.length - 1 ? ', ' : ''}
-                </Fragment>
-              ))}
+                  {activity?.phone?.map((phoneData, index) => (
+                    <Fragment key={index}>
+                      <span>{phoneData?.phone}</span>
+                      {index < activity?.phone?.length - 1 ? ', ' : ''}
+                    </Fragment>
+                  ))}
                 </>
               ) : (
                 <span>ไม่มีเบอร์โทรศัพท์</span>
@@ -98,7 +98,7 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
             <p className='px-2 md:px-8 text-[13px] md:text-base'>{activity?.email ? activity?.email : "ไม่มีอีเมล"}</p>
           </div>
           <div className='relative flex pt-1 md:pt-7 items-center'>
-            <div className="w-[100%] md:w-[75%]"><FollowButton activity={activity}  /></div>
+            <div className="w-[100%] md:w-[75%]"><FollowButton activity={activity} /></div>
             <div className='px-3'><ShareSocial /></div>
           </div>
         </div>
@@ -149,7 +149,11 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
 
         {/* FAQ */}
         <p className='text-sm md:text-xl font-bold pt-16 pb-6'>FAQ</p>
-        <FAQ faq={activity?.faq} />
+        {activity?.faq?.length > 0 ? (
+          <FAQ faq={activity?.faq} />
+        ) : (
+          <p className='px-2 md:px-8 text-[13px] md:text-base'>ไม่มี faq</p>
+        )}
       </div>
     </div>
   )

@@ -21,7 +21,6 @@ export const Paging: FC<PagingProps> = ({ page = 1, countActivities, perPage }: 
   const hasPrevPage = start > 0;
 
   const nextPage = (nextPage: number) => {
-    console.log("pathname", pathname)
     // redirect
     router.push(`${pathname}?page=${nextPage}`)
   }

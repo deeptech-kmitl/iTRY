@@ -1,6 +1,5 @@
 'use client'
 
-import { uploadFileToS3 } from "@/app/api/create/staffActivity/route";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
@@ -9,6 +8,7 @@ import { useRouter } from "next/navigation";
 import ITryToastNotification from "@/app/components/Toast/ToastNotification";
 import { mutate } from "swr";
 import Swal from 'sweetalert2';
+import { uploadFileToS3 } from "@/app/api/uploadFile/route";
 
 
 export default function useBannerPage() {

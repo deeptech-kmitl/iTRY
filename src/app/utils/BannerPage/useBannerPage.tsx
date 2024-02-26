@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup"
 import { createBanner, deleteBanner } from "@/app/api/banner/route";
 import { useRouter } from "next/navigation";
-import ITryToastNotification from "@/app/components/Toast/ToastNotification";
 import { mutate } from "swr";
 import Swal from 'sweetalert2';
 import { uploadFileToS3 } from "@/app/api/uploadFile/route";

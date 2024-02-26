@@ -25,7 +25,7 @@ export default function SponsorPage({ data }: SponsorPageProps) {
     return (
       <div>
         <h1 className="text-3xl text-extrabold text-center pb-16">Sponsor</h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 place-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 place-items-center">
           {data.data.map((item, key) => (
             <div key={item.sponsorId}>
               <div className="w-full h-full rounded overflow-hidden md:p-5 p-1">

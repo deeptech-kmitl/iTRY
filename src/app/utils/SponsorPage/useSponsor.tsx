@@ -7,13 +7,14 @@ import ITryToastNotification from "@/app/components/Toast/ToastNotification"
 import { mutate } from "swr"
 import { createSponSor, deleteSponSor } from "@/app/api/sponsor/route"
 import { uploadFileToS3 } from "@/app/api/uploadFile/route"
+import Swal from "sweetalert2"
 
 export default function useSponsor() {
     const schema = yup.object().shape({
         image: yup.mixed()
     });
 
-    const { register, setValue, watch, handleSubmit, formState: {errors}} = useForm({
+    const { register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
 
@@ -21,13 +22,15 @@ export default function useSponsor() {
         try {
             const image = data.image;
             const imageUrl: string = await uploadFileToS3(image) || ""
-    
+
             await createSponSor(imageUrl)
-            
-            await ITryToastNotification({
-                type: "success",
-                text: "เพิ่มสปอนเซอร์สำเร็จ"
-            })
+
+            Swal.fire({
+                icon: "success",
+                text: "Sponsor added successfully",
+                showConfirmButton: false,
+                timer: 1500
+            });
 
             setValue("image", undefined)
 
@@ -35,36 +38,47 @@ export default function useSponsor() {
 
             console.log("Data saved to DynamoDB successfully");
         }
-        catch(error) {
-            await ITryToastNotification({
-                type: "error",
-                text: "เพิ่มสปอนเซอร์ล้มเหลว"
-            })
+        catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Failed to add sponsor!",
+            });
             console.error("Error saving data to DynamoDB:", error);
         }
     }
 
-    const onDelete = async (sponsorId:string) => {
+    const onDelete = async (sponsorId: string) => {
         try {
-            
-            await deleteSponSor(sponsorId);
-
-            await ITryToastNotification({
-                type: "success",
-                text: "ลบสปอนเซอร์สำเร็จ"
-            })
-
-            mutate('getSponsors');
-
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you want to delete a sponsors, right?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: "success",
+                        text: "Sponsors delete successfully",
+                    });
+                    const result = await deleteSponSor(sponsorId);
+                    mutate('getSponsors');
+                    console.log(`Sponsors with ID ${sponsorId} deleted successfully result:`, result);
+                }
+            });
         }
-        catch(error) {
-            await ITryToastNotification({
-                type: "error",
-                text: "ลบสปอนเซอร์ล้มเหลว"
-            })
+        catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Failed to delete sponsor!",
+            });
             console.error("Error deleting sponsor:", error);
         }
     }
 
-    return {register, setValue, watch, handleSubmit, onSubmit, onDelete}
+    return { register, setValue, watch, handleSubmit, onSubmit, onDelete }
 }

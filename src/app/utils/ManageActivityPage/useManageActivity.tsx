@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { createCamperActivity, updateCamperActivity } from '@/app/api/crudActivity/camper/route';
 import { ITryActivity } from './activity';
 import { createStaffActivity, updateStaffActivity } from '@/app/api/crudActivity/staff/route';
-import ITryToastNotification from '@/app/components/Toast/ToastNotification';
+import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import { uploadFileToS3 } from '@/app/api/uploadFile/route';
 
@@ -96,10 +96,12 @@ type KeySchema =
         }
 
         if (result && result.status === "success" && result?.activityId) {
-          await ITryToastNotification({
-            type: "success",
-            text: "เพิ่มกิจกรรมสำเร็จ"
-          });
+          Swal.fire({
+            icon: "success",
+            text: "Activity added successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
 
           router.push(`/${typeActivity}/activity-details/${result?.activityId}`);
         }

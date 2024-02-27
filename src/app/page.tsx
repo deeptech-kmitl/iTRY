@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
+import RegisteringActivitiesServer from './components/Home/RegisteringActivitiesServer';
 const Map = dynamic(() => import('./components/GoogleMap'), { ssr: false });
 const RegisteringActivitiesContainer = dynamic(() => import('./components/Home/RegisteringActivitiesContainer'), { ssr: false });
 const TravelContainer = dynamic(() => import('./components/Home/TravelContainer'), { ssr: false });
@@ -26,7 +27,7 @@ export default async function Home() {
           <AllActivitiesServer />
         </Suspense>
         <Suspense fallback={<p>Loading Registering Activities...</p>}>
-          <RegisteringActivitiesContainer />
+          <RegisteringActivitiesServer />
         </Suspense>
         <Suspense fallback={<p>Loading Travel...</p>}>
           <TravelContainer />

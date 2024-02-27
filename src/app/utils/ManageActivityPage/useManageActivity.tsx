@@ -9,6 +9,7 @@ import { createStaffActivity, updateStaffActivity } from '@/app/api/crudActivity
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import { uploadFileToS3 } from '@/app/api/uploadFile/route';
+import { convertDateToString } from '../converDateToString';
 
 interface UseManageActivityProps {
   typeAction: TypeAction
@@ -56,11 +57,10 @@ type KeySchema =
       name: yup.string().required('กรุณากรอกชื่อตำแหน่ง'),
       amount: yup.number().required('กรุณากรอกจำนวนที่รับสมัคร').typeError('กรุณากรอกจำนวนที่รับสมัคร'),
     });
-
     const schema = yup.object().shape({
       imageUrl: yup.mixed().required("กรุณาใส่รูปภาพกิจกรรม"),
       activityName: yup.string().required('กรุณากรอกชื่อกิจกรรม'),
-      openDate: yup.string().required('กรุณาระบุวันที่เริ่มรับสมัครของกิจกรรม'),
+      openDate: yup.date().required('กรุณาระบุวันที่เริ่มรับสมัครของกิจกรรม'),
       closeDate: yup.string().required('กรุณาระบุวันที่สิ้นสุดรับสมัครของกิจกรรม'),
       visibility: yup.string().required('กรุณาเลือกการมองเห็น'),
       activityDetails: yup.string(),

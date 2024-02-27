@@ -27,9 +27,9 @@ export default function ITryInput(props: ITryInputProps) {
 
   const renderDateInput = () => {
 
-    const { customInputClassName, register } = props as DateProps;
+    const { customInputClassName, register, min, max } = props as DateProps;
 
-    const dateElement = <input type="date" {...register} className={`${defaultInputFieldClassName} ${customInputClassName}`} />
+    const dateElement = <input type="date" {...register} className={`${defaultInputFieldClassName} ${customInputClassName}`}  min={min} max={max} />
 
     return (
       <WrapInputField elementIsWrapped={dateElement} props={props as WrappedInputProps} />

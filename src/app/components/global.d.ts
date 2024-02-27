@@ -100,7 +100,8 @@ type DateProps = {
   type: "date"
   customInputClassName?: string;
   register: UseFormRegister<any>;
-
+  min ?: string;
+  max ?: string;
 }
 
 type SearchProps = {

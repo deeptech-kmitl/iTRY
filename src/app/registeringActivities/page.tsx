@@ -9,16 +9,16 @@ import { getRegisteringActivities } from '../api/registeringActivities/route';
 
 
 
-interface ActivitiesPageProps {
+interface RegisteringActivitiesPageProps {
     params: TypeActivityParams,
     searchParams: { page: string }
 }
 
-export default async function RegisteringActivitiesPage({ params, searchParams }: ActivitiesPageProps) {
+export default async function RegisteringActivitiesPage({ params, searchParams }: RegisteringActivitiesPageProps) {
 
     const page = parseInt(searchParams?.page || "") || 1;
 
-    const activities = await getRegisteringActivities(1, 5, 'AllRegistering') as ActivityApiData | ApiError | undefined;;
+    const activities = await getRegisteringActivities(page, 5, 'AllRegistering') as ActivityApiData | ApiError | undefined;;
     return (
         <div>
             <h3 className="text-3xl mb-10">กิจกรรมที่กำลังเปิดรับสมัคร</h3>

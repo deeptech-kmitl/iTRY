@@ -37,7 +37,8 @@ export async function getRegisteringActivities(page: number, limit: number, show
         const pagenationRegisteringAct = sortedRegistering.slice(offset, offset + limit)
 
         return {
-            data: showPage === 'AllRegistering' ? pagenationRegisteringAct: 'Home' ? sortedRegistering : null,
+            data: showPage === 'AllRegistering' ? pagenationRegisteringAct : showPage === 'Home' ? sortedRegistering : null,
+            countActivities: sortedRegistering.length,
             status: 'success'
         }
     }

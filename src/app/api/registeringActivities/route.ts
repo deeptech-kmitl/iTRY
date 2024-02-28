@@ -11,8 +11,8 @@ export async function getRegisteringActivities(page: number, limit: number, show
 
     try {
 
-        const activitiesStaff = await getActivitiesDesc("staff", 1, 1000000) as ActivityApiData | ApiError | undefined
-        const activitiesCamper = await getActivitiesDesc("camper", 1, 1000000) as ActivityApiData | ApiError | undefined
+        const activitiesStaff = await getActivitiesDesc("staff", 1, 5) as ActivityApiData | ApiError | undefined
+        const activitiesCamper = await getActivitiesDesc("camper", 1, 5) as ActivityApiData | ApiError | undefined
 
         if (activitiesStaff?.status === "error" || activitiesCamper?.status === "error") throw new Error("")
 

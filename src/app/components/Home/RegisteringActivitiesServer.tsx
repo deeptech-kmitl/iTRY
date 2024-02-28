@@ -11,7 +11,7 @@ import Link from "next/link";
 
 export default async function RegisteringActivitiesServer() {
   
-  const result = await getRegisteringActivities(1, 100000, 'Home') as ApiDataList<ITryActivity> | ApiError | undefined
+  const result = await getRegisteringActivities(1, 5, 'Home') as ApiDataList<ITryActivity> | ApiError | undefined
 
   return (
     <div className="flex flex-col gap-8">

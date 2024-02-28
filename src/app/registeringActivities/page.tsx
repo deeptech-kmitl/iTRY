@@ -18,7 +18,7 @@ export default async function RegisteringActivitiesPage({ params, searchParams }
 
     const page = parseInt(searchParams?.page || "") || 1;
 
-    const activities = await getRegisteringActivities(1, 1000000, 'AllRegistering') as ActivityApiData | ApiError | undefined;;
+    const activities = await getRegisteringActivities(1, 5, 'AllRegistering') as ActivityApiData | ApiError | undefined;;
     return (
         <div>
             <h3 className="text-3xl mb-10">กิจกรรมที่กำลังเปิดรับสมัคร</h3>

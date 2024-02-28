@@ -4,13 +4,16 @@ import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
 import { ApiDataList, ApiError } from "../global";
 import Link from "next/link";
 import NoResultData from "../NoData/NoResultData";
+import { Paging } from "../Paging";
 
 
 interface RegisteringActivityProps {
-  activity: ApiDataList<ITryActivity> | ApiError | undefined
+  activity: ApiDataList<ITryActivity> | ApiError | undefined,
+  page?: number;
+  showPagination?: boolean;
 }
 
-export default function RegisteringActivitiesContainer({ activity }: RegisteringActivityProps) {
+export default function RegisteringActivitiesContainer({ activity, page = 1, showPagination = true }: RegisteringActivityProps) {
 
   if (!activity) {
     return null
@@ -19,7 +22,7 @@ export default function RegisteringActivitiesContainer({ activity }: Registering
       <div>
         {activity && 'data' in activity && activity.data.length !== 0 ? (
           <div className="bg-BlueO md:border-2 md:border-neonBlue rounded-xl grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 md:gap-4">
-              {activity?.data.slice(0, 6).map((item: ITryActivity, key: any) => (
+              {activity?.data.slice(0, 4).map((item: ITryActivity, key: any) => (
                 <Link key={key} href={`http://localhost:3000/${item.typeActivity}/activity-details/${item.activityId}`}>
                     <div className="flex flex-col items-center p-3 md:p-5 max-w-xs rounded-xl hover:bg-navyBlue/50 backdrop-blur-[5px]">
                         <div className="items-center rounded transform transition-transform duration-300">
@@ -48,7 +51,13 @@ export default function RegisteringActivitiesContainer({ activity }: Registering
             <NoResultData text="ไม่มีกิจกรรมที่กำลังเปิดรับสมัคร" />
           </div>
         )}
-          
+          {showPagination && activity && 'data' in activity && activity.data && 'countActivities' in activity.data && typeof activity.data.countActivities === 'number' && (
+            <Paging
+              page={page || 1}
+              countActivities={activity.data.countActivities}
+              perPage={5}
+            />
+          )}
       </div>
     )
   

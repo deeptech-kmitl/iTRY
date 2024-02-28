@@ -5,7 +5,10 @@ import { getAllUser } from "../users/route"
 import { User } from "next-auth"
 
 
-export async function getRegisteringActivities() {
+export async function getRegisteringActivities(page: number, limit: number, showPage: string) {
+
+    const offset = page ? (page - 1) * limit : 0;
+
     try {
 
         const activitiesStaff = await getActivitiesDesc("staff", 1, 1000000) as ActivityApiData | ApiError | undefined
@@ -25,14 +28,21 @@ export async function getRegisteringActivities() {
             return new Date(activity.openDate).getTime() <= currentDate.getTime() && currentDate.getTime()  <= new Date(activity.closeDate).getTime()
         })
 
-        console.log('>>> Registering >>> ', registeringActivities)
+        const sortedRegistering = registeringActivities.sort(
+            (a, b) => new Date(a.openDate).getTime() - new Date(b.openDate).getTime()
+        );
+
+        console.log('>>> Registering >>> ', sortedRegistering)
+
+        const pagenationRegisteringAct = sortedRegistering.slice(offset, offset + limit)
 
         return {
-            data: registeringActivities,
+            data: showPage === 'AllRegistering' ? pagenationRegisteringAct: 'Home' ? sortedRegistering : null,
             status: 'success'
         }
     }
     catch(error) {
         throw error
     }
+
 }

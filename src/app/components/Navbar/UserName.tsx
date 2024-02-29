@@ -81,10 +81,10 @@ export default function ITryUserName() {
   return (
     <>
       {isLogin ? (
-        <ITryDropDown data={dropDownData} position="bottom-left" dropdownSize="small" customClassNameMain="bg-white hover:bg-white bg-opacity-20 hover:bg-opacity-30">
+        <ITryDropDown data={dropDownData} position="bottom-left" dropdownSize="small" customClassNameMain="bg-transparent md:bg-white md:hover:bg-white bg-opacity-100 md:bg-opacity-20 md:hover:bg-opacity-30 md:p-4 md:border border-none">
           <span className="md:block hidden">{userData.name}</span>
           <span className="md:hidden block">
-            <FontAwesomeIcon icon={faUser} />
+            <FontAwesomeIcon className="h-4 md:h-6" icon={faUser} />
           </span>
         </ITryDropDown>
       ) : (

@@ -19,7 +19,7 @@ export default function ITryNavBar() {
 
   return (
     <div className="navbar">
-      <div className="navbar-start">
+      <div className="navbar-start md:justify-start justify-center">
         <HomeIcon />
       </div>
       <div className="navbar-center">

@@ -50,11 +50,11 @@ export default function ITryNotification({ notificationData }: { notificationDat
 
     return (
       <>
-        <ITryDropDown customData={getCustomDataDropDown()} position="bottom-left" removeBg>
+        <ITryDropDown customClassNameDropDownContent="overflow-x-hidden	flex-nowrap	max-h-80" customData={getCustomDataDropDown()} position="bottom-left" removeBg>
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             <button className="btn btn-ghost btn-circle">
               <div className="indicator">
-                <FontAwesomeIcon className="h-6" icon={faBell} />
+                <FontAwesomeIcon className="h-4 md:h-6" icon={faBell} />
                 <span className="badge badge-xs badge-primary indicator-item text-white right-1/2	">{notificationData.countNotification}</span>
               </div>
             </button>

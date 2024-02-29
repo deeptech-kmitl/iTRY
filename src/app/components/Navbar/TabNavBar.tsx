@@ -56,12 +56,12 @@ export default function TabNavBar() {
 
   return (
     <>
-      <ul className="md:flex-grow md:flex md:top-0 top-100 justify-center md:border gap-3 md:gap-12 md:px-12 px-6 md:py-4 py-3 md:mr-0 rounded-full border-color-primary " >
+      <ul className="md:flex-grow flex md:top-0 top-100 justify-center md:border gap-3 md:gap-12 md:px-12 px-3 md:py-4 py-3 md:mr-0 rounded-full border-color-primary " >
         {menuTabNav.map((menu, index) => {
           return <Fragment key={index}>
             {menu.show && (
               <Link href={menu.path} shallow>
-                <p className={getActiveTabMenu(menu.activeTabName)}>{menu.title}</p>
+                <p className={`${getActiveTabMenu(menu.activeTabName)} ${menu.title === "Home" && "md:block hidden"}`}>{menu.title}</p>
               </Link >
             )}
           </Fragment>

@@ -9,27 +9,19 @@ import { ActivityApiData } from '@/app/utils/ManageActivityPage/activity';
 import { User } from 'next-auth';
 import { Notification } from '@/app/utils/ManageEmail/email';
 import { updateNotification } from '@/app/api/notification/route';
+import getActivities from '../../crudActivity/route';
 
-export async function sendEmailAndNoti(params: string) {
+export async function sendEmailAndNoti(activityId: string) {
     console.log("___ SEND EMAIL ___")
-
-    const activityId = params
 
     // Get user and activity data
     const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
-    const activitiesStaff = await getActivitiesDesc("staff", 1, 1000000) as ActivityApiData | ApiError | undefined
-    const activitiesCamper = await getActivitiesDesc("camper", 1, 1000000) as ActivityApiData | ApiError | undefined
 
-    if (users?.status === "error" || activitiesStaff?.status === "error" || activitiesCamper?.status === "error") throw new Error("")
+    const combinedActivies = await getActivities() as ActivityApiData
+
+
+    if (users?.status === "error") throw new Error("")
     const activeUsers = users?.data?.filter(user => user?.receiveEmail)
-
-    const convertActivitiesCamper = activitiesCamper?.data || []
-    const convertActivitieStaff = activitiesStaff?.data || []
-
-    const combinedActivies = [
-        ...convertActivitiesCamper.map(activity => ({ ...activity, source: 'camper' })),
-        ...convertActivitieStaff.map(activity => ({ ...activity, source: 'staff' }))
-    ];
 
 
 
@@ -37,7 +29,7 @@ export async function sendEmailAndNoti(params: string) {
         return user.activitiesFollow.some(activityFallow => activityFallow.activityId === activityId)
     })
 
-    const updatedActivityData = combinedActivies.find(activity => activity.activityId === activityId)
+    const updatedActivityData = combinedActivies.data.find(activity => activity.activityId === activityId)
 
     const currentDate = new Date();
 
@@ -63,7 +55,7 @@ export async function sendEmailAndNoti(params: string) {
 
     followerData?.map(async user => {
 
-        const activityLink = `http://localhost:3000/api/activityById/${updatedActivityData?.source}/` + updatedActivityData?.activityId
+        const activityLink = `http://localhost:3000/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
 
         const mailOption = {
             from: 'itrydpd@gmail.com',

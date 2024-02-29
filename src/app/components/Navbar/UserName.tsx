@@ -20,7 +20,10 @@ export default function ITryUserName() {
 
   // Get search parameters from the URL
   const signInParam = seachParams.get("signIn") === "true";
+  const errorParam = seachParams.get("error");
   const callbackUrl = seachParams.get("callbackUrl") || undefined;
+
+  console.log("errorParam", errorParam)
 
   const dropDownData = [
     {
@@ -48,11 +51,23 @@ export default function ITryUserName() {
 
   const { isLogin, userData } = useUserController();
 
-  const alertHeader = signInParam && (
-    <div className="alert alert-error">
-      <span>คุณจำเป็นต้องเข้าสู่ระบบ</span>
-    </div>
-  )
+  const getAlertHeader = () => {
+    if (errorParam && signInParam) {
+      return (
+        <div className="alert alert-error">
+          <span>มีข้อผิดพลาดเกิดขึ้น กรุณาเข้าสู่ระบบอีกครั้ง</span>
+        </div>
+      )
+    }
+
+    else if (!errorParam && signInParam) {
+      return (
+        <div className="alert alert-error">
+          <span>คุณจำเป็นต้องเข้าสู่ระบบ</span>
+        </div>
+      )
+    }
+  }
 
   const contentModal = (
     <div className="flex flex-col gap-4">
@@ -92,7 +107,7 @@ export default function ITryUserName() {
           เข้าสู่ระบบ
         </ITryButton>
       )}
-      <ITryModal isOpen={openSignInModal} onClose={() => setOpenSignInModal(false)} title="SIGN IN" content={contentModal} alertHeader={alertHeader} />
+      <ITryModal isOpen={openSignInModal} onClose={() => setOpenSignInModal(false)} title="SIGN IN" content={contentModal} alertHeader={getAlertHeader()} />
     </>
   )
 }

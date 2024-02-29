@@ -35,7 +35,7 @@ export const CardActivity = ({
       <div className="flex flex-wrap md:flex-nowrap shadow-lg">
         <Image
           priority
-          className="w-full md:w-3/6 h-auto aspect-video object-cover  "
+          className="w-full md:max-w-xs	aspect-video object-cover  "
           alt=""
           src={imageUrl as string}
           width={200}

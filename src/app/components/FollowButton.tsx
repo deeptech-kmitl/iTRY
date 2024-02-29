@@ -27,14 +27,6 @@ export default function FollowButton({ activity }: FollowButtonProps) {
                 text: "ติดตามกิจกรรมสำเร็จแล้ว"
             })
 
-            update({
-                ...session,
-                user: {
-                    ...userData,
-                    activitiesFollow: newActivitiesFollow
-                }
-            })
-
         } catch (error) {
             await ITryToastNotification({
                 type: "error",

@@ -29,7 +29,6 @@ export async function getActivitiesAsc(typeActivity: TypeActivity, page: number,
       ExpressionAttributeValues: {
         ":roleUser": session?.user?.role || "",
         ":all": "all",
-        ":outsider": "outsider"
       },
     }
   }

@@ -26,7 +26,6 @@ export async function getActivitiesDesc(typeActivity: TypeActivity, page: number
       ExpressionAttributeValues: {
         ":roleUser": session?.user?.role || "",
         ":all": "all",
-        ":outsider": "outsider"
       },
     }
   }

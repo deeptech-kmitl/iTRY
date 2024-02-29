@@ -25,7 +25,7 @@ export async function getActivitiesAsc(typeActivity: TypeActivity, page: number,
   if (!(session?.user?.role === "admin")) {
     paramsDB = {
       ...paramsDB,
-      FilterExpression: "visibility = :roleUser OR visibility = :all OR visibility = :outsider",
+      FilterExpression: "visibility = :roleUser OR visibility = :all",
       ExpressionAttributeValues: {
         ":roleUser": session?.user?.role || "",
         ":all": "all",

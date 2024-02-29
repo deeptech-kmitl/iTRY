@@ -10,12 +10,13 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons/faFacebookF";
 import useUserController from "./useUserController";
 import { signOut } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function ITryUserName() {
 
   const seachParams = useSearchParams();
+  const router = useRouter();
 
   // Get search parameters from the URL
   const signInParam = seachParams.get("signIn") === "true";
@@ -24,7 +25,9 @@ export default function ITryUserName() {
   const dropDownData = [
     {
       name: "กิจกรรมที่กำลังติดตาม",
-      function: () => { }
+      function: () => {
+        router.push("/myActivities")
+      }
     },
     {
       name: "ออกจากระบบ",

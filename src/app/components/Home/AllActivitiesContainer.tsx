@@ -19,13 +19,12 @@ export default function AllActivitiesContainer({ activitiesData, customClassName
   if (activitiesData?.status === 'error') {
     // Handle error case
     return <div>Error</div>;
-  } else if (Array.isArray(activitiesData?.data)) {
-
+  } else if (Array.isArray(activitiesData?.data) && activitiesData) {
 
     return (
 
       <div className={`${customClassName}`}>
-        {activitiesData?.data.length > 0 ? (
+        {activitiesData?.data?.length > 0 ? (
           <>
             {activitiesData?.data.map((activity, index) => (
               <CardActivity
@@ -36,7 +35,7 @@ export default function AllActivitiesContainer({ activitiesData, customClassName
             ))}{" "}
           </>
         ) : (
-            <NoResultData text="ไม่มีกิจกรรมที่คุณต้องการ" />
+          <NoResultData text="ไม่มีกิจกรรมที่คุณต้องการ" />
         )}
         {showPagination && <Paging page={page || 1} countActivities={activitiesData?.countActivities || 0} perPage={5} />}
       </div>

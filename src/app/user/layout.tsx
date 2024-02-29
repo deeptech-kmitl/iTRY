@@ -1,7 +1,5 @@
-import { getNotification } from "../api/notification/[userId]/route"
 import ITryFooter from "../components/Footer/footer"
 import ITryNavBar from "../components/Navbar/NavBar"
-import { NotificationProp, Notification } from '@/app/utils/ManageEmail/email';
 
 export default function UserLayout({
   children,

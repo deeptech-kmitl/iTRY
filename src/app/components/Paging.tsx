@@ -7,39 +7,33 @@ interface PagingProps {
   page: number;
   countActivities: number;
   perPage: number;
-  };
+};
 
 export const Paging: FC<PagingProps> = ({ page = 1, countActivities, perPage }: PagingProps) => {
 
   const router = useRouter()
   const pathname = usePathname()
   // skipped and limited
-  const start = (Number(page) - 1) * Number(perPage);
-  const end = start + Number(perPage); // 5, 10, 15 ...
+  const pageRange: any[] = [];
+  const start = 1;
+  const end = Math.ceil(countActivities / perPage) || 1;
 
-  const hasNextPage = end < countActivities;
-  const hasPrevPage = start > 0;
+  const hasNextPage = page < end;
+  const hasPrevPage = page > 1;
 
   const nextPage = (nextPage: number) => {
     // redirect
     router.push(`${pathname}?page=${nextPage}`)
   }
 
-  const getPageRange = (currentPage: number, totalPages: number) => {
-    const delta = 1;
-    const range: any[] = [];
+  for (let i = start; i <= end; i++) {
+    pageRange.push(i);
+  }
 
-    const startPage = (page - delta) < 1 ? 1 : (page - delta);
-    const endPage = Math.ceil(countActivities / perPage)
+  console.log("start", start)
+  console.log("end", end)
+  console.log("pageRange", pageRange)
 
-    for (let i = startPage; i <= endPage; i++) {
-      range.push(i);
-    }
-
-    return range;
-  };
-
-  const pageRange = getPageRange(page, countActivities);
 
   return (
     <div className="join flex justify-center pt-5">
@@ -55,7 +49,7 @@ export const Paging: FC<PagingProps> = ({ page = 1, countActivities, perPage }: 
         <span
           key={index}
           className={`join-item btn ${pageNumber === page && "btn-active"}`}
-          onClick={() => { if (typeof (pageNumber) === 'number' && !(pageNumber === page)) { nextPage(pageNumber) }}}
+          onClick={() => { if (typeof (pageNumber) === 'number' && !(pageNumber === page)) { nextPage(pageNumber) } }}
           style={{ cursor: pageNumber === page ? 'auto' : 'pointer', fontWeight: pageNumber === page ? 'bold' : 'normal' }}
         >
           {pageNumber}

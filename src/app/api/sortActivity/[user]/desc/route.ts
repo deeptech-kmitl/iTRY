@@ -12,8 +12,6 @@ export async function getActivitiesDesc(typeActivity: TypeActivity, page: number
   //start
   const offset = page ? (page - 1) * limit : 0;
 
-  console.log("session", session)
-
   const tableName =
     typeActivity == "staff" ? "StaffActivities" : "CamperActivities";
   //   console.log("user", user);
@@ -24,7 +22,7 @@ export async function getActivitiesDesc(typeActivity: TypeActivity, page: number
   if (!(session?.user?.role === "admin")) {
     paramsDB = {
       ...paramsDB,
-      FilterExpression: "visibility = :roleUser OR visibility = :all OR visibility = :outsider",
+      FilterExpression: "visibility = :roleUser OR visibility = :all",
       ExpressionAttributeValues: {
         ":roleUser": session?.user?.role || "",
         ":all": "all",

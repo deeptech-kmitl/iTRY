@@ -60,7 +60,7 @@ type KeySchema =
     const schema = yup.object().shape({
       imageUrl: yup.mixed().required("กรุณาใส่รูปภาพกิจกรรม"),
       activityName: yup.string().required('กรุณากรอกชื่อกิจกรรม'),
-      openDate: yup.date().required('กรุณาระบุวันที่เริ่มรับสมัครของกิจกรรม'),
+      openDate: yup.string().required('กรุณาระบุวันที่เริ่มรับสมัครของกิจกรรม'),
       closeDate: yup.string().required('กรุณาระบุวันที่สิ้นสุดรับสมัครของกิจกรรม'),
       visibility: yup.string().required('กรุณาเลือกการมองเห็น'),
       activityDetails: yup.string(),
@@ -81,13 +81,17 @@ type KeySchema =
 
 
     const onSubmit = async (data: any) => {
-      let savedData = { ...data }
-      if (typeof (data.imageUrl) !== "string") {
-        const imageUrl = data.imageUrl;
-        const realImageUrl: any = await uploadFileToS3(imageUrl)
-        savedData = { ...data, imageUrl: realImageUrl, typeActivity: typeActivity }
-      }
+
+
       try {
+
+        let savedData = { ...data }
+        if (typeof (data.imageUrl) !== "string") {
+          const imageUrl = data.imageUrl;
+          const realImageUrl: any = await uploadFileToS3(imageUrl)
+          savedData = { ...data, imageUrl: realImageUrl, typeActivity: typeActivity }
+        }
+
         let result: { status: string; message?: unknown; activityId?: string };
         if (typeAction === "add") {
           result = typeActivity === "camper" ? await createCamperActivity(savedData) : await createStaffActivity(savedData)

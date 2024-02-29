@@ -8,29 +8,22 @@ import { User } from 'next-auth';
 import { Notification } from '@/app/utils/ManageEmail/email';
 import { getActivitiesDesc } from '../../sortActivity/[user]/desc/route';
 import { ActivityApiData, ITryActivity } from '@/app/utils/ManageActivityPage/activity';
+import getActivities from '../../crudActivity/route';
 
 export async function POST() {
     console.log('.... Sending Email and Notification.')
 
     try {
-
         // Get user and activity data
         const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
+        console.log('USER > ', users)
         
-        const activitiesStaff = await getActivitiesDesc("staff", 1, 1000000) as ActivityApiData | ApiError | undefined
-        const activitiesCamper = await getActivitiesDesc("camper", 1, 1000000) as ActivityApiData | ApiError | undefined
+        const combinedActivies = await getActivities() as ActivityApiData
 
-        if (users?.status === "error" || activitiesStaff?.status === "error" || activitiesCamper?.status === "error") throw new Error("")
+
+        if (users?.status === "error") throw new Error("")
         const activeUsers = users?.data?.filter(user => user?.receiveEmail)
 
-        const convertActivitiesCamper = activitiesCamper?.data || []
-        const convertActivitieStaff = activitiesStaff?.data || []
-
-        // const combinedActivies = [...convertActivitiesCamper, ...convertActivitieStaff]
-        const combinedActivies = [
-            ...convertActivitiesCamper.map(activity => ({ ...activity, source: 'camper' })),
-            ...convertActivitieStaff.map(activity => ({ ...activity, source: 'staff' }))
-        ];
 
         const currentDate = new Date();
 
@@ -44,16 +37,19 @@ export async function POST() {
         
 
         // Incoming Activity in 3 days (openDate)
-        const filterIncomingActivities = combinedActivies.filter(activity => {
+        const filterIncomingActivities = combinedActivies.data.filter(activity => {
             const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
             return dayDifference <= 3 && dayDifference >= 0;
         })
+        console.log('----------filter > ', filterIncomingActivities)
 
         // Incoming Activity in 1 day (schedule for follower)
-        const filterActivitesIncomingSchedule = combinedActivies.filter(activity => (activity.schedule ?? []).some(schedule => {
+        const filterActivitesIncomingSchedule = combinedActivies.data.filter(activity => (activity.schedule ?? []).some(schedule => {
             const dayDifference = Math.ceil((new Date(schedule.date).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
             return dayDifference <= 1 && dayDifference >= 0;
         }))
+
+        console.log('>>>>>>>>>>>>>>>>>> ', filterActivitesIncomingSchedule)
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -75,7 +71,7 @@ export async function POST() {
             filterIncomingActivities.map(async activity => {
 
                 // Send Email
-                const activityLink = `http://localhost:3000/api/activityById/${activity.source}/` + activity.activityId
+                const activityLink = `http://localhost:3000/${activity?.typeActivity}/activity-details/${activity?.activityId}`
                 const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
                 const mailOption = {
@@ -143,22 +139,32 @@ export async function POST() {
                             to: userEmail,
                             subject: `🚨 ประกาศจากกิจกรรม ${matchingActivity?.activityName}`,
                             html: `
-                                    <h3>✨ เตรียมตัวให้พร้อมสำหรับวันพรุ่งนี้ ✨</h3>
-                                    ${sendSchedules.map(scheduleItem => `
-                                        <p><strong>👉 ${scheduleItem.title}</strong> - ${scheduleItem.details}</p>
-                                    `).join('')}
+                            <div style="max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; font-family: Arial, sans-serif; color: #333; background-color: #fff;">
+                            <h3 style="text-align: center; color: #333;">✨ เตรียมตัวให้พร้อมสำหรับวันพรุ่งนี้ ✨</h3>
+                            <p style="font-size: 16px; margin-bottom: 20px;">ขอแจ้งกิจกรรมที่กำลังจะเกิดขึ้นในวันพรุ่งนี้ โปรดตรวจสอบรายละเอียดด้านล่าง</p>
+                            <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                                ${sendSchedules.map(scheduleItem => `
+                                    <div style="margin-bottom: 10px;">
+                                        <strong>${scheduleItem.title}</strong><br>
+                                        ${scheduleItem.details}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <p style="text-align: center; font-size: 12px; color: #777;">หากต้องการดูรายละเอียดเพิ่มเติม กรุณาเข้าสู่ระบบของเรา</p>
+                            <p style="text-align: center; font-size: 12px; color: #777;">ขอบคุณที่ร่วมกิจกรรมกับเรา</p>
+                        </div>
                                 `
                         }
                         newNotificationArray.push(newNotification)
-                        // await transporter.sendMail(mailOption)
+                        await transporter.sendMail(mailOption)
                     }
                     
                 }
                 
             })
-
+            console.log('_____noti >>> ', newNotificationArray)
             const newNotifications: Notification[] = [...user?.notifications, ...newNotificationArray]
-            // await updateNotification(user.id, user.email, newNotifications)
+            await updateNotification(user.id, user.email, newNotifications)
             console.log('<<< SendEmail and Notification seccess >>>')
         })
 

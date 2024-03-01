@@ -102,7 +102,7 @@ type KeySchema =
         if (result && result.status === "success" && result?.activityId) {
           Swal.fire({
             icon: "success",
-            text: "Activity added successfully",
+            text: "เพิ่มกิจกรรมสำเร็จ",
             showConfirmButton: false,
             timer: 1500
         });
@@ -110,6 +110,10 @@ type KeySchema =
           router.push(`/${typeActivity}/activity-details/${result?.activityId}`);
         }
       } catch (e) {
+        Swal.fire({
+          icon: "error",
+          text: "เพิ่มกิจกรรมไม่สำเร็จ!",
+      });
         console.log("e", e)
       }
 

@@ -26,7 +26,7 @@ export default function useBannerPage() {
             const result = await createBanner(bannerUrl);
             Swal.fire({
                 icon: "success",
-                text: "Banner added successfully",
+                text: "เพิ่มแบนเนอร์สำเร็จ",
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -36,8 +36,7 @@ export default function useBannerPage() {
         } catch (error) {
             Swal.fire({
                 icon: "error",
-                title: "Oops...",
-                text: "Failed to add banner!",
+                text: "เพิ่มแบนเนอร์ไม่สำเร็จ!",
             });
             console.error("Error saving data to DynamoDB:", error);
         }
@@ -46,18 +45,17 @@ export default function useBannerPage() {
     const onDeleteBanner = async (bannerId: string) => {
         try {
             Swal.fire({
-                title: "Are you sure?",
-                text: "Do you want to delete a banner, right?",
+                text: "คุณต้องการลบแบนเนอร์ใช่ไหม?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Yes!"
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
                         icon: "success",
-                        text: "Banner delete successfully",
+                        text: "ลบแบนเนอร์สำเร็จ",
                     });
                     const result = await deleteBanner(bannerId);
                     mutate('getBanner');
@@ -68,8 +66,7 @@ export default function useBannerPage() {
         } catch (error) {
             Swal.fire({
                 icon: "error",
-                title: "Oops...",
-                text: "Failed to delete banner!",
+                text: "ลบแบนเนอร์ไม่สำเร็จ!",
             });
             console.log("Error deleting banner:", error);
         }

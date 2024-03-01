@@ -1,33 +1,45 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { DynamoDB } from 'aws-sdk';
-import iTryDynamoDB from '../utils/dynamoDB';
+import { NextRequest, NextResponse } from "next/server";
+import { DynamoDB } from "aws-sdk";
+import iTryDynamoDB from "../utils/dynamoDB";
 
-const tableName = 'Route';
+const tableName = "Route";
 
-export async function updateTravel(req: NextRequest){
-    try{
-        const {
-            routeId,
-            description
-        } = await req.json();
+export async function updateTravel(req: NextRequest) {
+  try {
+    const { routeId, description } = await req.json();
 
-        let updateExpression = 'set description = :newDescription';
-        let expressionAttributeValue = {
-            ':newDescription': description
-        };
-        const paramsDynamo = {
-            TableName: tableName,
-            Key:{
-                routeId: routeId
-            },
-            UpdateExpression: updateExpression,
-            ExpressionAttributeValues: expressionAttributeValue,
-            ReturnValues: "UPDATED_NEW"
-        }
+    let updateExpression = "set description = :newDescription";
+    let expressionAttributeValue = {
+      ":newDescription": description,
+    };
+    const paramsDynamo = {
+      TableName: tableName,
+      Key: {
+        routeId: routeId,
+      },
+      UpdateExpression: updateExpression,
+      ExpressionAttributeValues: expressionAttributeValue,
+      ReturnValues: "UPDATED_NEW",
+    };
 
-        const updateDynamo = await iTryDynamoDB.update(paramsDynamo).promise();
-        return NextResponse.json("update success")
-    }catch(error){
-        console.log(error)
-    }
+    const updateDynamo = await iTryDynamoDB.update(paramsDynamo).promise();
+    return NextResponse.json("update success");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getTravel() {
+  let paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
+    TableName: "Route",
+  };
+  try {
+    
+    const data = await iTryDynamoDB.scan(paramsDB).promise();
+    const items = data.Items || [];
+    console.log("---------------------getTravel jaaa" , data.Items);
+    return { data: items, status: "success" };
+  } catch (error) {
+    console.log(error);
+  }
 }

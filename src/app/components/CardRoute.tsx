@@ -51,43 +51,7 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
     setEditModal(false);
   };
 
-  const dummyRouteOption = [
-    {
-      optionTitle: "แอร์พอร์ตลิ้งค์",
-      detail: `Air link Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Quo explicabo fugiat doloribus ipsam pariatur aliquid vel dolore aliquam 
-                    praesentium autem quasi deleniti architecto modi incidunt voluptatum officia, 
-                    minima voluptate blanditiis? link Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Quo explicabo fugiat doloribus ipsam pariatur aliquid vel dolore aliquam`,
-      image: "/station.png",
-    },
-    {
-      optionTitle: "รถโดยสารประจำทาง",
-      detail: `Bus Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Quo explicabo fugiat doloribus ipsam pariatur aliquid vel dolore aliquam 
-                    praesentium autem quasi deleniti architecto modi incidunt voluptatum officia, 
-                    minima voluptate blanditiis? link Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Quo explicabo fugiat doloribus ipsam pariatur aliquid vel dolore aliquam`,
-      image: "/bus.png",
-    },
-    {
-      optionTitle: "รถตู้",
-      detail: `Van Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Quo explicabo fugiat doloribus ipsam pariatur aliquid vel dolore aliquam 
-                    praesentium autem quasi deleniti architecto modi incidunt voluptatum officia, 
-                    minima voluptate blanditiis? link Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Quo explicabo fugiat doloribus ipsam pariatur aliquid vel dolore aliquam`,
-      image: "/van.png",
-    },
-    {
-      optionTitle: "รถไฟ",
-      detail: `Train Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Quo explicabo fugiat doloribus ipsam pariatur aliquid vel dolore aliquam 
-                    praesentium autem quasi deleniti architecto modi incidunt voluptatum officia, 
-                    minima voluptate blanditiis?`,
-      image: "/train.png",
-    },
-  ];
+
 
   console.log("route------", route.route.data);
   const allroute = route.route.data;
@@ -105,13 +69,13 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                       : ""
                   }`}
                   onClick={() =>
-                    openModal(item.vehicle, item.description, "/station.png")
+                    openModal(item.vehicle, item.description, item.image)
                   }
                 >
                   <div className="px-3">
                     <figure className="border-[1px] border-white py-8 rounded-3xl">
                       <Image
-                        src="/station.png"
+                        src={item.image}
                         alt={item.vehicle}
                         width="100"
                         height="100"

@@ -17,7 +17,6 @@ export default function TravelContainer(route: TravelContainerProps) {
   return (
     <div className="text-center py-12 md:py-16">
       <CardRoutes role={"user"} route={route} />
-      <p>hii </p>
     </div>
   );
 }

@@ -51,16 +51,13 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
     setEditModal(false);
   };
 
-
-
-  console.log("route------", route.route.data);
-  const allroute = route.route.data;
+  console.log("route------", route);
 
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-4 place-items-center gap-4">
         {route
-          ? allroute.map((item: any, key: any) => (
+          ? route.map((item: any, key: any) => (
               <div key={key}>
                 <div
                   className={`card w-full md:w-44 bg-base-100 border-solid border-2 border-neonBlue pt-3 rounded-md ${

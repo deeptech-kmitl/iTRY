@@ -12,11 +12,11 @@ interface TravelContainerProps {
 }
 
 export default function TravelContainer(route: TravelContainerProps) {
-  // console.log("route props--------", route);
+  // console.log("route props--------", route.route.data);
 
   return (
     <div className="text-center py-12 md:py-16">
-      <CardRoutes role={"user"} route={route} />
+      <CardRoutes role={"user"} route={route.route.data} />
     </div>
   );
 }

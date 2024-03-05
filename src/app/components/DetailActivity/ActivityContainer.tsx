@@ -101,7 +101,7 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
           </div>
           <div className='relative flex pt-1 md:pt-7 items-center'>
             <div className="w-[100%] md:w-[75%]"><FollowButton activity={activity} /></div>
-            <div className='px-3'><ShareSocial /></div>
+            <div className='px-3'><ShareSocial activityId={activity.activityId ?? ''} typeActivity={activity.typeActivity} activityName={activity.activityName} /></div>
           </div>
         </div>
       </div>

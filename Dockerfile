@@ -8,11 +8,15 @@ WORKDIR /app
 COPY package.json yarn.lock* ./
 
 # Install dependencies
-RUN yarn install
+RUN npm install
+RUN npm run build
 
 # Copy the rest of the application code
 COPY . .
 
+EXPOSE 3000
+
 
 # Start the Next.js app
-CMD ["yarn", "dev"]
+CMD ["npm", "dev"]
+

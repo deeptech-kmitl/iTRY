@@ -71,7 +71,7 @@ export async function POST() {
             filterIncomingActivities.map(async activity => {
 
                 // Send Email
-                const activityLink = `http://localhost:3000/${activity?.typeActivity}/activity-details/${activity?.activityId}`
+                const activityLink = `https://52.87.75.229:3000/${activity?.typeActivity}/activity-details/${activity?.activityId}`
                 const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
                 const mailOption = {
@@ -88,7 +88,8 @@ export async function POST() {
                                 ${activity.imageUrl ? `<img src="${activity.imageUrl}" alt="activity image" style="max-width: 100%; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">` : ''}
                             </div>
                             <div style="background-color: #ffcc00; padding: 20px; border-radius: 0 0 10px 10px;">
-                                <h4 style="margin: 0; color: #333;">เปิดรับสมัคร: ${activity.openDate}</h4><br>
+                                <h4 style="margin: 0; color: #333;">🟢 เปิดรับสมัคร: ${activity.openDate}</h4><br>
+                                <h4 style="margin: 0; color: #333;">🔴 ปิดรับสมัคร: ${activity.closeDate}</h4><br>
                                 <p style="margin: 5px 0 0; color: #ffcc00; text-align: center;"><a href="${activityLink}" style="color: #ffcc00; text-decoration: none; background-color: #fff; padding: 10px 20px; border-radius: 5px; display: inline-block;"><b>ดูรายละเอียดเพิ่มเติม</b></a></p>
                             </div>
                         </div>
@@ -139,20 +140,20 @@ export async function POST() {
                             to: userEmail,
                             subject: `🚨 ประกาศจากกิจกรรม ${matchingActivity?.activityName}`,
                             html: `
-                            <div style="max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; font-family: Arial, sans-serif; color: #333; background-color: #fff;">
-                            <h3 style="text-align: center; color: #333;">✨ เตรียมตัวให้พร้อมสำหรับวันพรุ่งนี้ ✨</h3>
-                            <p style="font-size: 16px; margin-bottom: 20px;">ขอแจ้งกิจกรรมที่กำลังจะเกิดขึ้นในวันพรุ่งนี้ โปรดตรวจสอบรายละเอียดด้านล่าง</p>
-                            <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                                ${sendSchedules.map(scheduleItem => `
-                                    <div style="margin-bottom: 10px;">
-                                        <strong>${scheduleItem.title}</strong><br>
-                                        ${scheduleItem.details}
+                                    <div style="max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; font-family: Arial, sans-serif; color: #333; background-color: #fff;">
+                                        <h3 style="text-align: center; color: #333;">✨ เตรียมตัวให้พร้อมสำหรับวันพรุ่งนี้ ✨</h3>
+                                        <p style="font-size: 16px; margin-bottom: 20px;">ขอแจ้งกิจกรรมที่กำลังจะเกิดขึ้นในวันพรุ่งนี้ โปรดตรวจสอบรายละเอียดด้านล่าง</p>
+                                        <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                                            ${sendSchedules.map(scheduleItem => `
+                                                <div style="margin-bottom: 10px;">
+                                                    <strong>👉 ${scheduleItem.title}</strong><br>
+                                                    ${scheduleItem.details}
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        <p style="text-align: center; font-size: 12px; color: #777;">หากต้องการดูรายละเอียดเพิ่มเติม กรุณาเข้าสู่ระบบของเรา</p>
+                                        <p style="text-align: center; font-size: 12px; color: #777;">ขอบคุณที่ร่วมกิจกรรมกับเรา</p>
                                     </div>
-                                `).join('')}
-                            </div>
-                            <p style="text-align: center; font-size: 12px; color: #777;">หากต้องการดูรายละเอียดเพิ่มเติม กรุณาเข้าสู่ระบบของเรา</p>
-                            <p style="text-align: center; font-size: 12px; color: #777;">ขอบคุณที่ร่วมกิจกรรมกับเรา</p>
-                        </div>
                                 `
                         }
                         newNotificationArray.push(newNotification)

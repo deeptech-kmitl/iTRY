@@ -27,7 +27,7 @@ export default function useSponsor() {
 
             Swal.fire({
                 icon: "success",
-                text: "Sponsor added successfully",
+                text: "เพิ่มสปอนเซอร์สำเร็จ",
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -41,8 +41,7 @@ export default function useSponsor() {
         catch (error) {
             Swal.fire({
                 icon: "error",
-                title: "Oops...",
-                text: "Failed to add sponsor!",
+                text: "เพิ่มสปอนเซอร์ไม่สำเร็จ!",
             });
             console.error("Error saving data to DynamoDB:", error);
         }
@@ -51,18 +50,17 @@ export default function useSponsor() {
     const onDelete = async (sponsorId: string) => {
         try {
             Swal.fire({
-                title: "Are you sure?",
-                text: "Do you want to delete a sponsors, right?",
+                text: "คุณต้องการลบสปอนเซอร์ใช่ไหม?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Yes!"
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
                         icon: "success",
-                        text: "Sponsors delete successfully",
+                        text: "ลบสปอนเซอร์สำเร็จ",
                     });
                     const result = await deleteSponSor(sponsorId);
                     mutate('getSponsors');
@@ -73,8 +71,7 @@ export default function useSponsor() {
         catch (error) {
             Swal.fire({
                 icon: "error",
-                title: "Oops...",
-                text: "Failed to delete sponsor!",
+                text: "ลบสปอนเซอร์ไม่สำเร็จ!",
             });
             console.error("Error deleting sponsor:", error);
         }

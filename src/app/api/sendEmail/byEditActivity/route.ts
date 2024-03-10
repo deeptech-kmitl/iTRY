@@ -55,7 +55,7 @@ export async function sendEmailAndNoti(activityId: string) {
 
     followerData?.map(async user => {
 
-        const activityLink = `http://localhost:3000/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
+        const activityLink = `http://52.87.75.229:3000/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
 
         const mailOption = {
             from: 'itrydpd@gmail.com',

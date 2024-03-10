@@ -9,10 +9,11 @@ COPY package.json yarn.lock* ./
 
 # Install dependencies
 RUN npm install
-RUN npm run build
 
 # Copy the rest of the application code
 COPY . .
+
+RUN npm run build
 
 EXPOSE 3000
 

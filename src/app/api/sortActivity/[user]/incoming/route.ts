@@ -2,20 +2,24 @@
 import { NextResponse, NextRequest } from "next/server";
 import AWS, { DynamoDB } from "aws-sdk";
 import iTryDynamoDB from "../../../utils/dynamoDB";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
 export async function getIncomingActivity() {
   const tableName = "CamperActivities"
 
-  console.log("today", new Date().toISOString().slice(0, 10))
+  const session = await getServerSession(authOptions)
 
   const paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
     TableName: tableName,
-    FilterExpression: "#openDate > :today",
+    FilterExpression: "#openDate > :today AND (visibility = :roleUser OR visibility = :all)",
     ExpressionAttributeNames: {
       "#openDate": "openDate",
     },
     ExpressionAttributeValues: {
       ":today": new Date().toISOString().slice(0, 10),
+      ":roleUser": session?.user?.role || "",
+      ":all": "all",
     },
   };
 

@@ -34,7 +34,10 @@ export const authOptions: AuthOptions = {
         } catch (error) {
           throw error;
         }
-      }
+      },
+      client: {
+        token_endpoint_auth_method: "none",
+      },
     }),
     FacebookProvider({
       clientId: process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_ID ?? "",
@@ -46,7 +49,10 @@ export const authOptions: AuthOptions = {
         } catch (error) {
           throw error;
         }
-      }
+      },
+      client: {
+        token_endpoint_auth_method: "none",
+      },
     })
   ],
   callbacks: {

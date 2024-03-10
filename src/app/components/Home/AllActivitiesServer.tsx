@@ -11,7 +11,6 @@ import Link from "next/link";
 export default async function AllActivitiesServer() {
   const activities = await getActivitiesDesc("camper", 1, 3) as ActivityApiData | ApiError | undefined;
 
-
   return (
     <div className="flex flex-col gap-8">
       <div className="text-base md:text-2xl flex items-center">

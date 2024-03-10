@@ -18,6 +18,8 @@ export default function ITryCounDown({ openDate, style, activityName }: ITryCoun
 
   const targetDate = new Date(openDate);
   const currentDate = new Date();
+  console.log("targetDate", targetDate)
+  console.log("currentDate", currentDate)
   const timeDifference = targetDate.getTime() - currentDate.getTime();
 
   const [days, setDays] = useState(Math.floor(timeDifference / (1000 * 60 * 60 * 24)));

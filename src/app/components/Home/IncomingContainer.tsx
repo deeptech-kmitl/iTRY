@@ -12,8 +12,6 @@ interface IncomingContainerProps {
 }
 
 export default function IncomingContainer({ activity }: IncomingContainerProps) {
-  const targetDate = new Date(activity?.openDate);
-  const currentDate = new Date();
 
   return (
     <>

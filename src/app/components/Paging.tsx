@@ -30,11 +30,6 @@ export const Paging: FC<PagingProps> = ({ page = 1, countActivities, perPage }: 
     pageRange.push(i);
   }
 
-  console.log("start", start)
-  console.log("end", end)
-  console.log("pageRange", pageRange)
-
-
   return (
     <div className="join flex justify-center pt-5">
       <button

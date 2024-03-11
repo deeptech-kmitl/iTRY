@@ -9,6 +9,7 @@ import { Notification } from '@/app/utils/ManageEmail/email';
 import { getActivitiesDesc } from '../../sortActivity/[user]/desc/route';
 import { ActivityApiData, ITryActivity } from '@/app/utils/ManageActivityPage/activity';
 import getActivities from '../../crudActivity/route';
+import sendEmail from '../route';
 
 export async function POST() {
     console.log('.... Sending Email and Notification.')
@@ -16,7 +17,6 @@ export async function POST() {
     try {
         // Get user and activity data
         const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
-        console.log('USER > ', users)
         
         const combinedActivies = await getActivities() as ActivityApiData
 
@@ -51,17 +51,6 @@ export async function POST() {
 
         console.log('>>>>>>>>>>>>>>>>>> ', filterActivitesIncomingSchedule)
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: { // for sender
-                user: process.env.SMTP_EMAIL,
-                pass: process.env.SMTP_PASSWORD
-            }
-        })
-
         // <<<<<<<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY OPEN DATE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
         activeUsers?.map(async user => {
@@ -71,7 +60,7 @@ export async function POST() {
             filterIncomingActivities.map(async activity => {
 
                 // Send Email
-                const activityLink = `https://52.87.75.229:3000/${activity?.typeActivity}/activity-details/${activity?.activityId}`
+                const activityLink = `https://${window?.location?.host}/${activity?.typeActivity}/activity-details/${activity?.activityId}`
                 const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
                 const mailOption = {
@@ -105,7 +94,7 @@ export async function POST() {
                 }
 
                 newNotificationArray.push(newNotification)
-                await transporter.sendMail(mailOption)
+                await sendEmail(mailOption)
             })
 
             // <<<<<<<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY SCHEDULE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -157,7 +146,7 @@ export async function POST() {
                                 `
                         }
                         newNotificationArray.push(newNotification)
-                        await transporter.sendMail(mailOption)
+                        await sendEmail(mailOption)
                     }
                     
                 }

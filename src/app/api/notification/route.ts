@@ -1,5 +1,10 @@
 import { Notification } from "@/app/utils/ManageEmail/email";
 import iTryDynamoDB from "../utils/dynamoDB";
+import { getAllUser } from "../users/route";
+import { ApiDataList, ApiError } from "@/app/components/global";
+import { User } from "next-auth";
+import { convertDateToString } from "@/app/utils/converDateToString";
+import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
 
 export async function updateNotification(userId: string, email: string, newNotification: Notification[]) {
     try {
@@ -35,3 +40,24 @@ export async function updateNotification(userId: string, email: string, newNotif
     }
 }
 
+export async function updateNotificationEditActivity(activity: ITryActivity) {
+    try {
+        const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
+        if (users?.status === "error") throw new Error("")
+        const filterUsers = users?.data?.filter(user => user?.activitiesFollow?.some(activityFollow => activityFollow.activityId === activity.activityId))
+        
+        filterUsers?.map(async (user) => {
+            const newNotification: Notification = {
+                activityId: activity.activityId || "",
+                activityDetail: "อย่าลืมตรวจสอบ !!",
+                activityName: `มีการแก้ไขข้อมูลกิจกรรม ${activity.activityName}`,
+                sendDate: convertDateToString(new Date())
+            }
+
+            const newNotifications: Notification[] = [...user.notifications, newNotification]
+            await updateNotification(user.id, user.email, newNotifications)
+        })
+    } catch (error) {
+        throw error;
+    }
+}

@@ -63,24 +63,24 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
 
   return (
     <div>
-      <div className="grid grid-cols-1 text-base md:text-2xl text-center font-bold">
+      <div className="grid grid-cols-1 text-base lg:text-2xl text-center font-bold">
         <p className="py-5">{activity?.activityName}</p>
         <div className="bg-white h-[1px]"></div>
         <p className="py-5 text-neonBlue">{renderStatusActivity()}</p>
       </div>
 
       {/* ช่องทางการติดต่อสอบถาม */}
-      <div className="grid grid-cols-1 md:grid-cols-2 text-sm md:text-xl py-1 md:py-8">
-        <div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 text-sm lg:text-xl py-1 lg:py-8">
+        <div className="flex flex-col justify-center">
           {typeof activity.imageUrl === 'string' && (
             <Image priority src={activity.imageUrl} alt="image_activity" width="0" height="0" sizes="100vw" className="w-full h-auto rounded-lg border aspect-video w-full object-cover object-center" />
           )}
         </div>
-        <div className='pl-0 md:pl-12 py-6 md:py-0 px-8 md:px-0'>
+        <div className='lg:p-8 p-0 lg:pt-0 pt-4'>
           <p className='font-bold py-1'>ช่องทางการติดต่อสอบถาม</p>
-          <div className='flex py-2 md:py-4 items-center'>
-            <FontAwesomeIcon icon={faPhone} className='h-4 md:h-8' />
-            <p className='px-2 md:px-8 text-[13px] md:text-base'>
+          <div className='flex py-2 lg:py-4 items-center'>
+            <FontAwesomeIcon icon={faPhone} className='h-4 lg:h-8' />
+            <p className='px-2 lg:px-8 text-[13px] lg:text-base'>
               {activity?.phone ? (
                 <>
                   {activity?.phone?.map((phoneData, index) => (
@@ -95,14 +95,17 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
               )}
             </p>
           </div>
-          <div className='flex py-2 md:py-4 items-center'>
-            <FontAwesomeIcon icon={faEnvelope} className='h-4 md:h-8' />
-            <p className='px-2 md:px-8 text-[13px] md:text-base'>{activity?.email ? activity?.email : "ไม่มีอีเมล"}</p>
+          <div className='flex py-2 lg:py-4 items-center'>
+            <FontAwesomeIcon icon={faEnvelope} className='h-4 lg:h-8' />
+            <p className='px-2 lg:px-8 text-[13px] lg:text-base'>{activity?.email ? activity?.email : "ไม่มีอีเมล"}</p>
           </div>
-          <div className='relative flex pt-1 md:pt-7 items-center'>
-            <div className="w-[100%] md:w-[75%]"><FollowButton activity={activity} /></div>
-            <div className='px-3'><ShareSocial activityId={activity.activityId ?? ''} typeActivity={activity.typeActivity} activityName={activity.activityName} /></div>
+          <p className='font-bold py-1'>รับสมัคร <span className="text-neonBlue">{activity?.typeActivity }</span></p>
+          <p className='font-bold py-1'>การมองเห็น <span className="text-neonBlue">{activity?.visibility === "outsider" ? "บุคคลภายนอก" : "บุคคลภายในคณะ IT"}</span> </p>
+          <div className='relative flex pt-1 lg:pt-7 items-center gap-4'>
+            <div className="w-[100%] lg:w-[75%]"><FollowButton activity={activity} /></div>
+            <ShareSocial activityId={activity.activityId ?? ''} typeActivity={activity.typeActivity} activityName={activity.activityName} />
           </div>
+          
         </div>
       </div>
       <div className="">
@@ -112,18 +115,18 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
           ))}
         </div>
       </div>
-      <div className='pt-0 md:pt-4 text-sm md:text-xl' >
+      <div className='pt-0 lg:pt-4 text-sm lg:text-xl' >
         {/* รายละเอียดกิจกรรม */}
-        <p className=' font-bold pt-1 md:pt-16 pb-6'>รายละเอียดกิจกรรม</p>
+        <p className=' font-bold pt-1 lg:pt-16 pb-6'>รายละเอียดกิจกรรม</p>
         <div className='bg-slate-900 p-4 rounded-lg'>
           {activity?.activityDetails ? (<p dangerouslySetInnerHTML={{ __html: activity.activityDetails }} />) : <p className="text-stone-400">ไม่มีรายละเอียดกิจกรรม</p>}
         </div>
 
         {/* Social Media */}
-        <p className='text-sm md:text-xl font-bold pt-16 pb-6'>Social Media</p>
+        <p className='text-sm lg:text-xl font-bold pt-16 pb-6'>Social Media</p>
         <div className='flex gap-3'>
           {(!activity.igLink && !activity.facebookLink) && (
-            <p className='px-2 md:px-8 text-[13px] md:text-base'>ไม่มี Social Media</p>
+            <p className='px-2 lg:px-8 text-[13px] lg:text-base'>ไม่มี Social Media</p>
           )}
           {activity?.igLink && (
             <>
@@ -146,15 +149,15 @@ export default function ActivityContainer({ activity }: ActivityContainerProps) 
         </div>
 
         {/* กำหนดการกิจกรรม */}
-        <p className='text-sm md:text-xl font-bold pt-16 pb-6'>กำหนดการกิจกรรม</p>
+        <p className='text-sm lg:text-xl font-bold pt-16 pb-6'>กำหนดการกิจกรรม</p>
         <Timeline schedule={combinedSchedule} />
 
         {/* FAQ */}
-        <p className='text-sm md:text-xl font-bold pt-16 pb-6'>FAQ</p>
+        <p className='text-sm lg:text-xl font-bold pt-16 pb-6'>FAQ</p>
         {activity?.faq?.length > 0 ? (
           <FAQ faq={activity?.faq} />
         ) : (
-          <p className='px-2 md:px-8 text-[13px] md:text-base'>ไม่มี faq</p>
+          <p className='px-2 lg:px-8 text-[13px] lg:text-base'>ไม่มี faq</p>
         )}
       </div>
     </div>

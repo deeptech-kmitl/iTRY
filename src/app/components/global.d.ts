@@ -35,7 +35,7 @@ export type ITryDropDownProps = {
   );
 
 type DataDropDownProps = {
-  name: string,
+  name: string | ReactNode,
   function?: () => void;
   customClassName?: string;
 }
@@ -69,12 +69,22 @@ type NormalProps = {
   placeholder?: string;
   size?: "tiny" | "small" | "medium" | "large";
   customInputClassName?: string;
-  register: UseFormRegister<any>;
-}
+} & (
+  {
+    noRegister: true;
+  } |
+  {
+    noRegister?: false;
+    register: UseFormRegister<any>;
+  }
+);
 
 type CheckBoxProps = {
   type: "checkbox"
-}
+  label?: string;
+  checkFunction: (...args: any[]) => void;
+  checked: boolean;
+} 
 
 type RadioProps = {
   type: "radio"

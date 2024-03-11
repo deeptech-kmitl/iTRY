@@ -27,7 +27,7 @@ export default function FollowButton({ activity }: FollowButtonProps) {
                 text: "ติดตามกิจกรรมสำเร็จแล้ว"
             })
 
-            update({
+            await update({
                 ...session,
                 user: {
                     ...userData,
@@ -54,7 +54,7 @@ export default function FollowButton({ activity }: FollowButtonProps) {
                 text: "เลิกติดตามกิจกรรมสำเร็จแล้ว"
             })
 
-            update({
+            await update({
                 ...session,
                 user: {
                     ...userData,

@@ -10,6 +10,7 @@ import { User } from 'next-auth';
 import { Notification } from '@/app/utils/ManageEmail/email';
 import { updateNotification } from '@/app/api/notification/route';
 import getActivities from '../../crudActivity/route';
+import sendEmail from '../route';
 
 export async function sendEmailAndNoti(activityId: string) {
     console.log("___ SEND EMAIL ___")
@@ -41,21 +42,9 @@ export async function sendEmailAndNoti(activityId: string) {
 
     const sendDate = `${month}-${day} ${hours}:${minutes}`;
 
-
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: { // for sender
-            user: process.env.SMTP_EMAIL,
-            pass: process.env.SMTP_PASSWORD
-        }
-    })
-
     followerData?.map(async user => {
 
-        const activityLink = `http://52.87.75.229:3000/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
+        const activityLink = `${window?.location?.origin}/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
 
         const mailOption = {
             from: 'itrydpd@gmail.com',
@@ -76,7 +65,7 @@ export async function sendEmailAndNoti(activityId: string) {
 
         const newNotifications: Notification[] = [...user?.notifications, newNotification]
         await updateNotification(user.id, user.email, newNotifications)
-        await transporter.sendMail(mailOption)
+        await sendEmail(mailOption)
     })
     
 }

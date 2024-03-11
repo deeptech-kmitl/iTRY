@@ -4,24 +4,32 @@ import AWS, { DynamoDB } from "aws-sdk";
 import iTryDynamoDB from "../../../utils/dynamoDB";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import { convertDateToString } from "@/app/utils/converDateToString";
 
 export async function getIncomingActivity() {
   const tableName = "CamperActivities"
 
   const session = await getServerSession(authOptions)
 
-  const paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
+  let paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
     TableName: tableName,
-    FilterExpression: "#openDate > :today AND (visibility = :roleUser OR visibility = :all)",
-    ExpressionAttributeNames: {
-      "#openDate": "openDate",
-    },
+    FilterExpression: "openDate > :today",
     ExpressionAttributeValues: {
-      ":today": new Date().toISOString().slice(0, 10),
-      ":roleUser": session?.user?.role || "",
-      ":all": "all",
+      ":today": convertDateToString(new Date()),
     },
   };
+
+  if (!(session?.user?.role === "admin")) {
+    paramsDB = {
+      ...paramsDB,
+      FilterExpression: "openDate > :today AND (visibility = :roleUser OR visibility = :all)",
+      ExpressionAttributeValues: {
+        ":today": convertDateToString(new Date()),
+        ":roleUser": session?.user?.role || "",
+        ":all": "all",
+      },
+    };
+  }
 
   try {
     const data = await iTryDynamoDB.scan(paramsDB).promise();

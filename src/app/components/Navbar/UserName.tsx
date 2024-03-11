@@ -4,7 +4,6 @@ import ITryButton from "../Button";
 import ITryDropDown from "../DropDown";
 import ITryModal from "../Modal";
 import useSignInController from "./useSignInController";
-import ITryInput from "../Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons/faFacebookF";
@@ -12,6 +11,8 @@ import useUserController from "./useUserController";
 import { signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import  ITryInput  from '@/app/components/Input';
+import { updateReceiveEmail } from "@/app/api/receiveEmail/route";
 
 export default function ITryUserName() {
 
@@ -23,22 +24,6 @@ export default function ITryUserName() {
   const errorParam = seachParams.get("error");
   const callbackUrl = seachParams.get("callbackUrl") || undefined;
 
-  console.log("errorParam", errorParam)
-
-  const dropDownData = [
-    {
-      name: "กิจกรรมที่กำลังติดตาม",
-      function: () => {
-        router.push("/myActivities")
-      }
-    },
-    {
-      name: "ออกจากระบบ",
-      function: () => { signOut() },
-      customClassName: "text-red-500"
-    }
-  ]
-
   const [openSignInModal, setOpenSignInModal] = useState<boolean>(signInParam);
   const {
     errors,
@@ -49,7 +34,23 @@ export default function ITryUserName() {
     register
   } = useSignInController({ callbackUrl });
 
-  const { isLogin, userData } = useUserController();
+  const { isLogin, userData, session, update } = useUserController();
+
+  console.log("userData.receiveEmail", userData.receiveEmail)
+
+
+  const toggleReceiveEmail = async () => {
+
+    await updateReceiveEmail(userData.id, userData.email, !userData.receiveEmail)
+
+    await update({
+      ...session,
+      user: {
+        ...userData,
+        receiveEmail: !userData.receiveEmail
+      }
+    })
+  }
 
   const getAlertHeader = () => {
     if (errorParam && signInParam) {
@@ -68,6 +69,25 @@ export default function ITryUserName() {
       )
     }
   }
+
+  const dropDownData = [
+    {
+      name: "กิจกรรมที่กำลังติดตาม",
+      function: () => {
+        router.push("/myActivities")
+      }
+    },
+    {
+      name: <ITryInput type="checkbox" label="รับการแจ้งเตือน" checkFunction={toggleReceiveEmail} checked={userData.receiveEmail} />,
+      function: () => {}
+    },
+    {
+      name: "ออกจากระบบ",
+      function: () => { signOut() },
+      customClassName: "text-red-500"
+    },
+
+  ]
 
   const contentModal = (
     <div className="flex flex-col gap-4">

@@ -10,6 +10,9 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import { uploadFileToS3 } from '@/app/api/uploadFile/route';
 import { convertDateToString } from '../converDateToString';
+import { updateNotification, updateNotificationEditActivity } from '@/app/api/notification/route';
+import useUserController from '@/app/components/Navbar/useUserController';
+import { Notification } from '../ManageEmail/email';
 
 interface UseManageActivityProps {
   typeAction: TypeAction
@@ -82,7 +85,6 @@ type KeySchema =
 
     const onSubmit = async (data: any) => {
 
-
       try {
 
         let savedData = { ...data }
@@ -96,23 +98,33 @@ type KeySchema =
         if (typeAction === "add") {
           result = typeActivity === "camper" ? await createCamperActivity(savedData) : await createStaffActivity(savedData)
         } else {
-          result = typeActivity === "camper" ? await updateCamperActivity(savedData) : await updateStaffActivity(savedData)
+          if (typeActivity === "camper") {
+            result = await updateCamperActivity(savedData)
+            
+          } else {
+            result = await updateStaffActivity(savedData)
+          }
+
+          await updateNotificationEditActivity(data)
+
         }
 
-        if (result && result.status === "success" && result?.activityId) {
-          Swal.fire({
-            icon: "success",
-            text: "เพิ่มกิจกรรมสำเร็จ",
-            showConfirmButton: false,
-            timer: 1500
+        console.log("result", result)
+
+        await Swal.fire({
+          icon: "success",
+          text: `${typeAction === "add" ? "เพิ่ม" : "แก้ไข"}กิจกรรมสำเร็จ`,
+          showConfirmButton: false,
+          timer: 1500
         });
 
-          router.push(`/${typeActivity}/activity-details/${result?.activityId}`);
-        }
+        
+
+        await router.push(`/${typeActivity}/activity-details/${result?.activityId}`);
       } catch (e) {
         Swal.fire({
           icon: "error",
-          text: "เพิ่มกิจกรรมไม่สำเร็จ!",
+          text: `${typeAction === "add" ? "เพิ่ม" : "แก้ไข"}กิจกรรมไม่สำเร็จ!`,
       });
         console.log("e", e)
       }

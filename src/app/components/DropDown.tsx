@@ -1,4 +1,5 @@
 import { ITryDropDownProps } from "./global"
+import { Fragment, ReactNode } from 'react';
 
 export default function ITryDropDown(props: ITryDropDownProps) {
 
@@ -28,9 +29,18 @@ export default function ITryDropDown(props: ITryDropDownProps) {
     if (props.customData) return props.customData;
     if (props.data) return (
       <>
-        {props.data.map((data, index) => (
-          <li key={index} onClick={data.function} className={data.customClassName}><a>{data.name}</a></li>
-        ))}
+        {props.data.map((data, index) => {
+          if (typeof data.name === "string") {
+            return (
+              <li key={index} onClick={data.function} className={data.customClassName}><a className="flex justify-center">{data.name}</a></li>
+            )
+          }
+          return (
+            <Fragment key={index}>
+              {data.name}
+            </Fragment>
+          )
+        })}
       </>
     )
   }

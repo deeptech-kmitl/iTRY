@@ -1,6 +1,9 @@
 # Specify the base image
 FROM node:20
 
+ENV NEXTAUTH_URL=https://itryweb.com
+ENV NEXTAUTH_URL_INTERNAL=https://itryweb.com
+
 # Set the working directory
 WORKDIR /app
 

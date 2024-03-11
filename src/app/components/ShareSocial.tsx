@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faShareFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { TypeActivity } from './ManageActivityPage/activity';
+import ITryDropDown from './DropDown';
 
 interface ShareSocialProps {
     activityId: string;
@@ -21,43 +22,33 @@ interface ShareSocialProps {
 
 export default function ShareSocial(props: ShareSocialProps) {
 
-    const [isModalOpen, setModalOpen] = useState(false)
-    const openModal = () => {
-        setModalOpen(!isModalOpen)
-    }
-    const closeModal = () => {
-        setModalOpen(false)
+    const getCustomDataDropDown = () => {
+        return (
+            <>
+                <div className='flex gap-2 justify-center items-center'>
+                    <FacebookShareButton url={`${window?.location?.origin}/${props.typeActivity}/activity-details/${props.activityId}`} >
+                        <FacebookIcon size={36} round />
+                    </FacebookShareButton>
+                    <LineShareButton
+                        url={`${window?.location?.origin}/${props.typeActivity}/activity-details/${props.activityId}`}
+                        title={`กิจกรรมจากคณะ IT: ${props.activityName}`}
+                    >
+                        <LineIcon size={36} round />
+                    </LineShareButton>
+                    <TwitterShareButton url={`${window?.location?.origin}/${props.typeActivity}/activity-details/${props.activityId}`} >
+                        <TwitterIcon size={36} round />
+                    </TwitterShareButton>
+                </div>
+            </>
+        )
     }
 
     return (
-        <div className='relative w-[180%]'>
-            <button className="relative btn btn-sm bg-transparent border-none p-0 w-10" onClick={openModal}>
+
+        <div className='relative w-8 aspect-square flex items-center justify-center'>
+            <ITryDropDown customClassNameDropDownContent="overflow-x-hidden	flex-nowrap	max-h-80" customData={getCustomDataDropDown()} position="bottom-left" removeBg>
                 <FontAwesomeIcon className="fa-thin h-8 text-lightBlue" icon={faShareFromSquare} />
-            </button>
-            {isModalOpen && (
-                <div className="modal-overlay w-[180%] h-[100%] z-10 absolute top-15 right-[120px]">
-                    <div className="modal-box w-[180%]">
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={closeModal}>
-                        ✕
-                        </button>
-                        <h3 className='text-base'>Share</h3>
-                        <div className='flex gap-6 pr-12 pt-4 items-center'>
-                            <FacebookShareButton url={`http://52.87.75.229:3000/${props.typeActivity}/activity-details/${props.activityId}`} > 
-                                <FacebookIcon size={36} round /> 
-                            </FacebookShareButton>
-                            <LineShareButton
-                                url={`http://52.87.75.229:3000/${props.typeActivity}/activity-details/${props.activityId}`} 
-                                title={`กิจกรรมจากคณะ IT: ${props.activityName}`}
-                            > 
-                                <LineIcon size={36} round />
-                            </LineShareButton> 
-                            <TwitterShareButton url={`http://52.87.75.229:3000/${props.typeActivity}/activity-details/${props.activityId}`} > 
-                                <TwitterIcon size={36} round /> 
-                            </TwitterShareButton>
-                        </div>
-                    </div>
-                </div>
-            )} 
+            </ITryDropDown>
         </div>
     )
 }

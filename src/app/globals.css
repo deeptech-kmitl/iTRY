@@ -25,7 +25,7 @@
   --primary-color: #40f8ff;
   --input-border-color: #40f8ff;
   --background-side-navbar: rgb(1, 156, 161);
-  --background-modal: #242532;
+  --background-modal: #2a2a2a;
   --background-button: #5dc2d8;
   --background-button-hover: #00d0ff;
 }
@@ -95,6 +95,11 @@ input[type="number"] {
 
 input[type="radio"]:checked {
   background: var(--input-border-color) !important;
+}
+
+input[type="checkbox"]:checked {
+  --chkfg: #40f8ff;
+  --chkbg: #2a2a2a;
 }
 
 .ql-container {

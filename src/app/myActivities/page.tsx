@@ -1,4 +1,4 @@
-"use server"
+"use client"
 import AllActivitiesContainer from '../components/Home/AllActivitiesContainer';
 import useUserController from '../components/Navbar/useUserController';
 import { getServerSession } from 'next-auth';
@@ -13,11 +13,12 @@ interface MyActivitiesPagePArops {
 export default async function MyActivitiesPage({ searchParams }: MyActivitiesPagePArops) {
 
   const page = parseInt(searchParams.page) || 1
-  const session = await getServerSession(authOptions)
-  const myActivities = session?.user.activitiesFollow
+  const {userData} = await useUserController()
+  const myActivities = userData.activitiesFollow
   const activitiesData = {
     data: myActivities
   } as ActivityApiData
+
   return (
     <>
       <UserLayout>

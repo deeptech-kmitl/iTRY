@@ -105,7 +105,8 @@ export async function updateCamperActivity(req: ITryActivity) {
         };
         const updateDynamo = await iTryDynamoDB.update(paramsDynamo).promise();
         return {
-            status: "success"
+            status: "success",
+            activityId: activityId,
         }
     }catch(error){
         throw error

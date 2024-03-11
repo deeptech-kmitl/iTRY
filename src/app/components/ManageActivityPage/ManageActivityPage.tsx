@@ -40,7 +40,7 @@ export default function ManageActivityPage({ typeActivity, typeAction, activity 
 
   return (
     <>
-      <p className="h1 font-bold text-2xl w-full border-b-2 border-color-primary py-4">สร้างกิจกรรมสำหรับ{typeActivity === "staff" ? "สต๊าฟ" : "ผู้เข้าร่วม"}</p>
+      <p className="h1 font-bold text-2xl w-full border-b-2 border-color-primary py-4">{typeAction === "add" ? "สร้าง" : "แก้ไข"}กิจกรรมสำหรับ{typeActivity === "staff" ? "สต๊าฟ" : "ผู้เข้าร่วม"}</p>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-16">
         <ManageActivityHeader register={register} errors={errors} watch={watch} formKeyFile="imageUrl" setValue={setValue} />
         <ITryInput type="radio" register={register("visibility")} radioData={radioData} defaultIndex={0} showError={!!errors.visibility} name="visibility" label="การมองเห็น" required />
@@ -58,7 +58,7 @@ export default function ManageActivityPage({ typeActivity, typeAction, activity 
             )}
           </div>
         </div>
-        <ITryButton type="submit" customPositionClassName="mt-24" fullWidth>สร้างกิจกรรม</ITryButton>
+        <ITryButton type="submit" customPositionClassName="mt-24" fullWidth>{typeAction === "add" ? "สร้าง" : "แก้ไข" }กิจกรรม</ITryButton>
       </form>
     </>
   )

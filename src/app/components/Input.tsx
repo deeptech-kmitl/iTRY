@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
 import ITryRichText from "./RichText";
-import { DateProps, ITryInputProps, NormalProps, InputField, RadioProps, RichTextProps, WrappedInputProps, ImageInputProps } from "./global";
+import { DateProps, ITryInputProps, NormalProps, InputField, RadioProps, RichTextProps, WrappedInputProps, ImageInputProps, CheckBoxProps } from "./global";
 import { ChangeEvent } from "react";
 import WrapInputField from "./wrapInputField";
 
@@ -16,9 +16,10 @@ export default function ITryInput(props: ITryInputProps) {
       "medium": "input-md",
       "large": "input-lg",
     }
-    const { placeholder, size = "small", customInputClassName, register, type } = props as NormalProps;
+    let convertProps = props as NormalProps;
+    const { placeholder, size = "small", customInputClassName, type, noRegister } = convertProps;
 
-    const textFieldElement = <input {...register} type={type} placeholder={placeholder} className={`${defaultInputFieldClassName} ${normalInputSize[size]} ${customInputClassName}`} />
+    const textFieldElement = <input  {...(!noRegister ? (convertProps.register) : {})} type={type} placeholder={placeholder} className={`${defaultInputFieldClassName} ${normalInputSize[size]} ${customInputClassName}`} />
 
     return (
       <WrapInputField elementIsWrapped={textFieldElement} props={props as WrappedInputProps} />
@@ -95,6 +96,18 @@ export default function ITryInput(props: ITryInputProps) {
 
   }
 
+  const renderCheckboxInput = () => {
+    const { label, checkFunction, checked } = props as CheckBoxProps;
+    return (
+      <div className="form-control">
+        <label className="label cursor-pointer justify-center gap-2">
+          <input type="checkbox" checked={checked} onChange={checkFunction} className="checkbox checkbox-sm" />
+          <span className="label-text text-white">{ label }</span>
+        </label>
+      </div>
+    )
+   }
+
   const renderInput = () => {
     switch (props.type) {
       case "text":
@@ -102,7 +115,7 @@ export default function ITryInput(props: ITryInputProps) {
       case "password":
         return renderNormalInput();
       case "checkbox":
-        return <input {...props} />;
+        return renderCheckboxInput();
       case "radio":
         return renderRadioInput();
       case "file":

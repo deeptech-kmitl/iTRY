@@ -53,8 +53,8 @@ export default function ActivityContainer({
 
   const renderStatusActivity = () => {
     const today = new Date();
-    const openDate = new Date(activity?.openDate)
-    const closeDate = new Date(activity.closeDate)
+    const openDate = new Date(activity?.openDate);
+    const closeDate = new Date(activity.closeDate);
 
     if (today < openDate) {
       const dayDifference = Math.ceil(
@@ -84,8 +84,16 @@ export default function ActivityContainer({
       {/* ช่องทางการติดต่อสอบถาม */}
       <div className="grid grid-cols-1 lg:grid-cols-2 text-sm lg:text-xl py-1 lg:py-8">
         <div className="flex flex-col justify-center">
-          {typeof activity?.imageUrl === 'string' && (
-            <Image priority src={activity?.imageUrl} alt="image_activity" width="0" height="0" sizes="100vw" className="w-full h-auto rounded-lg border aspect-video w-full object-cover object-center" />
+          {typeof activity?.imageUrl === "string" && (
+            <Image
+              priority
+              src={activity?.imageUrl}
+              alt="image_activity"
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-full h-auto rounded-lg border aspect-video w-full object-cover object-center"
+            />
           )}
         </div>
         <div className="lg:p-8 p-0 lg:pt-0 pt-4">
@@ -138,7 +146,7 @@ export default function ActivityContainer({
         </div>
       </div>
       <div className="">
-        <div className="grid grid-cols-4 xl:grid-cols-6 my-7 xl:my-0  gap-4 place-items-center">
+        <div className="grid grid-cols-3 md:grid-cols-4 xl:grid-cols-6 my-7 xl:my-0  gap-4 place-items-center">
           {activity?.jobPositions &&
             activity?.jobPositions?.map((job, index) => (
               <CardPosition key={index} {...job} />

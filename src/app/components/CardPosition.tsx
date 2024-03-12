@@ -6,7 +6,7 @@ export default function CardPosition({ amount, name }: JobPositionsActivity) {
   return (
     <div className="card w-full card-position bg-base-100 border-solid border-2 border-neonBlue rounded-md">
       <div className="py-2 h-[50%] bg-lightBlue flex justify-center text-center">
-        <h5 className="card-title justify-center text-sm xl:text-xl text-black">
+        <h5 className="card-title justify-center text-sm md:text-lg xl:text-xl text-black">
           {name}
         </h5>
       </div>

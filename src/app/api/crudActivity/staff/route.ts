@@ -63,6 +63,7 @@ export async function createStaffActivity(req: ITryActivity) {
 }
 
 export async function updateStaffActivity(req: ITryActivity) {
+  console.log("req", req)
   try {
     const {
       activityId,
@@ -83,7 +84,7 @@ export async function updateStaffActivity(req: ITryActivity) {
     } = req;
 
     let updateExpression =
-      "set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, openDate = :newOpenDate, closeDate = :newCloseDate, jobPositions = :newJobPosition ,visibility = :newVisibility, schedule = :newSchedule, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq";
+      "set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, openDate = :newOpenDate, closeDate = :newCloseDate, jobPositions = :newJobPositions,visibility = :newVisibility, schedule = :newSchedule, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq";
     let expressionAttributeValue = {
       ":newImageUrl": imageUrl,
       ":newActivityName": activityName,

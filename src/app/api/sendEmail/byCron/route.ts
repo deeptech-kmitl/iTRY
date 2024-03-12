@@ -60,7 +60,7 @@ export async function POST() {
             filterIncomingActivities.map(async activity => {
                 
                 // Send Email
-                const activityLink = `https://itryweb.com/${activity?.typeActivity}/activity-details/${activity?.activityId}`
+                const activityLink = `${window?.location?.origin}/${activity?.typeActivity}/activity-details/${activity?.activityId}`
                 const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
                 const mailOption = {

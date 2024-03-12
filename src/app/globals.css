@@ -114,6 +114,10 @@ input[type="checkbox"]:checked {
   object-fit: cover !important;
 }
 
+.collapse {
+  visibility: visible !important;
+}
+
 /* Media query for mobile devices */
 @media screen and (max-width: 700px) {
   .swal2-popup {

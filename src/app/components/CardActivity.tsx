@@ -11,13 +11,19 @@ import { convertDateToThai } from "../utils/convertDateToThai";
 import ITryButton from "./Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { TypeActivity } from "./ManageActivityPage/activity";
+import { deleteStaffActivity } from "../api/crudActivity/staff/route";
+import { deleteCamperActivity } from "../api/crudActivity/camper/route";
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+import { mutate } from "swr";
 
 interface CardActivityProps extends ITryActivity {
   canEdit?: boolean;
 }
 
 export const CardActivity = ({
-  activityId,
+  activityId = "",
   activityDetails,
   activityName,
   closeDate,
@@ -29,6 +35,36 @@ export const CardActivity = ({
   const activityDetailsReduced = activityDetails
     ? reduceHtml(activityDetails, 3) + "<span>...</span>"
     : "ไม่มีรายละเอียดกิจกรรม";
+
+  const router = useRouter()
+
+  const deleteActivity = async () => {
+    try {
+      Swal.fire({
+                text: "คุณต้องการลบกิจกรรมนี้ใช่ไหม?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes!"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    typeActivity === "camper" ? await deleteCamperActivity(activityId) : await deleteStaffActivity(activityId)
+                    Swal.fire({
+                        icon: "success",
+                        text: "ลบกิจกรรมสำเร็จ",
+                    });
+                }
+
+                router.refresh()
+            });
+    } catch (e) {
+      Swal.fire({
+                icon: "error",
+                text: "ลบกิจกรรมไม่สำเร็จ!",
+            });
+    }
+  }
 
   return (
     <div className="md:max-h-64 overflow-hidden transform duration-500 bg-slate-900 border-solid rounded-md shadow shadow-neonBlue mb-8 ">
@@ -64,7 +100,7 @@ export const CardActivity = ({
                     แก้ไข
                   </ITryButton>
                 </Link>
-                <ITryButton type="ghost" removeDefaultClassName customClassName="text-cyan-400">
+                <ITryButton type="ghost" onClick={deleteActivity} removeDefaultClassName customClassName="text-cyan-400">
                   ลบ
                 </ITryButton>
               </>

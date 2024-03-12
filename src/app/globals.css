@@ -114,6 +114,11 @@ input[type="checkbox"]:checked {
   object-fit: cover !important;
 }
 
+.collapse {
+  visibility: visible !important;
+
+}
+
 .card-position {
   aspect-ratio: 2/3;
 

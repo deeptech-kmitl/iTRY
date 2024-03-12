@@ -4,13 +4,14 @@ import iTryDynamoDB from "../utils/dynamoDB";
 
 const tableName = "Route";
 
-export async function updateTravel(req: NextRequest) {
+export async function updateTravel(req: any) {
   try {
-    const { routeId, description } = await req.json();
+    const { data, routeId } = req;
+    console.log("req------", req);
 
     let updateExpression = "set description = :newDescription";
     let expressionAttributeValue = {
-      ":newDescription": description,
+      ":newDescription": data.routeDetail,
     };
     const paramsDynamo = {
       TableName: tableName,
@@ -23,9 +24,15 @@ export async function updateTravel(req: NextRequest) {
     };
 
     const updateDynamo = await iTryDynamoDB.update(paramsDynamo).promise();
-    return NextResponse.json("update success");
+    return {
+      data: updateDynamo,
+      status: "success",
+    };
   } catch (error) {
     console.log(error);
+    return {
+      status: error,
+    };
   }
 }
 
@@ -34,10 +41,9 @@ export async function getTravel() {
     TableName: "Route",
   };
   try {
-    
     const data = await iTryDynamoDB.scan(paramsDB).promise();
     const items = data.Items || [];
-    console.log("---------------------getTravel jaaa" , data.Items);
+    console.log("---------------------getTravel jaaa", data.Items);
     return { data: items, status: "success" };
   } catch (error) {
     console.log(error);

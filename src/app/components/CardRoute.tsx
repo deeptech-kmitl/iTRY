@@ -18,6 +18,7 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedDetail, setSelectedDetail] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
+  const [routeId, setRouteId] = useState("");
 
   const openModal = (
     cardTitle: string,
@@ -37,11 +38,18 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
   const [isEditModal, setEditModal] = useState(false);
   const [editTitle, setEditTitle] = useState("");
 
-  const { setValue, getValues, handleSubmit, errors, onSubmit } = useAddRoute();
+  const { setValue, getValues, handleSubmit, errors, onSubmit } =
+    useAddRoute(routeId);
 
-  const openEditModal = (editTitle: string) => {
+  const openEditModal = (
+    editTitle: string,
+    routeDetail: string,
+    routeId: string
+  ) => {
     setEditModal(true);
-    setEditTitle(editTitle); // ดึงรายละเอียดการเดินทางเก่าจาก DB มาแสดง
+    setEditTitle(editTitle);
+    setRouteId(routeId);
+    setSelectedDetail(routeDetail); // ดึงรายละเอียดการเดินทางเก่าจาก DB มาแสดง
   };
   const closeEditModal = () => {
     setEditModal(false);
@@ -90,7 +98,13 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                   <div className="pt-3">
                     <button
                       className="text-white btn btn-sm w-full bg-base-100 border-solid border-2 border-neonBlue rounded-md hover:scale-110 hover:bg-lightBlue hover:text-stone-950"
-                      onClick={() => openEditModal(item.vehicle)}
+                      onClick={() =>
+                        openEditModal(
+                          item.vehicle,
+                          item.description,
+                          item.routeId
+                        )
+                      }
                     >
                       แก้ไข
                     </button>
@@ -125,10 +139,9 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                   <div className="card-title">{selectedTitle}</div>
                   <div
                     className="card-normal pt-3 h-60 overflow-y-scroll scrollbar-hide"
+                    dangerouslySetInnerHTML={{ __html: selectedDetail }}
                     style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                  >
-                    {selectedDetail}
-                  </div>
+                  ></div>
                   {/* <div className='card-normal pt-3 h-full overflow-y-scroll scrollbar-hide' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>{selectedDetail}</div> */}
                 </div>
               </div>
@@ -138,33 +151,40 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
       )}
 
       {/* Modal Edit Route Detail For Admin Side */}
+
       {isEditModal && role === "admin" && (
-        <div className="modal-overlay fixed top-0 left-0 flex justify-center items-center w-full h-full z-10 bg-navyBlue/50 backdrop-blur-[5px]">
-          <div className="modal-box border-2 border-neonBlue w-full max-w-lg p-10">
-            <button
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-              onClick={closeEditModal}
-            >
-              ✕
-            </button>
-            <div className="card">
-              <h1 className="card-title">การเดินทาง - {editTitle}</h1>
-              <div className="h-[1px] bg-neonBlue mt-5"></div>
-              <ITryInput
-                type="richText"
-                showError={false}
-                setValue={setValue}
-                value={getValues("routeDetail")}
-                fieldName="routeDetail"
-              />
-              <div className="mt-5 grid place-items-end">
-                <ITryButton size="small" onClick={() => confirmEdit()}>
-                  ยืนยัน
-                </ITryButton>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="modal-overlay fixed top-0 left-0 flex justify-center items-center w-full h-full z-10 bg-navyBlue/50 backdrop-blur-[5px]">
+            <div className="modal-box border-2 border-neonBlue w-full max-w-lg p-10">
+              <button
+                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                onClick={closeEditModal}
+              >
+                ✕
+              </button>
+              <div className="card">
+                <h1 className="card-title">การเดินทาง - {editTitle}</h1>
+                <div className="h-[1px] bg-neonBlue mt-5"></div>
+                <ITryInput
+                  type="richText"
+                  showError={false}
+                  setValue={setValue}
+                  value={selectedDetail}
+                  fieldName="routeDetail"
+                />
+                <div className="mt-5 grid place-items-end">
+                  <ITryButton
+                    type="submit"
+                    size="small"
+                    // onClick={() => confirmEdit()}
+                  >
+                    ยืนยัน
+                  </ITryButton>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       )}
     </>
   );

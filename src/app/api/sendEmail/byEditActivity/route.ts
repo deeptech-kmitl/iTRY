@@ -44,7 +44,7 @@ export async function sendEmailAndNoti(activityId: string) {
 
     followerData?.map(async user => {
 
-        const activityLink = `${window?.location?.origin}/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
+        const activityLink = `https://itryweb.com/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
 
         const mailOption = {
             from: 'itrydpd@gmail.com',

@@ -55,7 +55,7 @@ export async function updateNotificationEditActivity(activity: ITryActivity) {
 
         activeUsers?.map(async user => {
 
-            const activityLink = `${window?.location?.origin}/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
+            const activityLink = `https://itryweb.com/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
     
             const mailOption = {
                 from: 'itrydpd@gmail.com',

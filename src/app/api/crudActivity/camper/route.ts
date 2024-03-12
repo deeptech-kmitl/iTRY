@@ -1,10 +1,10 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
-const tableName = 'CamperActivities';
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
 import { ITryActivity } from '@/app/utils/ManageActivityPage/activity';
 
+const tableName = 'CamperActivities';
 export async function createCamperActivity(req: ITryActivity) {
     try {
         console.log("start upload")
@@ -59,21 +59,25 @@ export async function createCamperActivity(req: ITryActivity) {
 }
 
 export async function updateCamperActivity(req: ITryActivity) {
+
+    console.log("req", req)
+
+
     try {
         const {
             activityName,
             imageUrl,
             visibility,
-            activityDetails,
-            schedule,
+            activityDetails = null,
+            schedule = null,
             openDate,
             closeDate,
-            phone,
-            email,
-            applyLink,
-            igLink,
-            facebookLink,
-            faq,
+            phone = null,
+            email = null,
+            applyLink = null,
+            igLink = null,
+            facebookLink = null,
+            faq = null,
             activityId
         } = req;
         let updateExpreession = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, visibility = :newVisibility, schedule = :newSchedule, openDate = :newOpenDate, closeDate = :newCloseDate, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq'
@@ -113,9 +117,8 @@ export async function updateCamperActivity(req: ITryActivity) {
     }
 }
 
-export async function deleteCamperActivity(req: ITryActivity) {
+export async function deleteCamperActivity(activityId: string) {
     try {
-        const {activityId} = await req;
         const paramsDynamo = {
             TableName: tableName,
             Key:{

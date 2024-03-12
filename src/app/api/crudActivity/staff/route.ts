@@ -70,18 +70,20 @@ export async function updateStaffActivity(req: ITryActivity) {
       activityName,
       imageUrl,
       visibility,
-      activityDetails,
-      jobPositions,
+      activityDetails = null,
+      jobPositions = null,
       openDate,
       closeDate,
-      schedule,
-      phone,
-      email,
-      igLink,
-      facebookLink,
-      applyLink,
-      faq,
+      schedule = null,
+      phone = null,
+      email = null,
+      igLink = null,
+      facebookLink = null,
+      applyLink = null,
+      faq = null,
     } = req;
+
+    console.log("phone", phone)
 
     let updateExpression =
       "set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, openDate = :newOpenDate, closeDate = :newCloseDate, jobPositions = :newJobPositions,visibility = :newVisibility, schedule = :newSchedule, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq";

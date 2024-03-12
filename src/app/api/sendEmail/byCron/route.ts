@@ -58,10 +58,9 @@ export async function POST() {
             const newNotificationArray: Notification[] = []
 
             filterIncomingActivities.map(async activity => {
-
-                // const domain = window?.location?.host // ใส่ละส่งเมลไม่ได้ (ไม่รู้ทำไม) ;-;
+                
                 // Send Email
-                const activityLink = `https://itryweb.com/${activity?.typeActivity}/activity-details/${activity?.activityId}`
+                const activityLink = `https://${window?.location?.host}/${activity?.typeActivity}/activity-details/${activity?.activityId}`
                 const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
                 const mailOption = {
@@ -166,3 +165,4 @@ export async function POST() {
         return NextResponse.json({ message: "Error" }, { status: 500 })
     }
 }
+

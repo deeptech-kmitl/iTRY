@@ -61,7 +61,7 @@ export async function POST() {
 
                 // const domain = window?.location?.host // ใส่ละส่งเมลไม่ได้ (ไม่รู้ทำไม) ;-;
                 // Send Email
-                const activityLink = `https://localhost:3000/${activity?.typeActivity}/activity-details/${activity?.activityId}`
+                const activityLink = `https://itryweb.com/${activity?.typeActivity}/activity-details/${activity?.activityId}`
                 const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
                 const mailOption = {

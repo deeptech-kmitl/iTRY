@@ -1,3 +1,4 @@
+"use server"
 import { Notification } from "@/app/utils/ManageEmail/email";
 import iTryDynamoDB from "../utils/dynamoDB";
 import { getAllUser } from "../users/route";

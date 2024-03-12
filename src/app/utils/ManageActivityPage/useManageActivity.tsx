@@ -66,15 +66,15 @@ type KeySchema =
       openDate: yup.string().required('กรุณาระบุวันที่เริ่มรับสมัครของกิจกรรม'),
       closeDate: yup.string().required('กรุณาระบุวันที่สิ้นสุดรับสมัครของกิจกรรม'),
       visibility: yup.string().required('กรุณาเลือกการมองเห็น'),
-      activityDetails: yup.string(),
-      schedule: yup.array().of(scheduleSchema),
-      facebookLink: yup.string(),
-      igLink: yup.string(),
-      applyLink: yup.string(),
-      faq: yup.array().of(faqSchema),
-      phone: yup.array().of(phoneSchema),
-      email: yup.string().email("กรุณากรอกรูปแบบอีเมลให้ถูกต้อง"),
-      jobPositions: yup.array().of(jobPositionsSchema)
+      activityDetails: yup.string().nullable(),
+      schedule: yup.array().of(scheduleSchema).nullable(),
+      facebookLink: yup.string().nullable(),
+      igLink: yup.string().nullable(),
+      applyLink: yup.string().nullable(),
+      faq: yup.array().of(faqSchema).nullable(),
+      phone: yup.array().of(phoneSchema).nullable(),
+      email: yup.string().email("กรุณากรอกรูปแบบอีเมลให้ถูกต้อง").nullable(),
+      jobPositions: yup.array().of(jobPositionsSchema).nullable()
     });
 
 
@@ -99,13 +99,13 @@ type KeySchema =
           result = typeActivity === "camper" ? await createCamperActivity(savedData) : await createStaffActivity(savedData)
         } else {
           if (typeActivity === "camper") {
+            console.log("savedData", savedData)
             result = await updateCamperActivity(savedData)
-            
           } else {
             result = await updateStaffActivity(savedData)
           }
 
-          await updateNotificationEditActivity(data)
+          await updateNotificationEditActivity(savedData)
 
         }
 
@@ -118,9 +118,8 @@ type KeySchema =
           timer: 1500
         });
 
-        
-
         await router.push(`/${typeActivity}/activity-details/${result?.activityId}`);
+        await router.refresh();
       } catch (e) {
         Swal.fire({
           icon: "error",

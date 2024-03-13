@@ -7,6 +7,7 @@ import useSignInController from "./useSignInController";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons/faFacebookF";
+import Image from "next/image";
 import useUserController from "./useUserController";
 import { signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -34,8 +35,6 @@ export default function ITryUserName() {
   } = useSignInController({ callbackUrl });
 
   const { isLogin, userData, session, update } = useUserController();
-
-  console.log("userData.receiveEmail", userData.receiveEmail);
 
   const toggleReceiveEmail = async () => {
     await updateReceiveEmail(
@@ -118,24 +117,30 @@ export default function ITryUserName() {
         </ITryButton>
       </form>
 
-      <p className="text-center text-xs">Or Signn In With</p>
+      <p className="text-center text-xs">Or Sign In With</p>
       <div className="flex gap-4 justify-center">
         <button
-          className="btn btn-ghost btn-circle bg-gray-700 hover:bg-gray-600"
+          className="btn btn-ghost btn-circle bg-gray-600 hover:bg-gray-600"
           onClick={handleGoogleLogin}
         >
           <div className="indicator">
             <FontAwesomeIcon icon={faGoogle} />
+            {/* <Image
+              src="/public/icons8-google-96.png"
+              alt="Picture of the author"
+              width={50}
+              height={50}
+            /> */}
           </div>
         </button>
-        <button
+        {/* <button
           className="btn btn-ghost btn-circle bg-blue-600 hover:bg-blue-700"
           onClick={handleFacebookLogin}
         >
           <div className="indicator">
             <FontAwesomeIcon icon={faFacebookF} />
           </div>
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -36,8 +36,6 @@ export default function ITryUserName() {
 
   const { isLogin, userData, session, update } = useUserController();
 
-  console.log("userData.receiveEmail", userData.receiveEmail);
-
   const toggleReceiveEmail = async () => {
     await updateReceiveEmail(
       userData.id,

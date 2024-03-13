@@ -23,6 +23,8 @@ interface ManageActivityPageProps {
 export default function ManageActivityPage({ typeActivity, typeAction, activity }: ManageActivityPageProps) {
   const { register, setValue, watch, handleSubmit, errors, onSubmit } = useManageActivity({ typeActivity, typeAction, activity })
 
+  console.log("errors", errors)
+
   const radioData = [
     {
       name: "บุคคลภายนอก",
@@ -44,7 +46,7 @@ export default function ManageActivityPage({ typeActivity, typeAction, activity 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-16">
         <ManageActivityHeader register={register} errors={errors} watch={watch} formKeyFile="imageUrl" setValue={setValue} />
         <ITryInput type="radio" register={register("visibility")} radioData={radioData} defaultIndex={0} showError={!!errors.visibility} name="visibility" label="การมองเห็น" required />
-        <ITryInput type="richText" showError={false} label="รายละเอียกิจกรรม" setValue={setValue} value={watch("activityDetails")} fieldName="activityDetails" />
+        <ITryInput type="richText" showError={false} label="รายละเอียกิจกรรม" setValue={setValue} value={watch("activityDetails") || ""} fieldName="activityDetails" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div className="flex flex-col gap-16">
             <TimeLineContainer label="กำหนดการกิจกรรม" schedule={watch("schedule") as ScheduleActivity[] || []} register={register} setValue={setValue} errors={errors} />

@@ -3,7 +3,7 @@ const axios = require('axios');
 const AWS = require('aws-sdk')
 require('dotenv').config()
 
-cron.schedule('* * * * *', async() => {
+cron.schedule('0 9 * * *', async() => {
   console.log('----- Cron job started! -----')
   const domain = process.env.NEXTAUTH_URL || "http://localhost:3000"
   console.log('on : ' + domain)

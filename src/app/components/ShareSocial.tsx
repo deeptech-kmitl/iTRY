@@ -26,16 +26,16 @@ export default function ShareSocial(props: ShareSocialProps) {
         return (
             <>
                 <div className='flex gap-2 justify-center items-center'>
-                    <FacebookShareButton url={`${window?.location?.origin}/${props.typeActivity}/activity-details/${props.activityId}`} >
+                    <FacebookShareButton url={`https://itryweb.com/${props.typeActivity}/activity-details/${props.activityId}`} >
                         <FacebookIcon size={36} round />
                     </FacebookShareButton>
                     <LineShareButton
-                        url={`${window?.location?.origin}/${props.typeActivity}/activity-details/${props.activityId}`}
+                        url={`https://itryweb.com/${props.typeActivity}/activity-details/${props.activityId}`}
                         title={`กิจกรรมจากคณะ IT: ${props.activityName}`}
                     >
                         <LineIcon size={36} round />
                     </LineShareButton>
-                    <TwitterShareButton url={`${window?.location?.origin}/${props.typeActivity}/activity-details/${props.activityId}`} >
+                    <TwitterShareButton url={`https://itryweb.com/${props.typeActivity}/activity-details/${props.activityId}`} >
                         <TwitterIcon size={36} round />
                     </TwitterShareButton>
                 </div>

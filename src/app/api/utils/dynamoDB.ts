@@ -7,6 +7,4 @@ const iTryDynamoDB = new DynamoDB.DocumentClient({
   region: process.env.NEXT_PUBLIC_REGION || process.env.REGION,
 });
 
-console.log("REGION,", process.env.NEXT_PUBLIC_REGION || process.env.REGION)
-
 export default iTryDynamoDB;

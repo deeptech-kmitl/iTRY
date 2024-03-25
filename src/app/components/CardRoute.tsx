@@ -59,8 +59,6 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
     setEditModal(false);
   };
 
-  console.log("route------", route);
-
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-4 place-items-center gap-4">

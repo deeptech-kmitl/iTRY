@@ -1,4 +1,4 @@
-
+"use server"
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
@@ -60,6 +60,7 @@ export async function createCamperActivity(req: ITryActivity) {
 
 export async function updateCamperActivity(req: ITryActivity) {
 
+    console.log("updateCamperActivity ")
     console.log("req", req)
 
 
@@ -78,9 +79,10 @@ export async function updateCamperActivity(req: ITryActivity) {
             igLink = null,
             facebookLink = null,
             faq = null,
-            activityId
+            activityId,
+            typeActivity
         } = req;
-        let updateExpreession = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, visibility = :newVisibility, schedule = :newSchedule, openDate = :newOpenDate, closeDate = :newCloseDate, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq'
+        let updateExpreession = 'set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, visibility = :newVisibility, schedule = :newSchedule, openDate = :newOpenDate, closeDate = :newCloseDate, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq, typeActivity = :typeActivity'
         let expressionAttributeValue = {
             ':newImageUrl': imageUrl,
             ':newActivityName': activityName,
@@ -94,7 +96,8 @@ export async function updateCamperActivity(req: ITryActivity) {
             ':newApplyLink': applyLink,
             ':newIgLink': igLink,
             ':newFacebookLink': facebookLink,
-            ':newFaq': faq
+            ':newFaq': faq,
+            ":typeActivity": typeActivity
         }
 
         const paramsDynamo = {

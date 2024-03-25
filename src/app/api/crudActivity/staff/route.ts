@@ -1,3 +1,4 @@
+"use server"
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import iTryDynamoDB from "@/app/api/utils/dynamoDB";
@@ -63,6 +64,7 @@ export async function createStaffActivity(req: ITryActivity) {
 }
 
 export async function updateStaffActivity(req: ITryActivity) {
+  console.log("updateStaffActivity")
   console.log("req", req)
   try {
     const {
@@ -81,12 +83,11 @@ export async function updateStaffActivity(req: ITryActivity) {
       facebookLink = null,
       applyLink = null,
       faq = null,
+      typeActivity
     } = req;
 
-    console.log("phone", phone)
-
     let updateExpression =
-      "set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, openDate = :newOpenDate, closeDate = :newCloseDate, jobPositions = :newJobPositions,visibility = :newVisibility, schedule = :newSchedule, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq";
+      "set imageUrl = :newImageUrl, activityName = :newActivityName, activityDetails = :newActivityDetails, openDate = :newOpenDate, closeDate = :newCloseDate, jobPositions = :newJobPositions,visibility = :newVisibility, schedule = :newSchedule, phone = :newPhone, email= :newEmail, applyLink= :newApplyLink, igLink = :newIgLink, facebookLink = :newFacebookLink, faq = :newFaq, typeActivity = :typeActivity";
     let expressionAttributeValue = {
       ":newImageUrl": imageUrl,
       ":newActivityName": activityName,
@@ -102,6 +103,7 @@ export async function updateStaffActivity(req: ITryActivity) {
       ":newIgLink": igLink,
       ":newFacebookLink": facebookLink,
       ":newFaq": faq,
+      ":typeActivity": typeActivity
     };
 
     // // >>>>> SEND EMAIL TO USER >>>>>

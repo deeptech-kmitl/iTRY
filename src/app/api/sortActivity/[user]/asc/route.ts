@@ -8,16 +8,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function getActivitiesAsc(typeActivity: TypeActivity, page: number, limit: number) {
-  //   console.log("backend--------", req);
   //start
   const offset = page ? (page - 1) * limit : 0;
   const session = await getServerSession(authOptions)
 
-  console.log("session", session)
-
   const tableName =
     typeActivity == "staff" ? "StaffActivities" : "CamperActivities";
-  //   console.log("user", user);
   let paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
     TableName: tableName,
   };

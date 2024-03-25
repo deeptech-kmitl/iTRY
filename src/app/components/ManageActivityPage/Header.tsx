@@ -13,7 +13,6 @@ interface ManageActivityHeaderProps {
 
 
 export default function ManageActivityHeader({ register, errors, watch, formKeyFile, setValue }: ManageActivityHeaderProps) {
-  console.log('watch ', watch("openDate"))
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div className="grid items-center">

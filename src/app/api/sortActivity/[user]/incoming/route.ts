@@ -39,8 +39,6 @@ export async function getIncomingActivity() {
       (a, b) => new Date(a.openDate).getTime() - new Date(b.openDate).getTime()
     );
     
-    console.log("sortedData", sortedData)
-
     return { data: sortedData[0], status: "success" };
   } catch (error) {
     console.error("Error:", error);

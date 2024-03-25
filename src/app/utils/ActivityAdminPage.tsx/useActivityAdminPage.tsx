@@ -30,7 +30,6 @@ export default function useActivityAdminPage() {
 
   const onSubmit = async (data: any) => {
     const { typeActivity } = data;
-    console.log("typeActivity", typeActivity)
     router.push(`/admin/activity/${typeActivity}/add`)
   }
   

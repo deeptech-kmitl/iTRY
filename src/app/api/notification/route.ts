@@ -11,9 +11,6 @@ import sendEmail from "../sendEmail/route";
 
 export async function updateNotification(userId: string, email: string, newNotification: Notification[]) {
     try {
-        console.log("userId:", userId, "activity:", newNotification);
-
-        // Append the new activity to the activitiesFollow array
         const paramsDynamo = {
             TableName: "Users",
             Key: {
@@ -33,7 +30,6 @@ export async function updateNotification(userId: string, email: string, newNotif
 
         // Add activity into DynamoDB
         const response = await iTryDynamoDB.update(paramsDynamo).promise();
-        console.log(email, " >>>> User be send Noti >>>>> ", response.Attributes)
         return {
             status: "success",
         };

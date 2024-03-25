@@ -86,13 +86,15 @@ export default function ActivityContainer({
         <div className="flex flex-col justify-center">
           {typeof activity?.imageUrl === "string" && (
             <Image
-              priority
+              
               src={activity?.imageUrl}
               alt="image_activity"
               width="0"
               height="0"
               sizes="100vw"
-              className="w-full h-auto rounded-lg border aspect-video w-full object-cover object-center"
+              className="w-full h-auto rounded-lg border aspect-video object-cover object-center"
+              loading="lazy"
+              layout="responsive"
             />
           )}
         </div>

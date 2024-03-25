@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "concurrently \"next dev\" \"node src/cron/cron.js\"",
     "build": "next build",
-    "start": "next dev",
-    "lint": "next lint"
+    "start": "next start",
+    "lint": "next lint",
+    "production": "next build && next start"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.503.1",

@@ -32,6 +32,9 @@ export default function RegisteringActivitiesContainer({ activity, page = 1, sho
                               width="100"
                               height="100"
                               className="object-cover w-full aspect-square rounded-image border-2 border-neonBlue"
+                              
+                              loading="lazy"
+                              layout="responsive"
                             />
                         
                             <div className="text-center pt-3">

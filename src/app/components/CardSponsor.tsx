@@ -15,6 +15,9 @@ export default function CardSponsor({ sponsorId, sponsorUrl }: SponsorData) {
         height={200}
         src={sponsorUrl}
         alt={sponsorUrl}
+        loading="lazy"
+        layout="responsive"
+        
       />
     </div>
   );

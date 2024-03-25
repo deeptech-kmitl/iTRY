@@ -70,12 +70,14 @@ export const CardActivity = ({
     <div className="md:max-h-64 overflow-hidden transform duration-500 bg-slate-900 border-solid rounded-md shadow shadow-neonBlue mb-8 ">
       <div className="flex flex-wrap md:flex-nowrap shadow-lg">
         <Image
-          priority
+          
           className="w-full md:max-w-xs	aspect-video object-cover  "
           alt=""
           src={imageUrl as string}
           width={200}
           height={200}
+          loading="lazy"
+          layout="responsive"
         />
         <div className="card-body w-full">
           <h2 className="card-title text-base md:text-xl lg:text-2xl">

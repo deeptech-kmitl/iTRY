@@ -82,6 +82,9 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                         alt={item.vehicle}
                         width="100"
                         height="100"
+                        loading="lazy"
+                        layout="responsive"
+                        
                       />
                     </figure>
                   </div>
@@ -131,6 +134,9 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                     alt={selectedTitle}
                     width="100"
                     height="100"
+                    loading="lazy"
+                    layout="responsive"
+                    
                   />
                 </figure>
                 <div className="w-full md:w-3/5 pl-5">

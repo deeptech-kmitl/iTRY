@@ -6,4 +6,8 @@ module.exports = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  serverActions: {
+    // edit: updated to new key. Was previously `allowedForwardedHosts`
+    allowedOrigins: ['https://itryweb.com/'],
+  },
 };

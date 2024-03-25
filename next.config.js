@@ -1,7 +1,18 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
-    domains: ["itry.s3.amazonaws.com", "img.icons8.com"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'itry.s3.amazonaws.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.icons8.com',
+        pathname: '**',
+      },
+    ],
   },
   typescript: {
     ignoreBuildErrors: true,

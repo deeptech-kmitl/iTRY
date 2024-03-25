@@ -12,8 +12,6 @@ import getActivities from '../../crudActivity/route';
 import sendEmail from '../route';
 
 export async function POST() {
-    console.log('.... Sending Email and Notification.')
-
     try {
         // Get user and activity data
         const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
@@ -41,15 +39,12 @@ export async function POST() {
             const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
             return dayDifference <= 3 && dayDifference >= 0;
         })
-        console.log('----------filter > ', filterIncomingActivities)
 
         // Incoming Activity in 1 day (schedule for follower)
         const filterActivitesIncomingSchedule = combinedActivies.data.filter(activity => (activity.schedule ?? []).some(schedule => {
             const dayDifference = Math.ceil((new Date(schedule.date).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
             return dayDifference <= 1 && dayDifference >= 0;
         }))
-
-        console.log('>>>>>>>>>>>>>>>>>> ', filterActivitesIncomingSchedule)
 
         // <<<<<<<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY OPEN DATE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -152,10 +147,8 @@ export async function POST() {
                 }
                 
             })
-            console.log('_____noti >>> ', newNotificationArray)
             const newNotifications: Notification[] = [...user?.notifications, ...newNotificationArray]
             await updateNotification(user.id, user.email, newNotifications)
-            console.log('<<< SendEmail and Notification seccess >>>')
         })
 
         return NextResponse.json({ message: "Success" }, { status: 200 })

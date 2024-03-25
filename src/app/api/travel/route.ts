@@ -7,7 +7,6 @@ const tableName = "Route";
 export async function updateTravel(req: any) {
   try {
     const { data, routeId } = req;
-    console.log("req------", req);
 
     let updateExpression = "set description = :newDescription";
     let expressionAttributeValue = {
@@ -43,7 +42,6 @@ export async function getTravel() {
   try {
     const data = await iTryDynamoDB.scan(paramsDB).promise();
     const items = data.Items || [];
-    console.log("---------------------getTravel jaaa", data.Items);
     return { data: items, status: "success" };
   } catch (error) {
     console.log(error);

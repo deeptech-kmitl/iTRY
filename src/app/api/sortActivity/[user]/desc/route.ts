@@ -7,14 +7,12 @@ import { auth, authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 
 export async function getActivitiesDesc(typeActivity: TypeActivity, page: number, limit: number) {
-  //   console.log("backend--------", req);
   const session = await getServerSession(authOptions)
   //start
   const offset = page ? (page - 1) * limit : 0;
 
   const tableName =
     typeActivity == "staff" ? "StaffActivities" : "CamperActivities";
-  //   console.log("user", user);
   let paramsDB: AWS.DynamoDB.DocumentClient.ScanInput = {
     TableName: tableName,
   };
@@ -37,7 +35,6 @@ export async function getActivitiesDesc(typeActivity: TypeActivity, page: number
     const sortedData = items.sort(
       (a, b) => new Date(b.openDate).getTime() - new Date(a.openDate).getTime()
     );
-    console.log('sortedData', sortedData)
     const newData = sortedData.slice(offset, offset + limit)
 
     return { data: newData, status: "success", countActivities: sortedData?.length };

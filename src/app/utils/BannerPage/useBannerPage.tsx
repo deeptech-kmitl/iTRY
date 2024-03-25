@@ -32,7 +32,6 @@ export default function useBannerPage() {
             });
             mutate('getBanner');
             setValue("image", undefined)
-            console.log("Data saved to DynamoDB successfully result:", result);
         } catch (error) {
             Swal.fire({
                 icon: "error",
@@ -59,7 +58,6 @@ export default function useBannerPage() {
                     });
                     const result = await deleteBanner(bannerId);
                     mutate('getBanner');
-                    console.log(`Banner with ID ${bannerId} deleted successfully result:`, result);
                 }
             });
 
@@ -68,7 +66,6 @@ export default function useBannerPage() {
                 icon: "error",
                 text: "ลบแบนเนอร์ไม่สำเร็จ!",
             });
-            console.log("Error deleting banner:", error);
         }
     }
 

@@ -3,8 +3,6 @@ import { ITryActivity } from "@/app/utils/ManageActivityPage/activity";
 
 export async function updateFollowActivity(userId: string, email:string, newActivity: ITryActivity[]) {
   try {
-    console.log("userId:", userId, "activity:", newActivity);
-
     // Append the new activity to the activitiesFollow array
     const paramsDynamo = {
       TableName: "Users",
@@ -25,7 +23,6 @@ export async function updateFollowActivity(userId: string, email:string, newActi
 
     // Add activity into DynamoDB
     const response = await iTryDynamoDB.update(paramsDynamo).promise();
-    console.log("response", response)
     return {
       status: "success",
     };

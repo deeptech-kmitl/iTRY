@@ -13,8 +13,6 @@ import getActivities from '../../crudActivity/route';
 import sendEmail from '../route';
 
 export async function sendEmailAndNoti(activityId: string) {
-    console.log("___ SEND EMAIL ___")
-
     // Get user and activity data
     const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
 

@@ -67,7 +67,6 @@ export default function ITryInput(props: ITryInputProps) {
 
   const renderRichText = () => {
     const { setValue, value, fieldName } = props as RichTextProps
-    console.log("value----", value)
     const richTextElement = <ITryRichText value={value} setValue={setValue} fieldName={fieldName} />
     return <WrapInputField elementIsWrapped={richTextElement} props={props as WrappedInputProps} />
   }

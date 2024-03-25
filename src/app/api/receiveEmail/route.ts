@@ -19,7 +19,6 @@ export async function updateReceiveEmail(userId: string, email:string, newReceiv
 
     // Add activity into DynamoDB
     const response = await iTryDynamoDB.update(paramsDynamo).promise();
-    console.log("response", response)
     return {
       status: "success",
     };

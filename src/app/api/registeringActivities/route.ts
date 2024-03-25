@@ -21,8 +21,6 @@ export async function getRegisteringActivities(page: number, limit: number, show
 
         const combinedActivies = [...convertActivitiesCamper, ...convertActivitieStaff]
 
-        console.log('>>> Combine >>> ', combinedActivies)
-
         const currentDate = new Date()
         const registeringActivities = combinedActivies.filter(activity => {
             return new Date(activity.openDate).getTime() <= currentDate.getTime() && currentDate.getTime()  <= new Date(activity.closeDate).getTime()
@@ -31,8 +29,6 @@ export async function getRegisteringActivities(page: number, limit: number, show
         const sortedRegistering = registeringActivities.sort(
             (a, b) => new Date(a.openDate).getTime() - new Date(b.openDate).getTime()
         );
-
-        console.log('>>> Registering >>> ', sortedRegistering)
 
         const pagenationRegisteringAct = sortedRegistering.slice(offset, offset + limit)
 

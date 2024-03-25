@@ -19,9 +19,7 @@ export default function useAddRoute(routeId: string) {
   });
 
   const onSubmit = async (data: any) => {
-    console.log("data-----", data, routeId);
     const result = await updateTravel({data, routeId}) as any;
-    console.log("result----", result)
   };
 
   return {

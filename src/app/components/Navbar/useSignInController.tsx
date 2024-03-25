@@ -35,7 +35,6 @@ export default function useSignInController(
   };
 
   const handleFacebookLogin = () => {
-    // console.log("callbackUrl ? true : false", callbackUrl ? true : false)
     try {
       signIn('facebook', { callbackUrl: callbackUrl, redirect: false })
     } catch (error) {
@@ -44,7 +43,6 @@ export default function useSignInController(
   };
 
   const handleGoogleLogin = () => {
-    // console.log("callbackUrl ? true : false", callbackUrl ? true : false)
     try {
       signIn("google", { callbackUrl: callbackUrl, redirect: false })
     } catch (error) {

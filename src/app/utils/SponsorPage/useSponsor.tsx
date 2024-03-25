@@ -64,7 +64,6 @@ export default function useSponsor() {
                     });
                     const result = await deleteSponSor(sponsorId);
                     mutate('getSponsors');
-                    console.log(`Sponsors with ID ${sponsorId} deleted successfully result:`, result);
                 }
             });
         }

@@ -8,7 +8,6 @@ interface ITryToastNotificationProps {
 }
 
 export default async function ITryToastNotification({ type, text }: ITryToastNotificationProps) {
-  console.log("call toast notification")
   return toast[type](text, {
     position: "top-center"
   })

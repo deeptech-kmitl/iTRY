@@ -62,7 +62,6 @@ export default function FollowButton({ activity }: FollowButtonProps) {
                 }
             })
 
-            // console.log("result", result)
         } catch (error) {
             console.log("error", error)
         }

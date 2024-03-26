@@ -19,8 +19,8 @@ module.exports = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ['https://itryweb.com', "http://ec2-34-200-54-241.compute-1.amazonaws.com", "*.itryweb.com", "*.ec2-34-200-54-241.compute-1.amazonaws.com"],
-      allowedForwardedHosts: ['https://itryweb.com', "http://ec2-34-200-54-241.compute-1.amazonaws.com/", "*.itryweb.com", "*.ec2-34-200-54-241.compute-1.amazonaws.com"],
+      allowedOrigins: ["itryweb.com", "ec2-34-200-54-241.compute-1.amazonaws.com"],
+      allowedForwardedHosts: ["itryweb.com", "ec2-34-200-54-241.compute-1.amazonaws.com"],
     },
   },
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import ITryButton from "./Button";
 import ITryInput from "./Input";
 import useAddRoute from "../utils/AddRoutePage/useAddRoute";
@@ -64,52 +64,55 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
       <div className="grid grid-cols-2 md:grid-cols-4 place-items-center ">
         {route
           ? route.map((item: any, key: any) => (
-              <div key={key}>
-                <div
-                  className={`card w-full h-36 md:h-[50%] md:w-44 bg-base-100 border-solid border-2 border-neonBlue pt-3 rounded-md ${
-                    role === "user"
-                      ? "transform transition-transform duration-300 hover:scale-110 hover:bg-stone-900"
-                      : ""
+            <Fragment key={key}>
+              <div
+                className={`card w-full bg-base-100 border-solid border-2 border-neonBlue pt-3 rounded-md ${role === "user"
+                    ? "transform transition-transform duration-300 hover:scale-105 hover:bg-stone-900 cursor-pointer"
+                    : ""
                   }`}
-                  onClick={() =>
-                    openModal(item.vehicle, item.description, item.image)
-                  }
-                >
-                  <div className="px-3">
-                    <figure className=" border-[1px] border-white py-8 rounded-3xl">
-                      <Image
-                        src={item.image}
-                        alt={item.vehicle}
-                        width="100"
-                        height="100"
-                      />
-                    </figure>
-                  </div>
-                  <div className="py-2">
-                    <h5 className="card-title justify-center text-[12px] md:text-sm text-center">
-                      {item.vehicle}
-                    </h5>
-                  </div>
+                onClick={() =>
+                  openModal(item.vehicle, item.description, item.image)
+                }
+              >
+                <div className="px-3">
+                  <figure className="border-[1px] border-white py-2 md:py-8 rounded-3xl">
+                    <Image
+                      priority
+                      src={item.image}
+                      alt={item.vehicle}
+                      width="100"
+                      height="100"
+                      
+                      layout="responsive"
+                      className="aspect-video object-contain"
+                    />
+                  </figure>
                 </div>
-
-                {role === "admin" && (
-                  <div className="pt-3">
-                    <button
-                      className="text-white btn btn-sm w-full bg-base-100 border-solid border-2 border-neonBlue rounded-md hover:scale-110 hover:bg-lightBlue hover:text-stone-950"
-                      onClick={() =>
-                        openEditModal(
-                          item.vehicle,
-                          item.description,
-                          item.routeId
-                        )
-                      }
-                    >
-                      แก้ไข
-                    </button>
-                  </div>
-                )}
+                <div className="py-2">
+                  <h5 className="card-title justify-center text-[12px] text-sm text-center">
+                    {item.vehicle}
+                  </h5>
+                </div>
               </div>
-            ))
+
+              {role === "admin" && (
+                <div className="pt-3">
+                  <button
+                    className="text-white btn btn-sm w-full bg-base-100 border-solid border-2 border-neonBlue rounded-md hover:scale-110 hover:bg-lightBlue hover:text-stone-950"
+                    onClick={() =>
+                      openEditModal(
+                        item.vehicle,
+                        item.description,
+                        item.routeId
+                      )
+                    }
+                  >
+                    แก้ไข
+                  </button>
+                </div>
+              )}
+            </Fragment>
+          ))
           : null}
       </div>
 
@@ -125,20 +128,21 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
             </button>
             <div className="card">
               <div className="p-2 flex flex-col md:flex-row h-full">
-                <figure className="border-[1px] border-white rounded-3xl w-full md:w-2/5">
+                <figure className="border-[1px] border-white rounded-3xl w-full md:w-2/5 p-4">
                   <Image
+                    priority
                     src={selectedImage}
                     alt={selectedTitle}
                     width="100"
                     height="100"
-                    loading="lazy"
                     layout="responsive"
+                    className="aspect-video md:aspect-square object-contain"
                   />
                 </figure>
-                <div className="w-full md:w-3/5 pl-5">
+                <div className="w-full md:w-3/5 pl-5 mt-4">
                   <div className="card-title">{selectedTitle}</div>
                   <div
-                    className="card-normal pt-3 h-60 overflow-y-scroll scrollbar-hide"
+                    className="card-normal pt-3 h-60 overflow-y-scroll scrollbar-hide text-left"
                     dangerouslySetInnerHTML={{ __html: selectedDetail }}
                     style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                   ></div>
@@ -176,7 +180,7 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                   <ITryButton
                     type="submit"
                     size="small"
-                    // onClick={() => confirmEdit()}
+                  // onClick={() => confirmEdit()}
                   >
                     ยืนยัน
                   </ITryButton>

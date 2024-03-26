@@ -75,25 +75,25 @@ export default function ActivityContainer({
 
   return (
     <div>
-      <div className="grid grid-cols-1 text-base lg:text-2xl text-center font-bold">
+      <div className="grid grid-cols-1 text-xl lg:text-2xl text-center font-bold">
         <p className="py-5">{activity?.activityName}</p>
         <div className="bg-white h-[1px]"></div>
         <p className="py-5 text-neonBlue">{renderStatusActivity()}</p>
       </div>
 
       {/* ช่องทางการติดต่อสอบถาม */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 text-sm lg:text-xl py-1 lg:py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 text-xl py-1 lg:py-8">
         <div className="flex flex-col justify-center">
           {typeof activity?.imageUrl === "string" && (
             <Image
-              
+              priority
               src={activity?.imageUrl}
               alt="image_activity"
               width="0"
               height="0"
               sizes="100vw"
               className="w-full h-auto rounded-lg border aspect-video object-cover object-center"
-              loading="lazy"
+              
               layout="responsive"
             />
           )}
@@ -102,7 +102,7 @@ export default function ActivityContainer({
           <p className="font-bold py-1">ช่องทางการติดต่อสอบถาม</p>
           <div className="flex py-2 lg:py-4 items-center">
             <FontAwesomeIcon icon={faPhone} className="h-4 lg:h-8" />
-            <p className="px-2 lg:px-8 text-[13px] lg:text-base">
+            <p className="px-2 lg:px-8 text-[13px] text-base">
               {activity?.phone ? (
                 <>
                   {activity?.phone?.map((phoneData, index) => (
@@ -119,7 +119,7 @@ export default function ActivityContainer({
           </div>
           <div className="flex py-2 lg:py-4 items-center">
             <FontAwesomeIcon icon={faEnvelope} className="h-4 lg:h-8" />
-            <p className="px-2 lg:px-8 text-[13px] lg:text-base">
+            <p className="px-2 lg:px-8 text-[13px] text-base">
               {activity?.email ? activity?.email : "ไม่มีอีเมล"}
             </p>
           </div>
@@ -155,10 +155,10 @@ export default function ActivityContainer({
             ))}
         </div>
       </div>
-      <div className="pt-0 lg:pt-4 text-sm lg:text-xl">
+      <div className="pt-0 lg:pt-4 text-xl">
         {/* รายละเอียดกิจกรรม */}
         <p className=" font-bold pt-1 lg:pt-16 pb-6">รายละเอียดกิจกรรม</p>
-        <div className="bg-slate-900 p-4 rounded-lg">
+        <div className="bg-slate-900 p-4 rounded-lg lg:text-xl text-base">
           {activity?.activityDetails ? (
             <p dangerouslySetInnerHTML={{ __html: activity.activityDetails }} />
           ) : (
@@ -167,7 +167,7 @@ export default function ActivityContainer({
         </div>
 
         {/* Social Media */}
-        <p className="text-sm lg:text-xl font-bold pt-16 pb-6">Social Media</p>
+        <p className="text-xl font-bold pt-16 pb-6">Social Media</p>
         <div className="flex gap-3">
           {!activity.igLink && !activity.facebookLink && (
             <p className="px-2 lg:px-8 text-[13px] lg:text-base">
@@ -211,13 +211,13 @@ export default function ActivityContainer({
         </div>
 
         {/* กำหนดการกิจกรรม */}
-        <p className="text-sm lg:text-xl font-bold pt-16 pb-6">
+        <p className="text-xl font-bold pt-16 pb-6">
           กำหนดการกิจกรรม
         </p>
         <Timeline schedule={combinedSchedule} />
 
         {/* FAQ */}
-        <p className="text-sm lg:text-xl font-bold pt-16 pb-6">FAQ</p>
+        <p className="text-xl font-bold pt-16 pb-6">FAQ</p>
         {activity?.faq?.length > 0 ? (
           <FAQ faq={activity?.faq} />
         ) : (

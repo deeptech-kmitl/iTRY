@@ -10,12 +10,13 @@ export default function CardSponsor({ sponsorId, sponsorUrl }: SponsorData) {
       className="flex justify-center w-full md:w-full h-full overflow-hidden"
     >
       <Image
+        priority
         className="w-full object-cover object-center aspect-square"
         width={200}
         height={200}
         src={sponsorUrl}
         alt={sponsorUrl}
-        loading="lazy"
+        
         layout="responsive"
         
       />

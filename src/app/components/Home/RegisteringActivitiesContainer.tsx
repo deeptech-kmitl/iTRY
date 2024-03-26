@@ -27,13 +27,13 @@ export default function RegisteringActivitiesContainer({ activity, page = 1, sho
                     <div className="flex flex-col items-center p-3 md:p-5 max-w-xs rounded-xl hover:bg-navyBlue/50 backdrop-blur-[5px]">
                         <div className="items-center rounded transform transition-transform duration-300">
                             <Image
+                              priority
                               src={typeof item.imageUrl === 'string' ? item.imageUrl : ''}
                               alt={item.activityName}
                               width="100"
                               height="100"
                               className="object-cover w-full aspect-square rounded-image border-2 border-neonBlue"
                               
-                              loading="lazy"
                               layout="responsive"
                             />
                         

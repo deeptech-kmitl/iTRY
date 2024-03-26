@@ -12,7 +12,7 @@ export default function ManageableImage({ itemId, itemImageUrl, deleteFunc }: Ma
 
   return (
     <>
-      <Image  loading="lazy" layout="responsive" className="w-full aspect-video object-cover object-center" src={itemImageUrl} alt={itemImageUrl} width={700} height={300} />
+      <Image  layout="responsive" className="w-full aspect-video object-cover object-center" src={itemImageUrl} alt={itemImageUrl} width={700} height={300} />
       <ITryButton customWidthClassName="w-full" onClick={() => {deleteFunc(itemId)}}>ลบ</ITryButton>
     </>
   )

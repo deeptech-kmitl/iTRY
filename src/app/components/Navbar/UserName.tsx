@@ -126,6 +126,7 @@ export default function ITryUserName() {
           <div className="indicator">
             <FontAwesomeIcon icon={faGoogle} />
             {/* <Image
+priority
               src="/public/icons8-google-96.png"
               alt="Picture of the author"
               width={50}

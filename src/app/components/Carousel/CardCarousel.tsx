@@ -25,7 +25,7 @@ function Card({ imagen }: CardProps) {
       onMouseEnter={() => setShown(true)}
       onMouseLeave={() => setShown(false)}
     >
-      <Image className="aspect-video w-full" src={imagen} alt="" width={500} height={500} loading="lazy" layout="responsive"  />
+      <Image priority className="aspect-video w-full" src={imagen} alt="" width={500} height={500}  layout="responsive"  />
     </animated.div>
   );
 }

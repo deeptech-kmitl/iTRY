@@ -61,58 +61,58 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-4 place-items-center ">
+      <div className="grid grid-cols-2 md:grid-cols-4 place-items-center gap-5 ">
         {route
           ? route.map((item: any, key: any) => (
-            <Fragment key={key}>
-              <div
-                className={`card w-full bg-base-100 border-solid border-2 border-neonBlue pt-3 rounded-md ${role === "user"
-                    ? "transform transition-transform duration-300 hover:scale-105 hover:bg-stone-900 cursor-pointer"
-                    : ""
+              <Fragment key={key}>
+                <div
+                  className={`card w-full bg-base-100 border-solid border-2 border-neonBlue pt-3 rounded-md ${
+                    role === "user"
+                      ? "transform transition-transform duration-300 hover:scale-105 hover:bg-stone-900 cursor-pointer"
+                      : ""
                   }`}
-                onClick={() =>
-                  openModal(item.vehicle, item.description, item.image)
-                }
-              >
-                <div className="px-3">
-                  <figure className="border-[1px] border-white py-2 md:py-8 rounded-3xl">
-                    <Image
-                      priority
-                      src={item.image}
-                      alt={item.vehicle}
-                      width="100"
-                      height="100"
-                      
-                      layout="responsive"
-                      className="aspect-video object-contain"
-                    />
-                  </figure>
+                  onClick={() =>
+                    openModal(item.vehicle, item.description, item.image)
+                  }
+                >
+                  <div className="px-3">
+                    <figure className="border-[1px] border-white py-2 md:py-8 rounded-3xl">
+                      <Image
+                        priority
+                        src={item.image}
+                        alt={item.vehicle}
+                        width="100"
+                        height="100"
+                        layout="responsive"
+                        className="aspect-video object-contain"
+                      />
+                    </figure>
+                  </div>
+                  <div className="py-2">
+                    <h5 className="card-title justify-center text-[12px] text-sm text-center">
+                      {item.vehicle}
+                    </h5>
+                  </div>
                 </div>
-                <div className="py-2">
-                  <h5 className="card-title justify-center text-[12px] text-sm text-center">
-                    {item.vehicle}
-                  </h5>
-                </div>
-              </div>
 
-              {role === "admin" && (
-                <div className="pt-3">
-                  <button
-                    className="text-white btn btn-sm w-full bg-base-100 border-solid border-2 border-neonBlue rounded-md hover:scale-110 hover:bg-lightBlue hover:text-stone-950"
-                    onClick={() =>
-                      openEditModal(
-                        item.vehicle,
-                        item.description,
-                        item.routeId
-                      )
-                    }
-                  >
-                    แก้ไข
-                  </button>
-                </div>
-              )}
-            </Fragment>
-          ))
+                {role === "admin" && (
+                  <div className="pt-3">
+                    <button
+                      className="text-white btn btn-sm w-full bg-base-100 border-solid border-2 border-neonBlue rounded-md hover:scale-110 hover:bg-lightBlue hover:text-stone-950"
+                      onClick={() =>
+                        openEditModal(
+                          item.vehicle,
+                          item.description,
+                          item.routeId
+                        )
+                      }
+                    >
+                      แก้ไข
+                    </button>
+                  </div>
+                )}
+              </Fragment>
+            ))
           : null}
       </div>
 
@@ -180,7 +180,7 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                   <ITryButton
                     type="submit"
                     size="small"
-                  // onClick={() => confirmEdit()}
+                    // onClick={() => confirmEdit()}
                   >
                     ยืนยัน
                   </ITryButton>

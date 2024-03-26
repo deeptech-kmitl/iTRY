@@ -20,6 +20,7 @@ module.exports = {
   experimental: {
     serverActions: {
       allowedOrigins: ['https://itryweb.com'],
+      allowedForwardedHosts: ['https://itryweb.com'],
     },
   },
 };

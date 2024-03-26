@@ -61,12 +61,12 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-4 place-items-center gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 place-items-center ">
         {route
           ? route.map((item: any, key: any) => (
               <div key={key}>
                 <div
-                  className={`card w-full md:w-44 bg-base-100 border-solid border-2 border-neonBlue pt-3 rounded-md ${
+                  className={`card w-full h-36 md:h-[50%] md:w-44 bg-base-100 border-solid border-2 border-neonBlue pt-3 rounded-md ${
                     role === "user"
                       ? "transform transition-transform duration-300 hover:scale-110 hover:bg-stone-900"
                       : ""
@@ -76,15 +76,12 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                   }
                 >
                   <div className="px-3">
-                    <figure className="border-[1px] border-white py-8 rounded-3xl">
+                    <figure className=" border-[1px] border-white py-8 rounded-3xl">
                       <Image
                         src={item.image}
                         alt={item.vehicle}
                         width="100"
                         height="100"
-                        loading="lazy"
-                        layout="responsive"
-                        
                       />
                     </figure>
                   </div>
@@ -136,7 +133,6 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                     height="100"
                     loading="lazy"
                     layout="responsive"
-                    
                   />
                 </figure>
                 <div className="w-full md:w-3/5 pl-5">

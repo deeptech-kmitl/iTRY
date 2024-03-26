@@ -61,7 +61,7 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-4 place-items-center gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 place-items-center ">
         {route
           ? route.map((item: any, key: any) => (
             <Fragment key={key}>
@@ -135,7 +135,6 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                     alt={selectedTitle}
                     width="100"
                     height="100"
-                    
                     layout="responsive"
                     className="aspect-video md:aspect-square object-contain"
                   />

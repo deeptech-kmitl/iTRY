@@ -5,5 +5,8 @@ require('dotenv').config()
 cron.schedule('* * * * *', async() => {
   console.log('----- Cron job started! -----')
 
-  await axios.post(`http://localhost:3000/api/sendEmail/byCron`);
+  const domain = process.env.NEXTAUTH_URL || "http://localhost:3000"
+  console.log('on : ' + domain)
+
+  await axios.post(`${domain}/api/sendEmail/byCron`);
 })

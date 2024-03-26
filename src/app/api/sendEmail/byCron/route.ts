@@ -15,7 +15,7 @@ export async function POST() {
     try {
         // Get user and activity data
         const users = await getAllUser() as ApiDataList<User> | ApiError | undefined
-        
+
         const combinedActivies = await getActivities() as ActivityApiData
 
 
@@ -32,7 +32,7 @@ export async function POST() {
         const minutes = String(currentDate.getMinutes()).padStart(2, '0');
 
         const sendDate = `${month}-${day} ${hours}:${minutes}`;
-        
+
 
         // Incoming Activity in 3 days (openDate)
         const filterIncomingActivities = combinedActivies.data.filter(activity => {
@@ -48,12 +48,13 @@ export async function POST() {
 
         // <<<<<<<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY OPEN DATE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+
         activeUsers?.map(async user => {
 
             const newNotificationArray: Notification[] = []
 
             filterIncomingActivities.map(async activity => {
-                
+
                 // Send Email
                 const activityLink = `https://itryweb.com/${activity?.typeActivity}/activity-details/${activity?.activityId}`
                 const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
@@ -61,7 +62,7 @@ export async function POST() {
                 const mailOption = {
                     from: 'itrydpd@gmail.com',
                     to: user.email,
-                    subject: `🔥 ${dayDifference === 0 ? 'วันนี้ 🔥': 'อีก ' + dayDifference + ' วัน 🔥'} เตรียมพบกับกิจกรรม ${activity.activityName}`,
+                    subject: `🔥 ${dayDifference === 0 ? 'วันนี้ 🔥' : 'อีก ' + dayDifference + ' วัน 🔥'} เตรียมพบกับกิจกรรม ${activity.activityName}`,
                     html: `
                         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
                             <div style="background-color: #ffcc00; padding: 20px; border-radius: 10px 10px 0 0;">
@@ -79,7 +80,7 @@ export async function POST() {
                         </div>
                         `
                 }
-                
+
                 // Send Notification
                 const newNotification: Notification = {
                     activityId: activity.activityId ?? '',
@@ -143,18 +144,18 @@ export async function POST() {
                         newNotificationArray.push(newNotification)
                         await sendEmail(mailOption)
                     }
-                    
+
                 }
-                
+
+                const newNotifications: Notification[] = [...user?.notifications, ...newNotificationArray]
+                await updateNotification(user.id, user.email, newNotifications)
             })
-            const newNotifications: Notification[] = [...user?.notifications, ...newNotificationArray]
-            await updateNotification(user.id, user.email, newNotifications)
         })
 
         return NextResponse.json({ message: "Success" }, { status: 200 })
     }
 
-    catch(error) {
+    catch (error) {
         return NextResponse.json({ message: "Error" }, { status: 500 })
     }
 }

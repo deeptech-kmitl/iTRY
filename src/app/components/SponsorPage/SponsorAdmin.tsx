@@ -25,12 +25,10 @@ export default function SponsorPage({ data }: SponsorPageProps) {
     return (
       <div>
         <h1 className="text-3xl text-extrabold text-center pb-16">Sponsor</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 place-items-center">
-          {data.data.map((item, key) => (
-            <div key={item.sponsorId}>
-              <div className="w-full h-full rounded overflow-hidden md:p-5 p-1">
-                <ManageableImage itemId={item.sponsorId} itemImageUrl={item.sponsorUrl} deleteFunc={onDelete} />
-              </div>
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-3 place-items-center">
+          {data.data.map((item) => (
+            <div className="w-full h-full rounded overflow-hidden md:p-5 p-1" key={item.sponsorId}>
+              <ManageableImage itemId={item.sponsorId} itemImageUrl={item.sponsorUrl} deleteFunc={onDelete} />
             </div>
           ))}
           <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full rounded overflow-hidden md:p-5 p-1">

@@ -14,7 +14,7 @@ export default function FAQ({ faq }: FAQProps) {
                     <Fragment key={index}>
                         <div className="collapse collapse-arrow bg-base-200 border rounded-md border-neonBlue">
                             <input type="checkbox" className="peer" />
-                            <div className="collapse-title text-sm md:text-xl font-medium">
+                            <div className="collapse-title text-sm md:text-xl font-medium flex flex-col justify-center">
                                 {faq.question}
                             </div>
                             <div className="collapse-content text-stone-400 text-sm md:text-xl">

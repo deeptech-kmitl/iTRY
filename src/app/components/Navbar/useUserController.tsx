@@ -16,6 +16,9 @@ export default function useUserController() {
       receiveEmail: session?.user?.receiveEmail || false,
     };
   }, [session]);
+
+  console.log("userData", userData)
+
   return {
     isLogin,
     userData,

@@ -65,7 +65,7 @@ export async function updateNotificationEditActivity(activity: ITryActivity) {
             const activityLink = `https://itryweb.com/${updatedActivityData?.typeActivity}/activity-details/${updatedActivityData?.activityId}`
     
             const mailOption = {
-                from: 'itrydpd@gmail.com',
+                from: process.env.SMTP_EMAIL,
                 to: user.email,
                 subject: `📢 ประกาศจากกิจกรรม ${updatedActivityData?.activityName}`,
                 html: `
@@ -78,7 +78,8 @@ export async function updateNotificationEditActivity(activity: ITryActivity) {
                 activityId: updatedActivityData?.activityId ?? '',
                 activityName: updatedActivityData?.activityName ?? '',
                 activityDetail: 'Some activity information has changed, please visit the web page.',
-                sendDate: sendDate
+                sendDate: sendDate,
+                redirectLink: activityLink
             }
     
             const newNotifications: Notification[] = [...user?.notifications, newNotification]

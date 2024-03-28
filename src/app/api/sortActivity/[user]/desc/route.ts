@@ -20,10 +20,11 @@ export async function getActivitiesDesc(typeActivity: TypeActivity, page: number
   if (!(session?.user?.role === "admin")) {
     paramsDB = {
       ...paramsDB,
-      FilterExpression: "visibility = :roleUser OR visibility = :all",
+      FilterExpression: "visibility = :roleUser OR visibility = :all OR visibility = :outsider",
       ExpressionAttributeValues: {
         ":roleUser": session?.user?.role || "",
         ":all": "all",
+        ":outsider": "outsider",
       },
     }
   }

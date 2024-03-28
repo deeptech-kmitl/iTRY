@@ -2,14 +2,17 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signIn } from 'next-auth/react';
+import Swal from 'sweetalert2';
 
 
 
 export default function useSignInController(
   {
-    callbackUrl
+    callbackUrl,
+    signInSuccess
   }: {
-    callbackUrl: string | undefined
+    callbackUrl: string | undefined;
+    signInSuccess: () => void;
   }
 ) {
 
@@ -24,11 +27,24 @@ export default function useSignInController(
 
   const onSubmit = async (data: any) => {
     try {
-      signIn('credentials', {
+      const response = await signIn('credentials', {
         email: data.email,
         password: data.password,
-        callbackUrl: callbackUrl, redirect: callbackUrl ? true : false
+        redirect: false
       })
+      console.log("response", response)
+
+      if(response?.error) {
+          Swal.fire({
+            icon: "error",
+            text: response.error,
+            showConfirmButton: false,
+            timer: 1500
+          });
+      } else{
+        signInSuccess()
+      }
+
     } catch (error) {
       console.log(error);
     }

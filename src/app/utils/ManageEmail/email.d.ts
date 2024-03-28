@@ -9,6 +9,7 @@ export interface Notification {
     activityName: string,
     activityDetail: string,
     sendDate: string,
+    redirectLink?: string
 }
 
 export interface NotificationProp {

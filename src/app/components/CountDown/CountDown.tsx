@@ -1,3 +1,4 @@
+import { convertDateToString } from "@/app/utils/converDateToString";
 import { useEffect, useState } from "react";
 
 interface ITryCounDownProps extends CustomSpanProps {
@@ -18,6 +19,7 @@ export default function ITryCounDown({ openDate, style, activityName }: ITryCoun
 
   const targetDate = new Date(openDate);
   const currentDate = new Date();
+  targetDate.setHours(0, 0, 0, 0);
   const timeDifference = targetDate.getTime() - currentDate.getTime();
 
   const [days, setDays] = useState(Math.floor(timeDifference / (1000 * 60 * 60 * 24)));
@@ -54,10 +56,10 @@ export default function ITryCounDown({ openDate, style, activityName }: ITryCoun
   return (
     <>
       <div className="text-center py-10">
-        <span className="md:text-2xl text-base font-bold">{activityName}</span>
-        <span className="md:text-2xl text-base font-bold"> is Coming</span>
+        <span className="md:text-2xl text-xl font-bold">{activityName}</span>
+        <span className="md:text-2xl text-xl font-bold"> is Coming</span>
       </div>
-      <div className="justify-center mb-16 grid grid-flow-col md:gap-5 gap-1 text-center auto-cols-max md:text-2xl text-base">
+      <div className="justify-center mb-8 md:mb-16 grid grid-flow-col md:gap-5 gap-1 text-center auto-cols-max md:text-2xl text-base">
         <div className="flex flex-col md:px-8 px-2 items-center">
           <span className="countdown font-mono">
             <span style={{ "--value": `${days}`, ...style }}>{days}</span>

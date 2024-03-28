@@ -33,9 +33,9 @@ export default async function Home() {
         <Suspense fallback={<p>Loading Travel...</p>}>
           <TravelServer />
         </Suspense>
-        <div className="pt-6">
+        <Suspense fallback={<p>Loading Map...</p>}>
           <Map />
-        </div>
+        </Suspense>
         <Suspense fallback={<p>Loading Sponsors...</p>}>
           <SponsorServer />
         </Suspense>

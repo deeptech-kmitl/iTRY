@@ -112,8 +112,9 @@ export const CardActivity = ({
               shallow
             >
               <ITryButton type="ghost" removeDefaultClassName customClassName="text-cyan-400">
-                Read More
-                <FontAwesomeIcon className="ml-2" icon={faArrowRight} />
+                <span className="md:block hidden">อ่านเพิ่มเติม</span>
+                <span className="block md:hidden">อ่าน</span>
+                <FontAwesomeIcon className="ml-2 md:block hidden" icon={faArrowRight} />
               </ITryButton>
             </Link>
           </div>

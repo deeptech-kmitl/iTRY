@@ -134,3 +134,11 @@ input[type="checkbox"]:checked {
     font-size: 12px;
   }
 }
+
+ul {
+  list-style-type: disc !important;
+}
+
+ul li {
+  margin-left: 1.5em !important;
+}

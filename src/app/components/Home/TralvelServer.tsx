@@ -21,7 +21,7 @@ export default async function TravelServer() {
   return (
     <>
       <div className="text-center py-12 md:py-16">
-        <h1 className="text-base md:text-2xl">
+        <h1 className="text-xl md:text-2xl">
           การเดินทางมาคณะเทคโนโลยีสารสนเทศ
         </h1>
         <TravelContainer route={result} />

@@ -78,12 +78,12 @@ export default function ActivityContainer({
       <div className="grid grid-cols-1 text-xl lg:text-2xl text-center font-bold">
         <p className="py-5">{activity?.activityName}</p>
         <div className="bg-white h-[1px]"></div>
-        <p className="py-5 text-neonBlue">{renderStatusActivity()}</p>
+        <p className="py-5 text-base md:text-xl text-neonBlue">{renderStatusActivity()}</p>
       </div>
 
       {/* ช่องทางการติดต่อสอบถาม */}
       <div className="grid grid-cols-1 lg:grid-cols-2 text-xl py-1 lg:py-8">
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center ">
           {typeof activity?.imageUrl === "string" && (
             <Image
               priority
@@ -93,16 +93,15 @@ export default function ActivityContainer({
               height="0"
               sizes="100vw"
               className="w-full h-auto rounded-lg border aspect-video object-cover object-center"
-              
               layout="responsive"
             />
           )}
         </div>
-        <div className="lg:p-8 p-0 lg:pt-0 pt-4">
-          <p className="font-bold py-1">ช่องทางการติดต่อสอบถาม</p>
-          <div className="flex py-2 lg:py-4 items-center">
-            <FontAwesomeIcon icon={faPhone} className="h-4 lg:h-8" />
-            <p className="px-2 lg:px-8 text-[13px] text-base">
+        <div className="lg:p-8 p-0 pt-4 md:pt-0 pb-4">
+          <p className="font-bold pt-4 lg:pt-0 pb-4">ช่องทางการติดต่อสอบถาม</p>
+          <div className="flex pb-1 md:pb-2 items-center">
+            <FontAwesomeIcon icon={faPhone} className="h-4 lg:h-6 mr-4" />
+            <p className=" md:text-xl text-[13px] text-base">
               {activity?.phone ? (
                 <>
                   {activity?.phone?.map((phoneData, index) => (
@@ -117,17 +116,17 @@ export default function ActivityContainer({
               )}
             </p>
           </div>
-          <div className="flex py-2 lg:py-4 items-center">
-            <FontAwesomeIcon icon={faEnvelope} className="h-4 lg:h-8" />
-            <p className="px-2 lg:px-8 text-[13px] text-base">
+          <div className="flex pb-1 md:pb-2 items-center">
+            <FontAwesomeIcon icon={faEnvelope} className="h-4 md:h-6 mr-4" />
+            <p className="md:text-xl text-[13px] text-base">
               {activity?.email ? activity?.email : "ไม่มีอีเมล"}
             </p>
           </div>
-          <p className="font-bold py-1">
+          <p className="font-bold pb-1 md:pb-2 text-base md:text-xl">
             รับสมัคร{" "}
             <span className="text-neonBlue">{activity?.typeActivity}</span>
           </p>
-          <p className="font-bold py-1">
+          <p className="font-bold pb-3 lg:pb-0 text-base md:text-xl">
             การมองเห็น{" "}
             <span className="text-neonBlue">
               {activity?.visibility === "outsider"
@@ -211,9 +210,7 @@ export default function ActivityContainer({
         </div>
 
         {/* กำหนดการกิจกรรม */}
-        <p className="text-xl font-bold pt-16 pb-6">
-          กำหนดการกิจกรรม
-        </p>
+        <p className="text-xl font-bold pt-16 pb-6">กำหนดการกิจกรรม</p>
         <Timeline schedule={combinedSchedule} />
 
         {/* FAQ */}
@@ -221,7 +218,7 @@ export default function ActivityContainer({
         {activity?.faq?.length > 0 ? (
           <FAQ faq={activity?.faq} />
         ) : (
-          <p className="px-2 lg:px-8 text-[13px] lg:text-base">ไม่มี faq</p>
+          <p className="px-2 md:px-8 text-[13px] md:text-base">ไม่มี faq</p>
         )}
       </div>
     </div>

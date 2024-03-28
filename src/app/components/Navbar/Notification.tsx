@@ -11,7 +11,7 @@ import { updateNotification } from "@/app/api/notification/route";
 
 export default function ITryNotification() {  
 
-  const { userData, update, session } = useUserController();
+  const { userData, update, session, isLogin } = useUserController();
 
   const notificationData: NotificationProp = {
     countNotification: userData?.notifications.length || 0,
@@ -81,7 +81,7 @@ export default function ITryNotification() {
     return (
       <>
         {
-          userData.id && (
+          isLogin && (
             <ITryDropDown customClassNameDropDownContent="overflow-x-hidden	flex-nowrap	max-h-80" customData={getCustomDataDropDown()} position="bottom-left" removeBg>
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                 <button className="btn btn-ghost btn-circle">

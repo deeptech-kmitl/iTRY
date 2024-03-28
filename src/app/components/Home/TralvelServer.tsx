@@ -16,7 +16,6 @@ import CardRoutes from "../CardRoute";
 
 export default async function TravelServer() {
   const result = (await getTravel()) as any;
-  // console.log("result----", result);
 
   return (
     <>

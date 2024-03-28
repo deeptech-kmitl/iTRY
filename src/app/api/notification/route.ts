@@ -84,16 +84,11 @@ export async function updateNotificationEditActivity(activity: ITryActivity) {
     
             const newNotifications: Notification[] = [...user?.notifications, newNotification]
 
-            console.log('before update notifcation')
-            console.log("newNotifications", newNotifications)
             await updateNotification(user.id, user.email, newNotifications)
-            console.log('before send email')
             await sendEmail(mailOption)
-            console.log('after send email')
         })
 
     } catch (error) {
-        console.log("update noti error", error)
         throw error;
     }
 }

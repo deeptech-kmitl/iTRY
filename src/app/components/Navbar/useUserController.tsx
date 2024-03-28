@@ -17,8 +17,6 @@ export default function useUserController() {
     };
   }, [session]);
 
-  console.log("userData", userData)
-
   return {
     isLogin,
     userData,

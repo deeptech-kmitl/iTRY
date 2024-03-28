@@ -36,7 +36,6 @@ export default function useSponsor() {
 
             mutate('getSponsors');
 
-            console.log("Data saved to DynamoDB successfully");
         }
         catch (error) {
             Swal.fire({

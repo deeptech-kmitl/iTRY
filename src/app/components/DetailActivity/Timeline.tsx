@@ -1,12 +1,12 @@
-import { ScheduleActivity } from "@/app/utils/ManageActivityPage/activity"
-import { convertDateToThai } from "@/app/utils/convertDateToThai"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { ScheduleActivity } from "@/app/utils/ManageActivityPage/activity";
+import { convertDateToThai } from "@/app/utils/convertDateToThai";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { faCircleDot } from "@fortawesome/free-regular-svg-icons";
 import { convertDateToString } from "@/app/utils/converDateToString";
 
 interface TimelineProps {
-    schedule: ScheduleActivity[]
+  schedule: ScheduleActivity[];
 }
 
 export default function Timeline({ schedule }: TimelineProps) {
@@ -20,7 +20,6 @@ export default function Timeline({ schedule }: TimelineProps) {
     return (
         <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
             {schedule.map((data, index) => {
-                console.log("timelineDate", convertDate, data.date)
                 const passSchedule = convertDate >= data.date
                 return (
                     <li key={index}>

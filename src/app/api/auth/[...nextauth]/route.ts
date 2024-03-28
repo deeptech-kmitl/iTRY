@@ -35,20 +35,12 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         // Add logic here to look up the user from the credentials supplied
-        console.log("test")
         if (!credentials?.email || !credentials?.password) return null;
-
-        console.log("credentials", credentials)
 
         const user = await findUser(credentials?.email)
 
-        console.log("user.data", user.data)
-
         if (user.data) {
 
-            console.log('has user')
-          // Any object returned will be saved in `user` property of the JWT
-            console.log("password", credentials?.password, user.data.password)
             if (await verifyPassword(credentials?.password, user.data.password)) {
               return user.data as User
             }
@@ -56,11 +48,7 @@ export const authOptions: AuthOptions = {
             throw new Error('รหัสผานผิดพลาด')
 
           } else {
-            console.log('no user')
-            // If you return null then an error will be displayed advising the user to check their details.
              throw new Error('ไม่พบผู้ใช้งาน')
-
-            // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
           }
       }
     }),

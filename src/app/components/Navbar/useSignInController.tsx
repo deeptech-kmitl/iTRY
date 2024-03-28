@@ -32,7 +32,6 @@ export default function useSignInController(
         password: data.password,
         redirect: false
       })
-      console.log("response", response)
 
       if(response?.error) {
           Swal.fire({

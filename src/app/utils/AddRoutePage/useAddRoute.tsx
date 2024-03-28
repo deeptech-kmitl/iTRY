@@ -25,7 +25,6 @@ export default function useAddRoute(
   const router = useRouter();
 
   const onSubmit = async (data: any) => {
-    console.log(">>>>>>>", routeId, data);
     const result = (await updateTravel({ data, routeId })) as any;
     closeEditModal();
     router.refresh();

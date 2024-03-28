@@ -12,7 +12,7 @@ export default function FAQ({ faq }: FAQProps) {
                 faq?.map((faq, index) =>
                 (
                     <Fragment key={index}>
-                        <div className="collapse collapse-arrow bg-base-200 border rounded-md border-neonBlue">
+                        <div className="collapse collapse-arrow bg-base-200 border rounded-md border-neonBlue mb-5">
                             <input type="checkbox" className="peer" />
                             <div className="collapse-title text-sm md:text-xl font-medium flex flex-col justify-center">
                                 {faq.question}

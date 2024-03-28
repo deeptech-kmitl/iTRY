@@ -147,7 +147,11 @@ export async function POST() {
 
                 }
 
-                const newNotifications: Notification[] = [...user?.notifications, ...newNotificationArray]
+                const convertNewNotificationArray = newNotificationArray.filter(newNoti => !user.notifications.includes(newNoti))
+
+                console.log("convertNewNotificationArray", convertNewNotificationArray)
+
+                const newNotifications: Notification[] = [...user?.notifications, ...convertNewNotificationArray]
                 await updateNotification(user.id, user.email, newNotifications)
             })
         })

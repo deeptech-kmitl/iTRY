@@ -13,6 +13,7 @@ export type ITryButtonProps = {
   customPositionClassName?: string,
   onClick?: () => void;
   removeDefaultClassName?: boolean;
+  confirmEdit?: () => void;
 }
 
 export type ITryDropDownProps = {

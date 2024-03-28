@@ -1,4 +1,9 @@
-import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
 import { WrappedInputProps } from "../global";
 import ContactInputTelephone from "./ContactInputTelephone";
 import ITryButton from "../Button";
@@ -13,38 +18,48 @@ interface PhoneInputContainerProps extends WrappedInputProps {
   errors: FieldErrors<any>;
 }
 
-
 export default function ContactContainer(props: PhoneInputContainerProps) {
   const addPhone = () => {
     const newPhone: PhoneActivity = {
       phone: "",
-    }
+    };
 
-    const mergedPhone: PhoneActivity[] = [...props?.phoneData, newPhone]
-    props.setValue("phone", mergedPhone)
-
-  }
+    const mergedPhone: PhoneActivity[] = [...props?.phoneData, newPhone];
+    props.setValue("phone", mergedPhone);
+  };
 
   const removePhone = (index: number) => {
     let copyPhone = [...props?.phoneData];
     copyPhone.splice(index, 1);
-    props.setValue("schedule", copyPhone);
-
-  }
-
+    props.setValue("phone", copyPhone);
+  };
 
   const phoneElement = (
     <div className="flex flex-col gap-4">
       {props?.phoneData?.map((data, index) => (
-        <ContactInputTelephone key={index} index={index} {...data} {...props} removePhone={removePhone} />
+        <ContactInputTelephone
+          key={index}
+          index={index}
+          {...data}
+          {...props}
+          removePhone={removePhone}
+        />
       ))}
-      <ITryButton onClick={addPhone} customWidthClassName="w-full md:w-fit " >เพิ่มเบอร์โทรศัพท์</ITryButton>
+      <ITryButton onClick={addPhone} customWidthClassName="w-full md:w-fit ">
+        เพิ่มเบอร์โทรศัพท์
+      </ITryButton>
 
-      <ITryInput label="อีเมล" type="text" register={props.register(`email`)} showError={!!props.errors?.email} errorMessage={props.errors?.email?.message as string} size="medium" placeholder="username@example.com" />
+      <ITryInput
+        label="อีเมล"
+        type="text"
+        register={props.register(`email`)}
+        showError={!!props.errors?.email}
+        errorMessage={props.errors?.email?.message as string}
+        size="medium"
+        placeholder="username@example.com"
+      />
     </div>
-  )
+  );
 
-  return (
-    <WrapInputField elementIsWrapped={phoneElement} props={props} />
-  )
+  return <WrapInputField elementIsWrapped={phoneElement} props={props} />;
 }

@@ -38,8 +38,14 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
   const [isEditModal, setEditModal] = useState(false);
   const [editTitle, setEditTitle] = useState("");
 
-  const { setValue, getValues, handleSubmit, errors, onSubmit } =
-    useAddRoute(routeId);
+  const closeEditModal = () => {
+    setEditModal(false);
+  };
+
+  const { setValue, getValues, handleSubmit, errors, onSubmit } = useAddRoute(
+    routeId,
+    closeEditModal
+  );
 
   const openEditModal = (
     editTitle: string,
@@ -51,22 +57,15 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
     setRouteId(routeId);
     setSelectedDetail(routeDetail); // ดึงรายละเอียดการเดินทางเก่าจาก DB มาแสดง
   };
-  const closeEditModal = () => {
-    setEditModal(false);
-  };
-  const confirmEdit = () => {
-    // ปุ่มยืนยันการแก้ไข -> save data
-    setEditModal(false);
-  };
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-4 place-items-center gap-5 ">
+      <div className="grid grid-cols-2 md:grid-cols-4 place-items-center gap-4">
         {route
           ? route.map((item: any, key: any) => (
-              <Fragment key={key}>
+              <div key={key}>
                 <div
-                  className={`card w-full bg-base-100 border-solid border-2 border-neonBlue pt-3 rounded-md ${
+                  className={`card md:w-40 bg-base-100 border-solid border-2 border-neonBlue pt-3 rounded-md ${
                     role === "user"
                       ? "transform transition-transform duration-300 hover:scale-105 hover:bg-stone-900 cursor-pointer"
                       : ""
@@ -83,7 +82,6 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                         alt={item.vehicle}
                         width="100"
                         height="100"
-                        layout="responsive"
                         className="aspect-video object-contain"
                       />
                     </figure>
@@ -111,7 +109,7 @@ export default function CardRoutes({ role, route }: CardRoutesProps) {
                     </button>
                   </div>
                 )}
-              </Fragment>
+              </div>
             ))
           : null}
       </div>

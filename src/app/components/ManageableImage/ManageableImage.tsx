@@ -7,13 +7,28 @@ interface ManageableImageProps {
   deleteFunc: (id: string) => void;
 }
 
-export default function ManageableImage({ itemId, itemImageUrl, deleteFunc }: ManageableImageProps) {
-
-
+export default function ManageableImage({
+  itemId,
+  itemImageUrl,
+  deleteFunc,
+}: ManageableImageProps) {
   return (
     <>
-      <Image  layout="responsive" className="w-full aspect-video object-cover object-center" src={itemImageUrl} alt={itemImageUrl} width={700} height={300} />
-      <ITryButton customWidthClassName="w-full" onClick={() => {deleteFunc(itemId)}}>ลบ</ITryButton>
+      <Image
+        className="w-full aspect-video object-cover object-center"
+        src={itemImageUrl}
+        alt={itemImageUrl}
+        width={700}
+        height={300}
+      />
+      <ITryButton
+        customWidthClassName="w-full"
+        onClick={() => {
+          deleteFunc(itemId);
+        }}
+      >
+        ลบ
+      </ITryButton>
     </>
-  )
+  );
 }

@@ -12,10 +12,15 @@ export default function ITryNotification({ notificationData }: { notificationDat
   const notifications = notificationData.notifications
 
   if (Array.isArray(notifications)) {
+
+    const sortNotifications = notifications.sort((a: Notification, b: Notification) => {
+        return new Date(b.sendDate).getTime() - new Date(a.sendDate).getTime();
+      });
+
       const getCustomDataDropDown = () => {
       return (
         <>
-          {notifications.length != 0 ? notifications?.map((notification, index) => (
+          {sortNotifications.length != 0 ? sortNotifications?.map((notification, index) => (
             <li key={index}>
               <Link
                 className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal "

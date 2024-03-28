@@ -49,6 +49,16 @@ export async function updateNotificationEditActivity(activity: ITryActivity) {
         const combinedActivies = await getActivities() as ActivityApiData
         const updatedActivityData = combinedActivies.data.find(activityItem => activityItem.activityId === activity.activityId)
 
+        const currentDate = new Date();
+
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const day = String(currentDate.getDate()).padStart(2, '0');
+
+        const hours = String(currentDate.getHours()).padStart(2, '0');
+        const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+
+        const sendDate = `${month}-${day} ${hours}:${minutes}`;
+
 
         activeUsers?.map(async user => {
 
@@ -68,15 +78,21 @@ export async function updateNotificationEditActivity(activity: ITryActivity) {
                 activityId: updatedActivityData?.activityId ?? '',
                 activityName: updatedActivityData?.activityName ?? '',
                 activityDetail: 'Some activity information has changed, please visit the web page.',
-                sendDate: convertDateToString(new Date())
+                sendDate: sendDate
             }
     
             const newNotifications: Notification[] = [...user?.notifications, newNotification]
+
+            console.log('before update notifcation')
+            console.log("newNotifications", newNotifications)
             await updateNotification(user.id, user.email, newNotifications)
+            console.log('before send email')
             await sendEmail(mailOption)
+            console.log('after send email')
         })
 
     } catch (error) {
+        console.log("update noti error", error)
         throw error;
     }
 }

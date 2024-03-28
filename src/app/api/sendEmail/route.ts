@@ -3,6 +3,7 @@ import { MailOptions } from "nodemailer/lib/json-transport"
 
 
 const transporter = nodemailer.createTransport({
+  pool: true,
   service: 'gmail',
   host: 'smtp.gmail.com',
   port: 465,
@@ -15,4 +16,5 @@ const transporter = nodemailer.createTransport({
 
 export default async function sendEmail(mailOptions: MailOptions) {
   await transporter.sendMail(mailOptions)
+  transporter.close();
 }

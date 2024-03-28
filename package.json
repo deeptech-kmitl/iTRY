@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"node src/cron/cron.js\"",
+    "dev": "cross-env NODE_OPTIONS='--max-http-header-size=12800000' next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "cross-env NODE_OPTIONS='--max-http-header-size=12800000' next start",
     "lint": "next lint",
     "production": "next build && next start"
   },
@@ -26,6 +26,7 @@
     "bcrypt": "^5.1.1",
     "concurrently": "^8.2.2",
     "cron": "^3.1.6",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.1",
     "next": "^14.0.3",
     "next-auth": "^4.24.5",

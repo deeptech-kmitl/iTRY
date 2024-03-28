@@ -99,7 +99,6 @@ type KeySchema =
           result = typeActivity === "camper" ? await createCamperActivity(savedData) : await createStaffActivity(savedData)
         } else {
           if (typeActivity === "camper") {
-            console.log("savedData", savedData)
             result = await updateCamperActivity(savedData)
           } else {
             result = await updateStaffActivity(savedData)
@@ -108,9 +107,6 @@ type KeySchema =
           await updateNotificationEditActivity(savedData)
 
         }
-
-        console.log("result", result)
-
         await Swal.fire({
           icon: "success",
           text: `${typeAction === "add" ? "เพิ่ม" : "แก้ไข"}กิจกรรมสำเร็จ`,

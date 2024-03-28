@@ -4,6 +4,7 @@ import ITryButton from "../Button";
 import ITryDropDown from "../DropDown";
 import ITryModal from "../Modal";
 import useSignInController from "./useSignInController";
+import useRegisterController from "./useRegisterController";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons/faFacebookF";
@@ -25,6 +26,14 @@ export default function ITryUserName() {
   const callbackUrl = seachParams.get("callbackUrl") || undefined;
 
   const [openSignInModal, setOpenSignInModal] = useState<boolean>(signInParam);
+  const [openRegisterModal, setOpenRegisterModal] = useState<boolean>(false);
+
+
+  const signInSuccess = () => {
+    setOpenRegisterModal(false);
+    setOpenSignInModal(false);
+  }
+
   const {
     errors,
     handleSubmit,
@@ -32,7 +41,19 @@ export default function ITryUserName() {
     handleGoogleLogin,
     onSubmit,
     register,
-  } = useSignInController({ callbackUrl });
+  } = useSignInController({ callbackUrl, signInSuccess });
+
+  const registerSuccess = () => {
+    setOpenRegisterModal(false);
+    setOpenSignInModal(true);
+  }
+
+  const {
+    errors: errorsRegister,
+    handleSubmit: handleSubmitRegister,
+    onSubmit: onSubmitRegister,
+    register: registerRegister,
+  } = useRegisterController({registerSuccess});
 
   const { isLogin, userData, session, update } = useUserController();
 
@@ -70,12 +91,6 @@ export default function ITryUserName() {
 
   const dropDownData = [
     {
-      name: "กิจกรรมที่กำลังติดตาม",
-      function: () => {
-        router.push("/myActivities");
-      },
-    },
-    {
       name: (
         <ITryInput
           type="checkbox"
@@ -87,6 +102,12 @@ export default function ITryUserName() {
       function: () => {},
     },
     {
+      name: "กิจกรรมที่กำลังติดตาม",
+      function: () => {
+        router.push("/myActivities");
+      },
+    },
+    {
       name: "ออกจากระบบ",
       function: () => {
         signOut();
@@ -95,7 +116,59 @@ export default function ITryUserName() {
     },
   ];
 
-  const contentModal = (
+  const contentRegisterModal = (
+    (
+      <div className="flex flex-col gap-4">
+        <form onSubmit={handleSubmitRegister(onSubmitRegister)}>
+          <ITryInput
+            register={registerRegister("username")}
+            type="text"
+            label="Username"
+            showError={!!errorsRegister.username}
+            errorMessage={errorsRegister.username?.message}
+          />
+          <ITryInput
+            register={registerRegister("email")}
+            type="text"
+            label="Email"
+            showError={!!errorsRegister.email}
+            errorMessage={errorsRegister.email?.message}
+          />
+          <ITryInput
+            register={registerRegister("password")}
+            type="password"
+            label="Password"
+            showError={!!errorsRegister.password}
+            errorMessage={errorsRegister.password?.message}
+          />
+          <ITryInput
+            register={registerRegister("confirmPassword")}
+            type="password"
+            label="Confirm Password"
+            showError={!!errorsRegister.confirmPassword}
+            errorMessage={errorsRegister.confirmPassword?.message}
+          />
+          <ITryButton type="submit" fullWidth customClassName="mt-4">
+            REGISTER
+          </ITryButton>
+        </form>
+
+        <p className="text-center text-xs">Or Sign Up With</p>
+        <div className="flex gap-4 justify-center">
+          <button
+            className="btn btn-ghost btn-circle bg-gray-600 hover:bg-gray-600"
+            onClick={handleGoogleLogin}
+          >
+            <div className="indicator">
+              <FontAwesomeIcon icon={faGoogle} />
+            </div>
+          </button>
+        </div>
+      </div>
+    )
+  )
+
+  const contentSignInModal = (
     <div className="flex flex-col gap-4">
       <form onSubmit={handleSubmit(onSubmit)}>
         <ITryInput
@@ -143,8 +216,12 @@ priority
           </div>
         </button> */}
       </div>
+      <p className="flex self-center">No Account ? Sign Up <span className="underline text-blue-500 cursor-pointer ml-2" onClick={() => {
+        setOpenRegisterModal(true)
+        setOpenSignInModal(false)
+      }}>here</span></p>
     </div>
-  );
+  )
 
   return (
     <>
@@ -153,7 +230,7 @@ priority
           data={dropDownData}
           position="bottom-left"
           dropdownSize="small"
-          customClassNameMain="bg-transparent md:bg-white md:hover:bg-white bg-opacity-100 md:bg-opacity-20 md:hover:bg-opacity-30 md:p-4 md:border border-none"
+          customClassNameMain="bg-transparent md:bg-white md:hover:bg-white bg-opacity-100 md:bg-opacity-20 md:hover:bg-opacity-30 md:p-4 md:border border-none md:pl-4 md:pr-4 pl-2 pr-2"
         >
           <span className="md:block hidden">{userData.name}</span>
           <span className="md:hidden block">
@@ -162,7 +239,7 @@ priority
         </ITryDropDown>
       ) : (
         <ITryButton
-          customClassName="rounded-full w-12 h-2 xl:w-20 "
+          customClassName="rounded-full w-12 h-2 px-8 md:px-12"
           onClick={() => setOpenSignInModal(true)}
         >
           Login
@@ -172,8 +249,14 @@ priority
         isOpen={openSignInModal}
         onClose={() => setOpenSignInModal(false)}
         title="SIGN IN"
-        content={contentModal}
+        content={contentSignInModal}
         alertHeader={getAlertHeader()}
+      />
+      <ITryModal
+        isOpen={openRegisterModal}
+        onClose={() => setOpenRegisterModal(false)}
+        title="SIGN UP"
+        content={contentRegisterModal}
       />
     </>
   );

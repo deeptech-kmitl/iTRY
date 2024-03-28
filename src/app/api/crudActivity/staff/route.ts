@@ -8,8 +8,6 @@ const tableName = "StaffActivities";
 
 export async function createStaffActivity(req: ITryActivity) {
   try {
-    console.log("start upload");
-    console.log("req", req);
     const {
       activityName,
       imageUrl,
@@ -63,8 +61,6 @@ export async function createStaffActivity(req: ITryActivity) {
 }
 
 export async function updateStaffActivity(req: ITryActivity) {
-  console.log("updateStaffActivity")
-  console.log("req", req)
   try {
     const {
       activityId,

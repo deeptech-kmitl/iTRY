@@ -9,14 +9,6 @@ import useUserController from './useUserController';
 
 export default function ITryNavBar() {
 
-  const { userData } = useUserController();
-
-  const notificationData: NotificationProp = {
-    countNotification: userData?.notifications.length || 0,
-    notifications: [...userData?.notifications]
-  }
-
-
   return (
     <div className="navbar">
       <div className="navbar-start md:justify-start justify-center">
@@ -27,7 +19,7 @@ export default function ITryNavBar() {
       </div>
       <div className="navbar-end md:gap-4 md:px-10 px-0">
         <ITryUserName />
-        <ITryNotification notificationData={notificationData} />
+        <ITryNotification />
       </div>
     </div>
   );

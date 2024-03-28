@@ -56,14 +56,15 @@ export async function POST() {
             filterIncomingActivities.map(async activity => {
 
                 // Send Email
-                const activityLink = `https://itryweb.com/${activity?.typeActivity}/activity-details/${activity?.activityId}`
-                const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
+                if (user.role === activity.visibility || user.role === "admin" || activity.visibility === "all") {
+                    const activityLink = `https://itryweb.com/${activity?.typeActivity}/activity-details/${activity?.activityId}`
+                    const dayDifference = Math.ceil((new Date(activity.openDate).getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
-                const mailOption = {
-                    from: 'itrydpd@gmail.com',
-                    to: user.email,
-                    subject: `🔥 ${dayDifference === 0 ? 'วันนี้ 🔥' : 'อีก ' + dayDifference + ' วัน 🔥'} เตรียมพบกับกิจกรรม ${activity.activityName}`,
-                    html: `
+                    const mailOption = {
+                        from: process.env.SMTP_EMAIL,
+                        to: user.email,
+                        subject: `🔥 ${dayDifference === 0 ? 'วันนี้ 🔥' : 'อีก ' + dayDifference + ' วัน 🔥'} เตรียมพบกับกิจกรรม ${activity.activityName}`,
+                        html: `
                         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
                             <div style="background-color: #ffcc00; padding: 20px; border-radius: 10px 10px 0 0;">
                                 <h2 style="margin: 0; color: #333;">IT KMITL Activity!</h2>
@@ -79,24 +80,28 @@ export async function POST() {
                             </div>
                         </div>
                         `
-                }
+                    }
 
-                // Send Notification
-                const newNotification: Notification = {
-                    activityId: activity.activityId ?? '',
-                    activityName: activity.activityName,
-                    activityDetail: 'ประกาศเปิดกิจกรรม !!',
-                    sendDate: sendDate
-                }
+                    // Send Notification
+                    const newNotification: Notification = {
+                        activityId: activity.activityId ?? '',
+                        activityName: activity.activityName,
+                        activityDetail: 'ประกาศเปิดกิจกรรม !!',
+                        sendDate: sendDate,
+                        redirectLink: activityLink
+                    }
 
-                newNotificationArray.push(newNotification)
-                await sendEmail(mailOption)
+                    newNotificationArray.push(newNotification)
+                    await sendEmail(mailOption)
+                }
             })
 
             // <<<<<<<<<<<<<<<<<<<<<<< SEND EMAIL, FILTER BY SCHEDULE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
             const userEmail = user.email
             user.activitiesFollow.map(async activityFollow => {
+
+                const activityLink = `https://itryweb.com/${activityFollow?.typeActivity}/activity-details/${activityFollow?.activityId}`
 
                 const matchingActivity = filterActivitesIncomingSchedule.find(activityIncoming => {
                     return activityIncoming.activityId === activityFollow.activityId
@@ -116,12 +121,13 @@ export async function POST() {
                             activityId: matchingActivity.activityId ?? '',
                             activityName: `กิจกรรม "${matchingActivity?.activityName}"`,
                             activityDetail: `อย่าลืม ! ดู timeline สำหรับวันพรุ่งนี้`,
-                            sendDate: sendDate
+                            sendDate: sendDate,
+                            redirectLink: activityLink
                         }
 
                         // Send Email
                         const mailOption = {
-                            from: 'itrydpd@gmail.com',
+                            from: process.env.SMTP_EMAIL,
                             to: userEmail,
                             subject: `🚨 ประกาศจากกิจกรรม ${matchingActivity?.activityName}`,
                             html: `
@@ -147,13 +153,16 @@ export async function POST() {
 
                 }
 
-                const convertNewNotificationArray = newNotificationArray.filter(newNoti => !user.notifications.includes(newNoti))
 
-                console.log("convertNewNotificationArray", convertNewNotificationArray)
-
-                const newNotifications: Notification[] = [...user?.notifications, ...convertNewNotificationArray]
-                await updateNotification(user.id, user.email, newNotifications)
             })
+
+
+            const convertNewNotificationArray = newNotificationArray.filter(newNoti => {
+                return !user.notifications.some(userNoti => userNoti.activityDetail === newNoti.activityDetail && userNoti.activityId === newNoti.activityId && userNoti.activityName === newNoti.activityName)
+            })
+            const newNotifications: Notification[] = [...user?.notifications, ...convertNewNotificationArray]
+            await updateNotification(user.id, user.email, newNotifications)
+
         })
 
         return NextResponse.json({ message: "Success" }, { status: 200 })

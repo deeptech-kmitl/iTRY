@@ -15,7 +15,7 @@ export default function AdminLayout({
         <ITrySideNavBar />
         <div className="h-full w-full">
           <ITryNavBar />
-          <div className="px-12 py-16 md:px-16 lg:px-48 xl:px-96 md:py-24">
+          <div className="px-6 py-16 md:px-16 lg:px-48 xl:px-96 md:py-24">
             {children}
           </div>
         </div>

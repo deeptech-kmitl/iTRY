@@ -12,7 +12,7 @@ export default function UserLayout({
   return (
     <div>
       <ITryNavBar />
-      <div className={`px-8 py-0 md:px-16 lg:px-48 xl:px-96 md:py-24 ${customClassName}`}>
+      <div className={`px-6 py-16 md:px-16 lg:px-48 xl:px-96 md:py-24 ${customClassName}`}>
         {children}
       </div>
       <ITryFooter />

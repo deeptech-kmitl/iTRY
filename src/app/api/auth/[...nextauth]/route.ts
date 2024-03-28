@@ -1,8 +1,11 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google"
 import FacebookProvider, { FacebookProfile } from "next-auth/providers/facebook"
-import { createUser, findUser } from "../../users/route";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { createUser, findUser, verifyPassword } from "../../users/route";
 import { AuthOptions, User } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import  Swal  from 'sweetalert2';
 
 const signIn = async (profile: GoogleProfile | FacebookProfile) => {
   const { email } = profile
@@ -17,13 +20,38 @@ const signIn = async (profile: GoogleProfile | FacebookProfile) => {
       return profileUser
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        // Add logic here to look up the user from the credentials supplied
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const user = await findUser(credentials?.email)
+
+        if (user.data) {
+
+            if (await verifyPassword(credentials?.password, user.data.password)) {
+              return user.data as User
+            }
+          
+            throw new Error('รหัสผานผิดพลาด')
+
+          } else {
+             throw new Error('ไม่พบผู้ใช้งาน')
+          }
+      }
+    }),
     GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",

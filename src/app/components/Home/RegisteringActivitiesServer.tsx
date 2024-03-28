@@ -15,7 +15,7 @@ export default async function RegisteringActivitiesServer() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="text-base md:text-2xl flex items-center">
+      <div className="text-xl md:text-2xl flex items-center">
         <Link href="/registeringActivities" shallow>
           <p className="mr-2">กิจกรรมที่กำลังเปิดรับสมัคร</p>
         </Link>

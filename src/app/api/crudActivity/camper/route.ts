@@ -6,8 +6,6 @@ import { ITryActivity } from '@/app/utils/ManageActivityPage/activity';
 const tableName = 'CamperActivities';
 export async function createCamperActivity(req: ITryActivity) {
     try {
-        console.log("start upload")
-        console.log("req", req)
         const {
             activityName,
             imageUrl,
@@ -58,10 +56,6 @@ export async function createCamperActivity(req: ITryActivity) {
 }
 
 export async function updateCamperActivity(req: ITryActivity) {
-
-    console.log("updateCamperActivity ")
-    console.log("req", req)
-
 
     try {
         const {

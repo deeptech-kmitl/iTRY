@@ -19,6 +19,9 @@ export default async function ActivitiesPage({ params, searchParams }: Activitie
 
   const activities = await getActivitiesDesc(params.type, page, 5) as ActivityApiData | ApiError | undefined;;
   return (
-    <AllActivitiesContainer activitiesData={activities} page={page} showPagination />
+    <>
+      <h1 className="mb-4 text-xl md:text-2xl lg:text-3xl">กิจกรรมสำหรับ{ params.type === "camper" ? "ผู้เข้าร่วมกิจกรรม" : "สต๊าฟ" }</h1>
+      <AllActivitiesContainer activitiesData={activities} page={page} showPagination />
+    </>
   )
 }

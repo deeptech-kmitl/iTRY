@@ -17,14 +17,15 @@ export async function getActivitiesDesc(typeActivity: TypeActivity, page: number
     TableName: tableName,
   };
 
-  if (!(session?.user?.role === "admin")) {
+  const userRole = session?.user?.role || "outsider"
+
+  if (!(userRole === "admin")) {
     paramsDB = {
       ...paramsDB,
-      FilterExpression: "visibility = :roleUser OR visibility = :all OR visibility = :outsider",
+      FilterExpression: "visibility = :roleUser OR visibility = :all",
       ExpressionAttributeValues: {
-        ":roleUser": session?.user?.role || "",
-        ":all": "all",
-        ":outsider": "outsider",
+        ":roleUser": userRole,
+        ":all": "all"
       },
     }
   }

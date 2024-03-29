@@ -32,7 +32,7 @@ export default function ITryDropDown(props: ITryDropDownProps) {
         {props.data.map((data, index) => {
           if (typeof data.name === "string") {
             return (
-              <li key={index} onClick={data.function} className={data.customClassName}><a className="flex justify-center">{data.name}</a></li>
+              <li key={index} onClick={data.function} className={`ml-0 ${data.customClassName}`}><a className="flex justify-center">{data.name}</a></li>
             )
           }
           return (

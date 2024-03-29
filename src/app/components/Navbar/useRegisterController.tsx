@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { regiserNewUser, RegisterUser } from '@/app/api/users/route';
+import { findUser, regiserNewUser, RegisterUser } from '@/app/api/users/route';
 import Swal from 'sweetalert2';
 
 
@@ -30,6 +30,18 @@ export default function useRegisterController({
         username: data.username,
         email: data.email,
         password: data.password
+      }
+
+      const result = await findUser(data.email);
+
+      if (result.data) {
+        Swal.fire({
+          icon: "error",
+          text: "มีผู้ใช้งานนี้อยู่ในระบบแล้ว",
+          showConfirmButton: false,
+          timer: 2000
+        });
+        throw new Error("มีผู้ใช้งานนี้อยู่ในระบบแล้ว")
       }
 
       await regiserNewUser(newRegisterUser)
